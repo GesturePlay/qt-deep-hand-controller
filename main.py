@@ -3,15 +3,15 @@
 # A Machine Learning Approach to Vehicular Video Game Hand Gesture Controls
 
 import mediapipe as mp
-import cv2
+import cv2 as cv
 import math
-import keyinput
+import input
 
 # set opencv font
-font = cv2.FONT_HERSHEY_SIMPLEX
+font = cv.FONT_HERSHEY_SIMPLEX
 
 # 0 index in OpenCV to grab webcam source
-cap = cv2.VideoCapture(0)
+webcam_capture = cv.VideoCapture(0)
 
 # Mediapipe hands object
 mp_hands = mp.solutions.hands
@@ -20,136 +20,191 @@ mp_hands = mp.solutions.hands
 mp_draw_styles = mp.solutions.drawing_styles
 mp_draw_utils = mp.solutions.drawing_utils
 
-# Initialize mediapipe hands object
+# Attempt to open Hands Module of Mediapipe...
 with mp_hands.Hands(model_complexity = 0, min_detection_confidence = 0.5, min_tracking_confidence = 0.5) as hands:
-  while cap.isOpened(): # While capture is open...
 
-    # Get opencv capture results
-    success, image = cap.read()
-    if not success:
-      print("Ignoring empty camera frame.")
-      # Note: If loading a video, must use 'break' instead of 'continue'.
-      continue
+    while webcam_capture.isOpened(): # While webcam is open...
 
-    # To improve performance, flag the image as unwriteable to reduce overhead
-    image.flags.writeable = False
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    results = hands.process(image)
-    imageHeight, imageWidth, _ = image.shape
-
-    # Draw the hand annotations on the image.
-    image.flags.writeable = True
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-    co=[]
-    if results.multi_hand_landmarks:
-      for hand_landmarks in results.multi_hand_landmarks:
-        mp_draw_utils.draw_landmarks(
-            image,
-            hand_landmarks,
-            mp_hands.HAND_CONNECTIONS,
-            mp_draw_styles.get_default_hand_landmarks_style(),
-            mp_draw_styles.get_default_hand_connections_style())
-        for point in mp_hands.HandLandmark:
-           if str(point) == "HandLandmark.WRIST":
-              normalizedLandmark = hand_landmarks.landmark[point]
-              pixelCoordinatesLandmark = mp_draw_utils._normalized_to_pixel_coordinates(normalizedLandmark.x,
-                                                                                        normalizedLandmark.y,
-                                                                                        imageWidth, imageHeight)
-
-              try:
-                co.append(list(pixelCoordinatesLandmark))
-              except:
-                  continue
-
-    if len(co) == 2:
-        xm, ym = (co[0][0] + co[1][0]) / 2, (co[0][1] + co[1][1]) / 2
-        radius = 150
-        try:
-            m=(co[1][1]-co[0][1])/(co[1][0]-co[0][0])
-        except:
+        # Get opencv capture results
+        # Returns a tuple success = bool representing the result of the read, and image is the capture
+        success, image = webcam_capture.read()
+        if not success:
+            print("Ignoring empty camera frame.")
+            # Note: If loading a video, must use 'break' instead of 'continue'.
             continue
-        a = 1 + m ** 2
-        b = -2 * xm - 2 * co[0][0] * (m ** 2) + 2 * m * co[0][1] - 2 * m * ym
-        c = xm ** 2 + (m ** 2) * (co[0][0] ** 2) + co[0][1] ** 2 + ym ** 2 - 2 * co[0][1] * ym - 2 * co[0][1] * co[0][
-            0] * m + 2 * m * ym * co[0][0] - 22500
-        xa = (-b + (b ** 2 - 4 * a * c) ** 0.5) / (2 * a)
-        xb = (-b - (b ** 2 - 4 * a * c) ** 0.5) / (2 * a)
-        ya = m * (xa - co[0][0]) + co[0][1]
-        yb = m * (xb - co[0][0]) + co[0][1]
-        if m!=0:
-          ap = 1 + ((-1/m) ** 2)
-          bp = -2 * xm - 2 * xm * ((-1/m) ** 2) + 2 * (-1/m) * ym - 2 * (-1/m) * ym
-          cp = xm ** 2 + ((-1/m) ** 2) * (xm ** 2) + ym ** 2 + ym ** 2 - 2 * ym * ym - 2 * ym * xm * (-1/m) + 2 * (-1/m) * ym * xm - 22500
-          try:
-           xap = (-bp + (bp ** 2 - 4 * ap * cp) ** 0.5) / (2 * ap)
-           xbp = (-bp - (bp ** 2 - 4 * ap * cp) ** 0.5) / (2 * ap)
-           yap = (-1 / m) * (xap - xm) + ym
-           ybp = (-1 / m) * (xbp - xm) + ym
 
-          except:
-              continue
+        # To improve performance, flag the image as unwriteable to reduce overhead
+        image.flags.writeable = False
 
-        cv2.circle(img=image, center=(int(xm), int(ym)), radius=radius, color=(195, 255, 62), thickness=15)
+        # Convert from openCV BGR to RGB
+        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
 
-        l = (int(math.sqrt((co[0][0] - co[1][0]) ** 2 * (co[0][1] - co[1][1]) ** 2)) - 150) // 2
-        cv2.line(image, (int(xa), int(ya)), (int(xb), int(yb)), (195, 255, 62), 20)
-        if co[0][0] > co[1][0] and co[0][1]>co[1][1] and co[0][1] - co[1][1] > 65:
-            print("Turn left.")
-            keyinput.release_key('s')
-            keyinput.release_key('d')
-            keyinput.press_key('a')
-            cv2.putText(image, "Turn left", (50, 50), font, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
-            cv2.line(image, (int(xbp), int(ybp)), (int(xm), int(ym)), (195, 255, 62), 20)
+        # Media-pipe Process the image
+        results = hands.process(image)
 
+        # Get Image Dimensions
+        imageHeight, imageWidth, _ = image.shape
 
-        elif co[1][0] > co[0][0] and co[1][1]> co[0][1] and co[1][1] - co[0][1] > 65:
-            print("Turn left.")
-            keyinput.release_key('s')
-            keyinput.release_key('d')
-            keyinput.press_key('a')
-            cv2.putText(image, "Turn left", (50, 50), font, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
-            cv2.line(image, (int(xbp), int(ybp)), (int(xm), int(ym)), (195, 255, 62), 20)
+        # Re-flag the image as writeable
+        image.flags.writeable = True
 
+        # Convert from RGB back to BGR for OpenCV
+        image = cv.cvtColor(image, cv.COLOR_RGB2BGR)
 
-        elif co[0][0] > co[1][0] and co[1][1]> co[0][1] and co[1][1] - co[0][1] > 65:
-            print("Turn right.")
-            keyinput.release_key('s')
-            keyinput.release_key('a')
-            keyinput.press_key('d')
-            cv2.putText(image, "Turn right", (50, 50), font, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
-            cv2.line(image, (int(xap), int(yap)), (int(xm), int(ym)), (195, 255, 62), 20)
+        # Create Empty Wrist Coords
+        wrist_coords=[]
 
-        elif co[1][0] > co[0][0] and co[0][1]> co[1][1] and co[0][1] - co[1][1] > 65:
-            print("Turn right.")
-            keyinput.release_key('s')
-            keyinput.release_key('a')
-            keyinput.press_key('d')
-            cv2.putText(image, "Turn right", (50, 50), font, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
-            cv2.line(image, (int(xap), int(yap)), (int(xm), int(ym)), (195, 255, 62), 20)
-        
-        else:
-            print("keeping straight")
-            keyinput.release_key('s')
-            keyinput.release_key('a')
-            keyinput.release_key('d')
-            keyinput.press_key('w')
-            cv2.putText(image, "keep straight", (50, 50), font, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
-            if ybp>yap:
-                cv2.line(image, (int(xbp), int(ybp)), (int(xm), int(ym)), (195, 255, 62), 20)
+        # If hand landmarks exist
+        if results.multi_hand_landmarks:
+
+            # Looping through hand landmarks
+            for hand_landmarks in results.multi_hand_landmarks:
+
+                # Draw the landmarks
+                mp_draw_utils.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS, mp_draw_styles.get_default_hand_landmarks_style(), mp_draw_styles.get_default_hand_connections_style())
+
+                # Loop through the points in the landmarks
+                for point in mp_hands.HandLandmark:
+
+                    # If the point's string name is WRIST...
+                    if str(point) == "HandLandmark.WRIST":
+
+                        #Normalize the Landmark
+                        normalizedLandmark = hand_landmarks.landmark[point]
+
+                        #Use the Normalized landmark to get pixel coords based on the image size
+                        pixelCoordinatesLandmark = mp_draw_utils._normalized_to_pixel_coordinates(normalizedLandmark.x, normalizedLandmark.y, imageWidth, imageHeight)
+
+                        try:
+                            # Try to add the pixel coordinates to the coords list
+                            wrist_coords.append(list(pixelCoordinatesLandmark))
+                        except:
+                            continue
+
+        # If we have two wrists on screen
+        if len(wrist_coords) == 2:
+
+            # Alias to keep the code clean
+            xy = wrist_coords
+
+            # Get the means of the x and y coords for both wrists
+            xmean, ymean = (xy[0][0] + xy[1][0]) / 2, (xy[0][1] + xy[1][1]) / 2
+
+            try:
+                # Calculate the Slope
+                slope = (xy[1][1] - xy[0][1]) / (xy[1][0] - xy[0][0])
+            except:
+                continue
+
+            # Quadratic Function Coefficients
+            a = 1 + slope ** 2
+            b = -2 * xmean - 2 * xy[0][0] * (slope ** 2) + 2 * slope * xy[0][1] - 2 * slope * ymean
+            c = xmean ** 2 + (slope ** 2) * (xy[0][0] ** 2) + xy[0][1] ** 2 + ymean ** 2 - 2 * xy[0][1] * ymean - 2 * xy[0][1] * xy[0][0] * slope + 2 * slope * ymean * xy[0][0] - 22500
+
+            # Get X Intercepts using Quadratic Root
+            xroot1 = (-b + (b ** 2 - 4 * a * c) ** 0.5) / (2 * a)
+            xroot2 = (-b - (b ** 2 - 4 * a * c) ** 0.5) / (2 * a)
+
+            # Y Intercepts from X intercepts
+            yroot1 = slope * (xroot1 - xy[0][0]) + xy[0][1]
+            yroot2 = slope * (xroot2 - xy[0][0]) + xy[0][1]
+
+            # If we are turning and wrists are not level
+            if slope != 0:
+
+                #Quadratic coefficients for perpendicular
+                ap = 1 + ((-1 / slope) ** 2)
+                bp = -2 * xmean - 2 * xmean * ((-1 / slope) ** 2) + 2 * (-1 / slope) * ymean - 2 * (-1 / slope) * ymean
+                cp = xmean ** 2 + ((-1 / slope) ** 2) * (xmean ** 2) + ymean ** 2 + ymean ** 2 - 2 * ymean * ymean - 2 * ymean * xmean * (-1 / slope) + 2 * (-1 / slope) * ymean * xmean - 22500
+
+                try:
+                    #X Intercepts for the Perpendicular Quadratic Equation
+                    perp_xroot1 = (-bp + (bp ** 2 - 4 * ap * cp) ** 0.5) / (2 * ap)
+                    perp_xroot2 = (-bp - (bp ** 2 - 4 * ap * cp) ** 0.5) / (2 * ap)
+
+                    #Y Intercepts using the X Intercepts
+                    perp_yroot1 = (-1 / slope) * (perp_xroot1 - xmean) + ymean
+                    perp_yroot2 = (-1 / slope) * (perp_xroot2 - xmean) + ymean
+
+                except:
+                    continue
+
+            # Draw a circle with OpenCV
+            cv.circle(img=image, center=(int(xmean), int(ymean)), radius=150, color=(195, 255, 62), thickness=15)
+
+            # Get the distance between the wrists
+            wrist_distance = (int(math.sqrt((xy[0][0] - xy[1][0]) ** 2 * (xy[0][1] - xy[1][1]) ** 2)) - 150) // 2
+
+            # Draw lines with OpenCV
+            cv.line(image, (int(xroot1), int(yroot1)), (int(xroot2), int(yroot2)), (195, 255, 62), 20)
+
+            # Turn Left if...
+            # If the right wrist is higher than the left and the difference is greater than 65
+            if xy[0][0] > xy[1][0] and xy[0][1] > xy[1][1] and xy[0][1] - xy[1][1] > 65:
+                print("Turn left.")
+                input.release_key('s')
+                input.release_key('d')
+                input.press_key('a')
+                cv.putText(image, "Turn left", (50, 50), font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
+                cv.line(image, (int(perp_xroot2), int(perp_yroot2)), (int(xmean), int(ymean)), (195, 255, 62), 20)
+
+            # We have to check for the case where the wrists are in a different order in the wrist_coord/xy list
+            elif xy[1][0] > xy[0][0] and xy[1][1]> xy[0][1] and xy[1][1] - xy[0][1] > 65:
+                print("Turn left.")
+                input.release_key('s')
+                input.release_key('d')
+                input.press_key('a')
+                cv.putText(image, "Turn left", (50, 50), font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
+                cv.line(image, (int(perp_xroot2), int(perp_yroot2)), (int(xmean), int(ymean)), (195, 255, 62), 20)
+
+            # Turn Right if...
+            # If the left wrist is higher than the right and the difference is greater than 65
+            elif xy[0][0] > xy[1][0] and xy[1][1]> xy[0][1] and xy[1][1] - xy[0][1] > 65:
+                print("Turn right.")
+                input.release_key('s')
+                input.release_key('a')
+                input.press_key('d')
+                cv.putText(image, "Turn right", (50, 50), font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
+                cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
+
+            # We have to check for the case where the wrists are in a different order in the wrist_coord/xy list
+            elif xy[1][0] > xy[0][0] and xy[0][1]> xy[1][1] and xy[0][1] - xy[1][1] > 65:
+                print("Turn right.")
+                input.release_key('s')
+                input.release_key('a')
+                input.press_key('d')
+                cv.putText(image, "Turn right", (50, 50), font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
+                cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
+
+            # Else we do not turn.
             else:
-                cv2.line(image, (int(xap), int(yap)), (int(xm), int(ym)), (195, 255, 62), 20)
+                print("No turn.")
+                input.release_key('s')
+                input.release_key('a')
+                input.release_key('d')
+                input.press_key('w')
+                cv.putText(image, "No turn.", (50, 50), font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
+                if perp_yroot2>perp_yroot1:
+                    cv.line(image, (int(perp_xroot2), int(perp_yroot2)), (int(xmean), int(ymean)), (195, 255, 62), 20)
+                else:
+                    cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
 
-    if len(co)==1:
-       print("keeping back")
-       keyinput.release_key('a')
-       keyinput.release_key('d')
-       keyinput.release_key('w')
-       keyinput.press_key('s')
-       cv2.putText(image, "keeping back", (50, 50), font, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
+        # If one wrist is not visible, we brake
+        if len(xy)==1:
+            print("Braking.")
+            input.release_key('a')
+            input.release_key('d')
+            input.release_key('w')
+            input.press_key('s')
+            cv.putText(image, "Braking.", (50, 50), font, 1.0, (0, 255, 0), 2, cv.LINE_AA)
 
-    cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
+        # We have to flip the OpenCV image
+        cv.imshow('MediaPipe Hands', cv.flip(image, 1))
 
-# Flip the image horizontally for a selfie-view display.
-    if cv2.waitKey(5) & 0xFF == ord('q'):
-      break
-cap.release()
+        # Possible rate-limiting here?
+        # Press Q to Quit
+        if cv.waitKey(5) & 0xFF == ord('q'):
+            break
+
+#Released webcam
+webcam_capture.release()
