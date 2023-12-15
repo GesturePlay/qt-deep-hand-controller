@@ -1,210 +1,191 @@
-# Final Year Project
-# FYP-23-S4-30 : Gaming with Bare Hands
-# A Machine Learning Approach to Vehicular Video Game Hand Gesture Controls
+import sys
+import PyQt5
+from gestures import GestureRecognizer
+from PyQt5.QtCore import Qt
+from app import Ui_MainWindow
+from PyQt5 import QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtCore import QTimer, QSize
+from PyQt5.QtGui import QPixmap
+import cv2
 
-import mediapipe as mp
-import cv2 as cv
-import math
-import input
+class VideoCaptureWidget(QtWidgets.QWidget):
+    def __init__(self, label, parent=None):
+        super(VideoCaptureWidget, self).__init__(parent)
+        self.video_size = QSize(640, 480)
+        self.image_label = label
+        self.setup_ui()
+        self.setup_camera()
 
-# set opencv font
-font = cv.FONT_HERSHEY_SIMPLEX
+    def setup_ui(self):
+        """Initialize widgets."""
+        self.image_label.setFixedSize(self.video_size)
 
-# 0 index in OpenCV to grab webcam source
-webcam_capture = cv.VideoCapture(0)
+        # Set the layout
+        #layout = QtWidgets.QVBoxLayout()
+        #layout.addWidget(self.image_label)
+        #self.setLayout(layout)
 
-# Mediapipe hands object
-mp_hands = mp.solutions.hands
+    def setup_camera(self):
+        """Set up the camera index."""
+        self.capture = cv2.VideoCapture(0)  # Index 0 for the default camera
+        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.video_size.width())
+        self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.video_size.height())
 
-# Mediapipe draw styles and utilities
-mp_draw_styles = mp.solutions.drawing_styles
-mp_draw_utils = mp.solutions.drawing_utils
+        # Use QTimer to capture frames
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start(30)  # Update every 30 ms
 
-# Attempt to open Hands Module of Mediapipe...
-with mp_hands.Hands(model_complexity = 0, min_detection_confidence = 0.5, min_tracking_confidence = 0.5) as hands:
+    def update_frame(self):
+        """Capture frame from the webcam and update QLabel."""
+        ret, frame = self.capture.read()
+        if ret:
+            print("running")
+            # Convert the frame to Qt format
+            recognizer = GestureRecognizer()
+            frame = recognizer.RecognizeGestures(frame)
+            frame = self.convert_cv_qt(frame)
+            # Show the frame in the QLabel
+            self.image_label.setPixmap(frame)
 
-    while webcam_capture.isOpened(): # While webcam is open...
+    def convert_cv_qt(self, cv_img):
+        """Convert from an opencv image to QPixmap."""
+        rgb_image = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
+        h, w, ch = rgb_image.shape
+        bytes_per_line = ch * w
+        convert_to_Qt_format = QtGui.QImage(rgb_image.data, w, h, bytes_per_line, QtGui.QImage.Format_RGB888)
+        p = convert_to_Qt_format.scaled(self.video_size.width(), self.video_size.height(), Qt.KeepAspectRatio)
+        return QPixmap.fromImage(p)
 
-        # Get opencv capture results
-        # Returns a tuple success = bool representing the result of the read, and image is the capture
-        success, image = webcam_capture.read()
-        if not success:
-            print("Ignoring empty camera frame.")
-            # Note: If loading a video, must use 'break' instead of 'continue'.
-            continue
+    def closeEvent(self, event):
+        """Release the camera when the application closes."""
+        self.capture.release()
 
-        # To improve performance, flag the image as unwriteable to reduce overhead
-        image.flags.writeable = False
+class MainWindow:
+    def __init__(self):
+        self.main_win = QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self.main_win)
 
-        # Convert from openCV BGR to RGB
-        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+        self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
 
-        # Media-pipe Process the image
-        results = hands.process(image)
 
-        # Get Image Dimensions
-        imageHeight, imageWidth, _ = image.shape
+        # Connect button clicks to show pages and highlight buttons
+        self.setup_button(self.ui.Profile1, self.showPage2)
+        self.setup_button(self.ui.gameSelectionBtn, self.showPage3)
+        self.setup_button(self.ui.profileSettingsBtn, self.showPage4)
+        self.setup_button(self.ui.cameraSettingsBtn, self.showPage5)
+        self.setup_button(self.ui.controlsSettingsBtn, self.showPage6)
+        self.setup_button(self.ui.keyboardBtn_4, self.showPage6)
+        self.setup_button(self.ui.controllerBtn_4, self.showPage7)
+        self.setup_button(self.ui.keyboardBtn_5, self.showPage6)
+        self.setup_button(self.ui.controllerBtn_5, self.showPage7)
+        self.setup_button(self.ui.logoutBtn, self.showPage1)
+        self.setup_button(self.ui.trackmaniaBtn, self.showPage8)
+        self.setup_button(self.ui.controlsSettingsBtn_3, self.showPage2)
+        self.setup_button(self.ui.logoutBtn_2, self.showPage1)
 
-        # Re-flag the image as writeable
-        image.flags.writeable = True
+        # Set initial page and highlight the corresponding button
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
+        self.highlight_button(self.ui.logoutBtn)
 
-        # Convert from RGB back to BGR for OpenCV
-        image = cv.cvtColor(image, cv.COLOR_RGB2BGR)
+    def setup_button(self, button, callback):
+        button.clicked.connect(callback)
+        button.setAutoFillBackground(True)
+        button.setStyleSheet("""
+            QPushButton {
+                color: rgb(255, 255, 255);
+                border: none;
+            }
+            QPushButton:hover {
+                background-color: rgb(153, 178, 208);
+            }
+        """)
 
-        # Create Empty Wrist Coords
-        wrist_coords=[]
+    def highlight_button(self, button):
+        # Reset styles for all buttons
+        for btn in [self.ui.Profile1, self.ui.gameSelectionBtn, self.ui.profileSettingsBtn,
+                    self.ui.cameraSettingsBtn, self.ui.controlsSettingsBtn,
+                    self.ui.logoutBtn, self.ui.trackmaniaBtn, self.ui.controlsSettingsBtn_3,
+                    self.ui.logoutBtn_2]:
+            btn.setStyleSheet("""
+                QPushButton {
+                    color: rgb(255, 255, 255);
+                    border: none;
+                }
+                QPushButton:hover {
+                    background-color: rgb(153, 178, 208);
+                }
+            """)
 
-        # If hand landmarks exist
-        if results.multi_hand_landmarks:
+        # Set style for the highlighted button
+        button.setStyleSheet("""
+            QPushButton {
+                background-color: rgb(99, 122, 155);
+                color: rgb(255, 255, 255);
+                border: none;
+            }
+        """)
 
-            # Looping through hand landmarks
-            for hand_landmarks in results.multi_hand_landmarks:
+    def show(self):
+        self.main_win.show()
 
-                # Draw the landmarks
-                mp_draw_utils.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS, mp_draw_styles.get_default_hand_landmarks_style(), mp_draw_styles.get_default_hand_connections_style())
+    def showPage1(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
+        self.highlight_button(self.ui.logoutBtn)
 
-                # Loop through the points in the landmarks
-                for point in mp_hands.HandLandmark:
+    def showPage2(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_2)
+        self.highlight_button(self.ui.Profile1)
+        self.highlight_button(self.ui.controlsSettingsBtn_3)
+        self.highlight_button(self.ui.gameSelectionBtn)  # Highlight gameSelectionBtn
 
-                    # If the point's string name is WRIST...
-                    if str(point) == "HandLandmark.WRIST":
+    def showPage3(self):
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
+        self.highlight_button(self.ui.gameSelectionBtn)
 
-                        #Normalize the Landmark
-                        normalizedLandmark = hand_landmarks.landmark[point]
+    def showPage4(self):
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4)
+        self.highlight_button(self.ui.profileSettingsBtn)
 
-                        #Use the Normalized landmark to get pixel coords based on the image size
-                        pixelCoordinatesLandmark = mp_draw_utils._normalized_to_pixel_coordinates(normalizedLandmark.x, normalizedLandmark.y, imageWidth, imageHeight)
+    def showPage5(self):
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_5)
+        self.highlight_button(self.ui.cameraSettingsBtn)
 
-                        try:
-                            # Try to add the pixel coordinates to the coords list
-                            wrist_coords.append(list(pixelCoordinatesLandmark))
-                        except:
-                            continue
+    def showPage6(self):
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_6)
+        self.highlight_button(self.ui.controlsSettingsBtn)
+        self.highlight_button(self.ui.keyboardBtn_4)
+        self.ui.controllerBtn_4.setStyleSheet("color: rgb(96, 100, 106);\n"
+            "background-color: rgb(255, 255, 255);\n"
+            "border:none;")
+        self.ui.controlsSettingsBtn.setStyleSheet("background-color: rgb(99, 122, 155);\n"
+                "color: rgb(255, 255, 255);\n"
+                "border: none;")
 
-        # If we have two wrists on screen
-        if len(wrist_coords) == 2:
+    def showPage7(self):
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_7)
+        self.highlight_button(self.ui.controllerBtn_5)
+        self.ui.keyboardBtn_5.setStyleSheet("color: rgb(96, 100, 106);\n"
+            "background-color: rgb(255, 255, 255);\n"
+            "border:none;")
+        self.ui.controlsSettingsBtn.setStyleSheet("background-color: rgb(99, 122, 155);\n"
+                "color: rgb(255, 255, 255);\n"
+                "border: none;")
 
-            # Alias to keep the code clean
-            xy = wrist_coords
 
-            # Get the means of the x and y coords for both wrists
-            xmean, ymean = (xy[0][0] + xy[1][0]) / 2, (xy[0][1] + xy[1][1]) / 2
 
-            try:
-                # Calculate the Slope
-                slope = (xy[1][1] - xy[0][1]) / (xy[1][0] - xy[0][0])
-            except:
-                continue
+    def showPage8(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_8)
+        self.highlight_button(self.ui.trackmaniaBtn)
 
-            # Quadratic Function Coefficients
-            a = 1 + slope ** 2
-            b = -2 * xmean - 2 * xy[0][0] * (slope ** 2) + 2 * slope * xy[0][1] - 2 * slope * ymean
-            c = xmean ** 2 + (slope ** 2) * (xy[0][0] ** 2) + xy[0][1] ** 2 + ymean ** 2 - 2 * xy[0][1] * ymean - 2 * xy[0][1] * xy[0][0] * slope + 2 * slope * ymean * xy[0][0] - 22500
+if __name__ == '__main__':
+    # Enable High DPI display with PyQt5
+    QtWidgets.QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QtWidgets.QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    app = QApplication(sys.argv)
+    main_win = MainWindow()
 
-            # Get X Intercepts using Quadratic Root
-            xroot1 = (-b + (b ** 2 - 4 * a * c) ** 0.5) / (2 * a)
-            xroot2 = (-b - (b ** 2 - 4 * a * c) ** 0.5) / (2 * a)
-
-            # Y Intercepts from X intercepts
-            yroot1 = slope * (xroot1 - xy[0][0]) + xy[0][1]
-            yroot2 = slope * (xroot2 - xy[0][0]) + xy[0][1]
-
-            # If we are turning and wrists are not level
-            if slope != 0:
-
-                #Quadratic coefficients for perpendicular
-                ap = 1 + ((-1 / slope) ** 2)
-                bp = -2 * xmean - 2 * xmean * ((-1 / slope) ** 2) + 2 * (-1 / slope) * ymean - 2 * (-1 / slope) * ymean
-                cp = xmean ** 2 + ((-1 / slope) ** 2) * (xmean ** 2) + ymean ** 2 + ymean ** 2 - 2 * ymean * ymean - 2 * ymean * xmean * (-1 / slope) + 2 * (-1 / slope) * ymean * xmean - 22500
-
-                try:
-                    #X Intercepts for the Perpendicular Quadratic Equation
-                    perp_xroot1 = (-bp + (bp ** 2 - 4 * ap * cp) ** 0.5) / (2 * ap)
-                    perp_xroot2 = (-bp - (bp ** 2 - 4 * ap * cp) ** 0.5) / (2 * ap)
-
-                    #Y Intercepts using the X Intercepts
-                    perp_yroot1 = (-1 / slope) * (perp_xroot1 - xmean) + ymean
-                    perp_yroot2 = (-1 / slope) * (perp_xroot2 - xmean) + ymean
-
-                except:
-                    continue
-
-            # Draw a circle with OpenCV
-            cv.circle(img=image, center=(int(xmean), int(ymean)), radius=150, color=(195, 255, 62), thickness=15)
-
-            # Get the distance between the wrists
-            wrist_distance = (int(math.sqrt((xy[0][0] - xy[1][0]) ** 2 * (xy[0][1] - xy[1][1]) ** 2)) - 150) // 2
-
-            # Draw lines with OpenCV
-            cv.line(image, (int(xroot1), int(yroot1)), (int(xroot2), int(yroot2)), (195, 255, 62), 20)
-
-            # Turn Left if...
-            # If the right wrist is higher than the left and the difference is greater than 65
-            if xy[0][0] > xy[1][0] and xy[0][1] > xy[1][1] and xy[0][1] - xy[1][1] > 65:
-                print("Turn left.")
-                input.release_key('s')
-                input.release_key('d')
-                input.press_key('a')
-                cv.putText(image, "Turn left", (50, 50), font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-                cv.line(image, (int(perp_xroot2), int(perp_yroot2)), (int(xmean), int(ymean)), (195, 255, 62), 20)
-
-            # We have to check for the case where the wrists are in a different order in the wrist_coord/xy list
-            elif xy[1][0] > xy[0][0] and xy[1][1]> xy[0][1] and xy[1][1] - xy[0][1] > 65:
-                print("Turn left.")
-                input.release_key('s')
-                input.release_key('d')
-                input.press_key('a')
-                cv.putText(image, "Turn left", (50, 50), font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-                cv.line(image, (int(perp_xroot2), int(perp_yroot2)), (int(xmean), int(ymean)), (195, 255, 62), 20)
-
-            # Turn Right if...
-            # If the left wrist is higher than the right and the difference is greater than 65
-            elif xy[0][0] > xy[1][0] and xy[1][1]> xy[0][1] and xy[1][1] - xy[0][1] > 65:
-                print("Turn right.")
-                input.release_key('s')
-                input.release_key('a')
-                input.press_key('d')
-                cv.putText(image, "Turn right", (50, 50), font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-                cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
-
-            # We have to check for the case where the wrists are in a different order in the wrist_coord/xy list
-            elif xy[1][0] > xy[0][0] and xy[0][1]> xy[1][1] and xy[0][1] - xy[1][1] > 65:
-                print("Turn right.")
-                input.release_key('s')
-                input.release_key('a')
-                input.press_key('d')
-                cv.putText(image, "Turn right", (50, 50), font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-                cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
-
-            # Else we do not turn.
-            else:
-                print("No turn.")
-                input.release_key('s')
-                input.release_key('a')
-                input.release_key('d')
-                input.press_key('w')
-                cv.putText(image, "No turn.", (50, 50), font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-                if perp_yroot2>perp_yroot1:
-                    cv.line(image, (int(perp_xroot2), int(perp_yroot2)), (int(xmean), int(ymean)), (195, 255, 62), 20)
-                else:
-                    cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
-
-        # If one wrist is not visible, we brake
-        if len(xy)==1:
-            print("Braking.")
-            input.release_key('a')
-            input.release_key('d')
-            input.release_key('w')
-            input.press_key('s')
-            cv.putText(image, "Braking.", (50, 50), font, 1.0, (0, 255, 0), 2, cv.LINE_AA)
-
-        # We have to flip the OpenCV image
-        cv.imshow('MediaPipe Hands', cv.flip(image, 1))
-
-        # Possible rate-limiting here?
-        # Press Q to Quit
-        if cv.waitKey(5) & 0xFF == ord('q'):
-            break
-
-#Released webcam
-webcam_capture.release()
+    main_win.show()
+    sys.exit(app.exec_())

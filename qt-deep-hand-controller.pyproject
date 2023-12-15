@@ -1,8 +1,9 @@
 {
     "files": [
-        "mainwindow.py",
-        "form.ui",
+        "main.py",
         "input.py",
-        "main.py"
+        "gestures.py",
+        "app.ui",
+        "app.py"
     ]
 }
