@@ -3,16 +3,17 @@ import PyQt5
 from gestures import GestureRecognizer
 from PyQt5.QtCore import Qt
 from app import Ui_MainWindow
-from PyQt5 import QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import QTimer, QSize
 from PyQt5.QtGui import QPixmap
+import subprocess
 import cv2
 
 class VideoCaptureWidget(QtWidgets.QWidget):
     def __init__(self, label, parent=None):
         super(VideoCaptureWidget, self).__init__(parent)
-        self.video_size = QSize(640, 480)
+        self.video_size = QSize(320, 240)
         self.image_label = label
         self.setup_ui()
         self.setup_camera()
@@ -62,13 +63,49 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         """Release the camera when the application closes."""
         self.capture.release()
 
+class GameWindow(QtWidgets.QMainWindow):
+    def __init__(self, parent=None, ui=None):
+        super(GameWindow, self).__init__(parent)
+        self.ui = ui
+        self.setWindowTitle("Game Window")
+        self.setGeometry(100, 100, 1024, 768)
+
+class CameraWindow(QtWidgets.QMainWindow):
+    def __init__(self, parent=None, ui=None):
+        super(CameraWindow, self).__init__(parent)
+        self.ui = ui
+        self.setWindowTitle("Camera Window")
+        self.setGeometry(700, 100, 350, 200)
+
+        # Create Label for Camera
+        self.webcamLabel = QtWidgets.QLabel(self)
+        self.webcamLabel.setEnabled(True)
+        self.webcamLabel.setGeometry(QtCore.QRect(10, 10, self.width() - 20, self.height() - 20))
+        self.webcamLabel.setText("")
+        self.webcamLabel.setObjectName("webcamLabel")
+
+        # Create VideoCaptureWidget instance
+        self.webcam = VideoCaptureWidget(self.webcamLabel)
+        self.show()
+
+    def resizeEvent(self, event):
+        # Update the size of webcamLabel when the main window is resized
+        self.webcamLabel.setGeometry(QtCore.QRect(10, 10, self.width() - 20, self.height() - 20))
+        event.accept()
+
+    def showEvent(self, event):
+        # Set the window flags to stay on top
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+        self.show()
+        event.accept()
+
 class MainWindow:
     def __init__(self):
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
 
-        self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
+        #self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
 
 
         # Connect button clicks to show pages and highlight buttons
@@ -174,11 +211,30 @@ class MainWindow:
                 "color: rgb(255, 255, 255);\n"
                 "border: none;")
 
-
-
     def showPage8(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_8)
         self.highlight_button(self.ui.trackmaniaBtn)
+        self.ui.launchGameBtn.clicked.connect(self.launch_trackmania)
+        self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
+
+    def launch_game_window(self):
+        game_window = GameWindow(self.main_win, self.ui)
+        game_window.show()
+
+    def launch_camera_window(self):
+        camera_window = CameraWindow(self.main_win, self.ui)
+        camera_window.show()
+
+    def launch_trackmania(self):
+        # Specify the path to the Trackmania executable
+        trackmania_path = r"C:\Program Files (x86)\Steam\steamapps\common\Trackmania\Trackmania.exe"
+
+        # Specify the desired screen resolution
+        resolution = "1600x900"  # Change this to your desired resolution
+
+        # Use subprocess to launch Trackmania with the specified resolution
+        subprocess.Popen([trackmania_path, f"-screen-width {resolution.split('x')[0]}", f"-screen-height {resolution.split('x')[1]}"])
+ 
 
 if __name__ == '__main__':
     # Enable High DPI display with PyQt5
