@@ -1,6 +1,6 @@
 import sys
 import PyQt5
-from gestures import GestureRecognizer
+from GestureRecognition import GestureRecognition
 from PyQt5.QtCore import Qt
 from app import Ui_MainWindow
 from PyQt5 import QtGui, QtWidgets, QtCore
@@ -44,8 +44,8 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         if ret:
             print("running")
             # Convert the frame to Qt format
-            recognizer = GestureRecognizer()
-            frame = recognizer.RecognizeGestures(frame)
+            recognizer = GestureRecognition()
+            frame = recognizer.processGestures(frame)
             frame = self.convert_cv_qt(frame)
             # Show the frame in the QLabel
             self.image_label.setPixmap(frame)
@@ -214,7 +214,7 @@ class MainWindow:
     def showPage8(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_8)
         self.highlight_button(self.ui.trackmaniaBtn)
-        self.ui.launchGameBtn.clicked.connect(self.launch_trackmania)
+        self.ui.launchGameBtn.clicked.connect(self.load_game)
         self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
 
     def launch_game_window(self):
@@ -225,7 +225,7 @@ class MainWindow:
         camera_window = CameraWindow(self.main_win, self.ui)
         camera_window.show()
 
-    def launch_trackmania(self):
+    def load_game(self):
         # Specify the path to the Trackmania executable
         trackmania_path = r"C:\Program Files (x86)\Steam\steamapps\common\Trackmania\Trackmania.exe"
 

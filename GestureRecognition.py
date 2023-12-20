@@ -5,9 +5,9 @@
 import mediapipe as mp
 import cv2 as cv
 import math
-import input
+import ProfileManager
 
-class GestureRecognizer:
+class GestureRecognition:
     def __init__(self):
         # Set up Mediapipe hands object
         self.mp_hands = mp.solutions.hands
@@ -20,7 +20,7 @@ class GestureRecognizer:
         # Set OpenCV font
         self.font = cv.FONT_HERSHEY_SIMPLEX
 
-    def RecognizeGestures(self, image):
+    def processGestures(self, image):
         with self.mp_hands.Hands(model_complexity = 0, min_detection_confidence = 0.5, min_tracking_confidence = 0.5) as hands:
 
 
@@ -168,11 +168,11 @@ class GestureRecognizer:
 
                 # We have to check for the case where the wrists are in a different order in the wrist_coord/xy list
                 elif xy[1][0] > xy[0][0] and xy[0][1]> xy[1][1] and xy[0][1] - xy[1][1] > 65:
+                    print("Turn right.")
                     input.release_key('s')
                     input.release_key('a')
                     input.press_key('d')
                     cv.putText(image, "Turn right", (50, 50), self.font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-                    print("Turn Right")
                     cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
 
                 # Else we do not turn.
@@ -183,7 +183,7 @@ class GestureRecognizer:
                     input.release_key('d')
                     input.press_key('w')
                     cv.putText(image, "No turn.", (50, 50), self.font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-                    if perp_yroot2>perp_yroot1:
+                    if perp_yroot2 > perp_yroot1:
                         cv.line(image, (int(perp_xroot2), int(perp_yroot2)), (int(xmean), int(ymean)), (195, 255, 62), 20)
                     else:
                         cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
