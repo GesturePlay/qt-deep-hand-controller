@@ -68,7 +68,7 @@ class GestureRecognizer:
                         # If the point's string name is WRIST...
                         if str(point) == "HandLandmark.WRIST":
 
-                            #Normalize the Landmark
+                            #Get the Normalized Landmark
                             normalizedLandmark = hand_landmarks.landmark[point]
 
                             #Use the Normalized landmark to get pixel coords based on the image size
@@ -108,6 +108,11 @@ class GestureRecognizer:
                 yroot1 = slope * (xroot1 - xy[0][0]) + xy[0][1]
                 yroot2 = slope * (xroot2 - xy[0][0]) + xy[0][1]
 
+                perp_xroot1 = 0
+                perp_xroot2 = 0
+                perp_yroot1 = 0
+                perp_yroot2 = 0
+
                 # If we are turning and wrists are not level
                 if slope != 0:
 
@@ -139,7 +144,6 @@ class GestureRecognizer:
 
                 # Turn Left if...
                 # If the right wrist is higher than the left and the difference is greater than 65
-                #if the values are not null
 
                 if xy[0][0] > xy[1][0] and xy[0][1] > xy[1][1] and xy[0][1] - xy[1][1] > 65:
                     print("Turn left.")
