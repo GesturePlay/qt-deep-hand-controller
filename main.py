@@ -122,6 +122,12 @@ class MainWindow:
         self.setup_button(self.ui.trackmaniaBtn, self.showPage8)
         self.setup_button(self.ui.controlsSettingsBtn_3, self.showPage2)
         self.setup_button(self.ui.logoutBtn_2, self.showPage1)
+        self.setup_button(self.ui.pushButton, self.showPage11)
+        self.setup_button(self.ui.BtnTutorial, self.showPage10)
+        self.setup_button(self.ui.AddProfileButton, self.showPage9)
+        self.setup_button(self.ui.pushButton, self.showPage11)
+        self.setup_button(self.ui.pushButton_2,self.showPage6)
+        self.setup_button(self.ui.Back,self.showPage1)
 
         # Set initial page and highlight the corresponding button
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
@@ -217,6 +223,14 @@ class MainWindow:
         self.ui.launchGameBtn.clicked.connect(self.launch_trackmania)
         self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
 
+    def showPage9(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_9)    
+        
+    def showPage10(self):
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_10)
+        
+    def showPage11(self):
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_11)
     def launch_game_window(self):
         game_window = GameWindow(self.main_win, self.ui)
         game_window.show()

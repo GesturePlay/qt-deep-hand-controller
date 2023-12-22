@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1023</width>
+    <width>1024</width>
     <height>768</height>
    </rect>
   </property>
@@ -1618,25 +1618,6 @@ color: rgb(255, 255, 255);</string>
          <string>Search for a game</string>
         </property>
        </widget>
-       <widget class="QLabel" name="webcamLabel">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>170</x>
-          <y>200</y>
-          <width>591</width>
-          <height>441</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap>Images/Logo/GesturePlayLogo_yello.png</pixmap>
-        </property>
-       </widget>
       </widget>
       <widget class="QWidget" name="page_4">
        <widget class="QLabel" name="label_42">
@@ -2003,6 +1984,9 @@ color: rgb(255, 255, 255);</string>
           <height>561</height>
          </rect>
         </property>
+        <property name="whatsThis">
+         <string/>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -2087,6 +2071,41 @@ border:none;</string>
          <string>Controls Settings</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>190</y>
+          <width>61</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    border-radius: 25px;
+	
+	color: rgb(255, 255, 255);
+	
+	background-color: rgba(255, 255, 255, 50);
+
+}
+
+
+
+
+</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <zorder>label_32</zorder>
+       <zorder>label_48</zorder>
+       <zorder>controllerBtn_4</zorder>
+       <zorder>keyboardBtn_4</zorder>
+       <zorder>label_50</zorder>
+       <zorder>label_49</zorder>
+       <zorder>pushButton</zorder>
       </widget>
       <widget class="QWidget" name="page_7">
        <widget class="QPushButton" name="keyboardBtn_5">
@@ -2224,6 +2243,325 @@ border:none;</string>
        <zorder>label_53</zorder>
        <zorder>keyboardBtn_5</zorder>
       </widget>
+      <widget class="QWidget" name="page_10">
+       <widget class="QLabel" name="label_33">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>801</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Backdrops/HeaderBackGround.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_59">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>161</y>
+          <width>361</width>
+          <height>561</height>
+         </rect>
+        </property>
+        <property name="whatsThis">
+         <string/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Keyboard controls.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_60">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>251</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Eras Bold ITC</family>
+          <pointsize>22</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>Tutorial</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_11">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>150</y>
+          <width>361</width>
+          <height>531</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Component 10 – 2.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="page_11">
+       <widget class="QPushButton" name="keyboardBtn_6">
+        <property name="geometry">
+         <rect>
+          <x>41</x>
+          <y>120</y>
+          <width>75</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Eras Bold ITC</family>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(122, 147, 183);
+border:none;</string>
+        </property>
+        <property name="text">
+         <string>Keyboard</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="controllerBtn_6">
+        <property name="geometry">
+         <rect>
+          <x>115</x>
+          <y>120</y>
+          <width>75</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Eras Bold ITC</family>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(96, 100, 106);
+background-color: rgb(255, 255, 255);
+border:none;</string>
+        </property>
+        <property name="text">
+         <string>Controller</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_61">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>118</y>
+          <width>151</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_12">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>140</y>
+          <width>361</width>
+          <height>531</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Component 10 – 1.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_34">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>801</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Backdrops/HeaderBackGround.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_62">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>161</y>
+          <width>361</width>
+          <height>561</height>
+         </rect>
+        </property>
+        <property name="whatsThis">
+         <string/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Keyboard controls.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_63">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>251</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Eras Bold ITC</family>
+          <pointsize>22</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>Controls Settings</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="geometry">
+         <rect>
+          <x>420</x>
+          <y>610</y>
+          <width>61</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+background: rgba(200, 54, 54, 0);
+	
+
+
+}
+
+
+
+
+</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <zorder>label_61</zorder>
+       <zorder>keyboardBtn_6</zorder>
+       <zorder>controllerBtn_6</zorder>
+       <zorder>label_34</zorder>
+       <zorder>label_62</zorder>
+       <zorder>label_63</zorder>
+       <zorder>label_12</zorder>
+       <zorder>pushButton_2</zorder>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="BtnTutorial">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>590</y>
+        <width>141</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Eras Bold ITC</family>
+        <pointsize>11</pointsize>
+        <underline>false</underline>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    border-radius: 25px;
+	
+	color: rgb(255, 255, 255);
+	
+	background-color: rgb(122, 147, 183);
+
+	border: 1px solid white;
+}
+
+QPushButton:hover {
+	
+	background-color: rgb(145, 176, 218);
+}</string>
+      </property>
+      <property name="text">
+       <string>Tutorial</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>Images/Icons/gametutorial.png</normaloff>Images/Icons/gametutorial.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>60</width>
+        <height>60</height>
+       </size>
+      </property>
      </widget>
      <zorder>label</zorder>
      <zorder>logoutBtn</zorder>
@@ -2232,6 +2570,7 @@ border:none;</string>
      <zorder>gameSelectionBtn</zorder>
      <zorder>profileSettingsBtn</zorder>
      <zorder>stackedWidget_2</zorder>
+     <zorder>BtnTutorial</zorder>
     </widget>
     <widget class="QWidget" name="page_8">
      <widget class="QPushButton" name="controllerBtn">
@@ -2569,8 +2908,8 @@ QPushButton:hover {
      <widget class="QPushButton" name="tutorialBtn">
       <property name="geometry">
        <rect>
-        <x>660</x>
-        <y>40</y>
+        <x>30</x>
+        <y>590</y>
         <width>141</width>
         <height>50</height>
        </rect>
@@ -2579,6 +2918,7 @@ QPushButton:hover {
        <font>
         <family>Eras Bold ITC</family>
         <pointsize>11</pointsize>
+        <underline>false</underline>
        </font>
       </property>
       <property name="cursor">
@@ -2591,6 +2931,8 @@ QPushButton:hover {
 	color: rgb(255, 255, 255);
 	
 	background-color: rgb(122, 147, 183);
+
+	border: 1px solid white;
 }
 
 QPushButton:hover {
@@ -2626,6 +2968,415 @@ QPushButton:hover {
      <zorder>controlsSettingsBtn_3</zorder>
      <zorder>tutorialBtn</zorder>
     </widget>
+    <widget class="QWidget" name="page_9">
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>480</y>
+        <width>441</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Eras Demi ITC</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(121, 131, 145);
+border-color: #ffffff;
+color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string> Nickname of profile</string>
+      </property>
+      <property name="placeholderText">
+       <string>Search for a game</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_55">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>251</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Eras Bold ITC</family>
+        <pointsize>22</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>Game Selection</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_56">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1031</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>Images/Backdrops/HeaderBackGround.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_57">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>420</y>
+        <width>281</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Eras Demi ITC</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>Enter a nickname for this user</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_54">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>40</y>
+        <width>251</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Eras Bold ITC</family>
+        <pointsize>22</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>Create A Profile </string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_58">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>140</y>
+        <width>251</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Eras Demi ITC</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>Select an Icon</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Profile1_2">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>200</y>
+        <width>111</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>OpenHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	color: rgb(255, 255, 255);
+	border:none;
+}
+
+QPushButton:hover {
+	background-color: rgba(236, 236, 236, 30);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>Images/1x/Profile1.png</normaloff>Images/1x/Profile1.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Profile1_4">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>200</y>
+        <width>111</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>OpenHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	color: rgb(255, 255, 255);
+	border:none;
+}
+
+QPushButton:hover {
+	background-color: rgba(236, 236, 236, 30);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>Images/1x/Profile1.png</normaloff>Images/1x/Profile1.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Profile1_5">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>200</y>
+        <width>111</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>OpenHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	color: rgb(255, 255, 255);
+	border:none;
+}
+
+QPushButton:hover {
+	background-color: rgba(236, 236, 236, 30);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>Images/1x/Profile1.png</normaloff>Images/1x/Profile1.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Profile1_6">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>200</y>
+        <width>111</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>OpenHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	color: rgb(255, 255, 255);
+	border:none;
+}
+
+QPushButton:hover {
+	background-color: rgba(236, 236, 236, 30);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>Images/1x/Profile1.png</normaloff>Images/1x/Profile1.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Back">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>590</y>
+        <width>141</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Eras Bold ITC</family>
+        <pointsize>11</pointsize>
+        <underline>false</underline>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    border-radius: 25px;
+	
+	color: rgb(255, 255, 255);
+	
+	background-color: rgb(122, 147, 183);
+
+	border: 1px solid white;
+}
+
+QPushButton:hover {
+	
+	background-color: rgb(145, 176, 218);
+}</string>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>60</width>
+        <height>60</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Ok">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>590</y>
+        <width>141</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Eras Bold ITC</family>
+        <pointsize>11</pointsize>
+        <underline>false</underline>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    border-radius: 25px;
+	
+	color: rgb(255, 255, 255);
+	
+	background-color: rgb(122, 147, 183);
+
+	border: 1px solid white;
+}
+
+QPushButton:hover {
+	
+	background-color: rgb(145, 176, 218);
+}</string>
+      </property>
+      <property name="text">
+       <string>Ok</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>60</width>
+        <height>60</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Profile1_7">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>200</y>
+        <width>111</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>OpenHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	color: rgb(255, 255, 255);
+	border:none;
+}
+
+QPushButton:hover {
+	background-color: rgba(236, 236, 236, 30);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>Images/1x/Profile1.png</normaloff>Images/1x/Profile1.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -2633,8 +3384,8 @@ QPushButton:hover {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1023</width>
-     <height>21</height>
+     <width>1024</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

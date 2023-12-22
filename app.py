@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1023, 768)
+        MainWindow.resize(1024, 768)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(121, 131, 145))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -605,11 +605,6 @@ class Ui_MainWindow(object):
 "color: rgb(255, 255, 255);")
         self.lineEdit_2.setText("")
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.webcamLabel = QtWidgets.QLabel(self.page_3)
-        self.webcamLabel.setEnabled(True)
-        self.webcamLabel.setGeometry(QtCore.QRect(800, 20, 300, 300))
-        self.webcamLabel.setText("")
-        self.webcamLabel.setObjectName("webcamLabel")
         self.stackedWidget_2.addWidget(self.page_3)
         self.page_4 = QtWidgets.QWidget()
         self.page_4.setObjectName("page_4")
@@ -766,6 +761,7 @@ class Ui_MainWindow(object):
         self.label_48.setObjectName("label_48")
         self.label_49 = QtWidgets.QLabel(self.page_6)
         self.label_49.setGeometry(QtCore.QRect(60, 161, 361, 561))
+        self.label_49.setWhatsThis("")
         self.label_49.setText("")
         self.label_49.setPixmap(QtGui.QPixmap("Images/Icons/Keyboard controls.png"))
         self.label_49.setScaledContents(True)
@@ -798,6 +794,30 @@ class Ui_MainWindow(object):
         self.label_50.setFont(font)
         self.label_50.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_50.setObjectName("label_50")
+        self.pushButton = QtWidgets.QPushButton(self.page_6)
+        self.pushButton.setGeometry(QtCore.QRect(100, 190, 61, 31))
+        self.pushButton.setStyleSheet("QPushButton {\n"
+"    border-radius: 25px;\n"
+"    \n"
+"    color: rgb(255, 255, 255);\n"
+"    \n"
+"    background-color: rgba(255, 255, 255, 50);\n"
+"\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"")
+        self.pushButton.setText("")
+        self.pushButton.setObjectName("pushButton")
+        self.label_32.raise_()
+        self.label_48.raise_()
+        self.controllerBtn_4.raise_()
+        self.keyboardBtn_4.raise_()
+        self.label_50.raise_()
+        self.label_49.raise_()
+        self.pushButton.raise_()
         self.stackedWidget_2.addWidget(self.page_6)
         self.page_7 = QtWidgets.QWidget()
         self.page_7.setObjectName("page_7")
@@ -853,6 +873,141 @@ class Ui_MainWindow(object):
         self.label_53.raise_()
         self.keyboardBtn_5.raise_()
         self.stackedWidget_2.addWidget(self.page_7)
+        self.page_10 = QtWidgets.QWidget()
+        self.page_10.setObjectName("page_10")
+        self.label_33 = QtWidgets.QLabel(self.page_10)
+        self.label_33.setGeometry(QtCore.QRect(0, 0, 801, 111))
+        self.label_33.setText("")
+        self.label_33.setPixmap(QtGui.QPixmap("Images/Backdrops/HeaderBackGround.png"))
+        self.label_33.setScaledContents(True)
+        self.label_33.setObjectName("label_33")
+        self.label_59 = QtWidgets.QLabel(self.page_10)
+        self.label_59.setGeometry(QtCore.QRect(60, 161, 361, 561))
+        self.label_59.setWhatsThis("")
+        self.label_59.setText("")
+        self.label_59.setPixmap(QtGui.QPixmap("Images/Icons/Keyboard controls.png"))
+        self.label_59.setScaledContents(True)
+        self.label_59.setObjectName("label_59")
+        self.label_60 = QtWidgets.QLabel(self.page_10)
+        self.label_60.setGeometry(QtCore.QRect(20, 30, 251, 51))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        font.setPointSize(22)
+        self.label_60.setFont(font)
+        self.label_60.setStyleSheet("color: rgb(255, 255, 255);")
+        self.label_60.setObjectName("label_60")
+        self.label_11 = QtWidgets.QLabel(self.page_10)
+        self.label_11.setGeometry(QtCore.QRect(410, 150, 361, 531))
+        self.label_11.setText("")
+        self.label_11.setPixmap(QtGui.QPixmap("Images/Icons/Component 10 – 2.png"))
+        self.label_11.setScaledContents(True)
+        self.label_11.setObjectName("label_11")
+        self.stackedWidget_2.addWidget(self.page_10)
+        self.page_11 = QtWidgets.QWidget()
+        self.page_11.setObjectName("page_11")
+        self.keyboardBtn_6 = QtWidgets.QPushButton(self.page_11)
+        self.keyboardBtn_6.setGeometry(QtCore.QRect(41, 120, 75, 24))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        self.keyboardBtn_6.setFont(font)
+        self.keyboardBtn_6.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.keyboardBtn_6.setStyleSheet("color: rgb(255, 255, 255);\n"
+"background-color: rgb(122, 147, 183);\n"
+"border:none;")
+        self.keyboardBtn_6.setObjectName("keyboardBtn_6")
+        self.controllerBtn_6 = QtWidgets.QPushButton(self.page_11)
+        self.controllerBtn_6.setGeometry(QtCore.QRect(115, 120, 75, 24))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        self.controllerBtn_6.setFont(font)
+        self.controllerBtn_6.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.controllerBtn_6.setStyleSheet("color: rgb(96, 100, 106);\n"
+"background-color: rgb(255, 255, 255);\n"
+"border:none;")
+        self.controllerBtn_6.setObjectName("controllerBtn_6")
+        self.label_61 = QtWidgets.QLabel(self.page_11)
+        self.label_61.setGeometry(QtCore.QRect(40, 118, 151, 28))
+        self.label_61.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.label_61.setText("")
+        self.label_61.setObjectName("label_61")
+        self.label_12 = QtWidgets.QLabel(self.page_11)
+        self.label_12.setGeometry(QtCore.QRect(340, 140, 361, 531))
+        self.label_12.setText("")
+        self.label_12.setPixmap(QtGui.QPixmap("Images/Icons/Component 10 – 1.png"))
+        self.label_12.setScaledContents(True)
+        self.label_12.setObjectName("label_12")
+        self.label_34 = QtWidgets.QLabel(self.page_11)
+        self.label_34.setGeometry(QtCore.QRect(0, 0, 801, 111))
+        self.label_34.setText("")
+        self.label_34.setPixmap(QtGui.QPixmap("Images/Backdrops/HeaderBackGround.png"))
+        self.label_34.setScaledContents(True)
+        self.label_34.setObjectName("label_34")
+        self.label_62 = QtWidgets.QLabel(self.page_11)
+        self.label_62.setGeometry(QtCore.QRect(60, 161, 361, 561))
+        self.label_62.setWhatsThis("")
+        self.label_62.setText("")
+        self.label_62.setPixmap(QtGui.QPixmap("Images/Icons/Keyboard controls.png"))
+        self.label_62.setScaledContents(True)
+        self.label_62.setObjectName("label_62")
+        self.label_63 = QtWidgets.QLabel(self.page_11)
+        self.label_63.setGeometry(QtCore.QRect(20, 30, 251, 51))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        font.setPointSize(22)
+        self.label_63.setFont(font)
+        self.label_63.setStyleSheet("color: rgb(255, 255, 255);")
+        self.label_63.setObjectName("label_63")
+        self.pushButton_2 = QtWidgets.QPushButton(self.page_11)
+        self.pushButton_2.setGeometry(QtCore.QRect(420, 610, 61, 31))
+        self.pushButton_2.setStyleSheet("QPushButton {\n"
+"background: rgba(200, 54, 54, 0);\n"
+"    \n"
+"\n"
+"\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"")
+        self.pushButton_2.setText("")
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.label_61.raise_()
+        self.keyboardBtn_6.raise_()
+        self.controllerBtn_6.raise_()
+        self.label_34.raise_()
+        self.label_62.raise_()
+        self.label_63.raise_()
+        self.label_12.raise_()
+        self.pushButton_2.raise_()
+        self.stackedWidget_2.addWidget(self.page_11)
+        self.BtnTutorial = QtWidgets.QPushButton(self.page_2)
+        self.BtnTutorial.setGeometry(QtCore.QRect(30, 590, 141, 50))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        font.setPointSize(11)
+        font.setUnderline(False)
+        self.BtnTutorial.setFont(font)
+        self.BtnTutorial.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.BtnTutorial.setStyleSheet("QPushButton {\n"
+"    border-radius: 25px;\n"
+"    \n"
+"    color: rgb(255, 255, 255);\n"
+"    \n"
+"    background-color: rgb(122, 147, 183);\n"
+"\n"
+"    border: 1px solid white;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    \n"
+"    background-color: rgb(145, 176, 218);\n"
+"}")
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap("Images/Icons/gametutorial.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnTutorial.setIcon(icon9)
+        self.BtnTutorial.setIconSize(QtCore.QSize(60, 60))
+        self.BtnTutorial.setObjectName("BtnTutorial")
         self.label.raise_()
         self.logoutBtn.raise_()
         self.cameraSettingsBtn.raise_()
@@ -860,6 +1015,7 @@ class Ui_MainWindow(object):
         self.gameSelectionBtn.raise_()
         self.profileSettingsBtn.raise_()
         self.stackedWidget_2.raise_()
+        self.BtnTutorial.raise_()
         self.stackedWidget.addWidget(self.page_2)
         self.page_8 = QtWidgets.QWidget()
         self.page_8.setObjectName("page_8")
@@ -930,9 +1086,9 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    background-color: rgb(153, 178, 208);\n"
 "}")
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("Images/Icons/Logouticon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.logoutBtn_2.setIcon(icon9)
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap("Images/Icons/Logouticon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.logoutBtn_2.setIcon(icon10)
         self.logoutBtn_2.setIconSize(QtCore.QSize(50, 55))
         self.logoutBtn_2.setObjectName("logoutBtn_2")
         self.label_16 = QtWidgets.QLabel(self.page_8)
@@ -959,9 +1115,9 @@ class Ui_MainWindow(object):
 "    \n"
 "    background-color: rgb(145, 176, 218);\n"
 "}")
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("Images/Icons/playButton.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.launchGameBtn.setIcon(icon10)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap("Images/Icons/playButton.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.launchGameBtn.setIcon(icon11)
         self.launchGameBtn.setIconSize(QtCore.QSize(50, 50))
         self.launchGameBtn.setObjectName("launchGameBtn")
         self.label_17 = QtWidgets.QLabel(self.page_8)
@@ -996,10 +1152,11 @@ class Ui_MainWindow(object):
         self.controlsSettingsBtn_3.setIconSize(QtCore.QSize(50, 50))
         self.controlsSettingsBtn_3.setObjectName("controlsSettingsBtn_3")
         self.tutorialBtn = QtWidgets.QPushButton(self.page_8)
-        self.tutorialBtn.setGeometry(QtCore.QRect(660, 40, 141, 50))
+        self.tutorialBtn.setGeometry(QtCore.QRect(30, 590, 141, 50))
         font = QtGui.QFont()
         font.setFamily("Eras Bold ITC")
         font.setPointSize(11)
+        font.setUnderline(False)
         self.tutorialBtn.setFont(font)
         self.tutorialBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.tutorialBtn.setStyleSheet("QPushButton {\n"
@@ -1008,15 +1165,15 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    \n"
 "    background-color: rgb(122, 147, 183);\n"
+"\n"
+"    border: 1px solid white;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
 "    \n"
 "    background-color: rgb(145, 176, 218);\n"
 "}")
-        icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap("Images/Icons/gametutorial.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.tutorialBtn.setIcon(icon11)
+        self.tutorialBtn.setIcon(icon9)
         self.tutorialBtn.setIconSize(QtCore.QSize(60, 60))
         self.tutorialBtn.setObjectName("tutorialBtn")
         self.label_14.raise_()
@@ -1033,9 +1190,184 @@ class Ui_MainWindow(object):
         self.controlsSettingsBtn_3.raise_()
         self.tutorialBtn.raise_()
         self.stackedWidget.addWidget(self.page_8)
+        self.page_9 = QtWidgets.QWidget()
+        self.page_9.setObjectName("page_9")
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.page_9)
+        self.lineEdit_3.setGeometry(QtCore.QRect(70, 480, 441, 31))
+        font = QtGui.QFont()
+        font.setFamily("Eras Demi ITC")
+        font.setPointSize(12)
+        self.lineEdit_3.setFont(font)
+        self.lineEdit_3.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.lineEdit_3.setStyleSheet("background-color: rgb(121, 131, 145);\n"
+"border-color: #ffffff;\n"
+"color: rgb(255, 255, 255);")
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.label_55 = QtWidgets.QLabel(self.page_9)
+        self.label_55.setGeometry(QtCore.QRect(20, 20, 251, 51))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        font.setPointSize(22)
+        self.label_55.setFont(font)
+        self.label_55.setStyleSheet("color: rgb(255, 255, 255);")
+        self.label_55.setObjectName("label_55")
+        self.label_56 = QtWidgets.QLabel(self.page_9)
+        self.label_56.setGeometry(QtCore.QRect(0, 0, 1031, 111))
+        self.label_56.setText("")
+        self.label_56.setPixmap(QtGui.QPixmap("Images/Backdrops/HeaderBackGround.png"))
+        self.label_56.setScaledContents(True)
+        self.label_56.setObjectName("label_56")
+        self.label_57 = QtWidgets.QLabel(self.page_9)
+        self.label_57.setGeometry(QtCore.QRect(70, 420, 281, 51))
+        font = QtGui.QFont()
+        font.setFamily("Eras Demi ITC")
+        font.setPointSize(14)
+        self.label_57.setFont(font)
+        self.label_57.setStyleSheet("color: rgb(255, 255, 255);")
+        self.label_57.setObjectName("label_57")
+        self.label_54 = QtWidgets.QLabel(self.page_9)
+        self.label_54.setGeometry(QtCore.QRect(370, 40, 251, 51))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        font.setPointSize(22)
+        self.label_54.setFont(font)
+        self.label_54.setStyleSheet("color: rgb(255, 255, 255);")
+        self.label_54.setObjectName("label_54")
+        self.label_58 = QtWidgets.QLabel(self.page_9)
+        self.label_58.setGeometry(QtCore.QRect(70, 140, 251, 51))
+        font = QtGui.QFont()
+        font.setFamily("Eras Demi ITC")
+        font.setPointSize(14)
+        self.label_58.setFont(font)
+        self.label_58.setStyleSheet("color: rgb(255, 255, 255);")
+        self.label_58.setObjectName("label_58")
+        self.Profile1_2 = QtWidgets.QPushButton(self.page_9)
+        self.Profile1_2.setGeometry(QtCore.QRect(80, 200, 111, 121))
+        self.Profile1_2.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        self.Profile1_2.setStyleSheet("QPushButton{\n"
+"    color: rgb(255, 255, 255);\n"
+"    border:none;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgba(236, 236, 236, 30);\n"
+"}")
+        self.Profile1_2.setText("")
+        self.Profile1_2.setIcon(icon2)
+        self.Profile1_2.setIconSize(QtCore.QSize(100, 100))
+        self.Profile1_2.setObjectName("Profile1_2")
+        self.Profile1_4 = QtWidgets.QPushButton(self.page_9)
+        self.Profile1_4.setGeometry(QtCore.QRect(230, 200, 111, 121))
+        self.Profile1_4.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        self.Profile1_4.setStyleSheet("QPushButton{\n"
+"    color: rgb(255, 255, 255);\n"
+"    border:none;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgba(236, 236, 236, 30);\n"
+"}")
+        self.Profile1_4.setText("")
+        self.Profile1_4.setIcon(icon2)
+        self.Profile1_4.setIconSize(QtCore.QSize(100, 100))
+        self.Profile1_4.setObjectName("Profile1_4")
+        self.Profile1_5 = QtWidgets.QPushButton(self.page_9)
+        self.Profile1_5.setGeometry(QtCore.QRect(390, 200, 111, 121))
+        self.Profile1_5.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        self.Profile1_5.setStyleSheet("QPushButton{\n"
+"    color: rgb(255, 255, 255);\n"
+"    border:none;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgba(236, 236, 236, 30);\n"
+"}")
+        self.Profile1_5.setText("")
+        self.Profile1_5.setIcon(icon2)
+        self.Profile1_5.setIconSize(QtCore.QSize(100, 100))
+        self.Profile1_5.setObjectName("Profile1_5")
+        self.Profile1_6 = QtWidgets.QPushButton(self.page_9)
+        self.Profile1_6.setGeometry(QtCore.QRect(550, 200, 111, 121))
+        self.Profile1_6.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        self.Profile1_6.setStyleSheet("QPushButton{\n"
+"    color: rgb(255, 255, 255);\n"
+"    border:none;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgba(236, 236, 236, 30);\n"
+"}")
+        self.Profile1_6.setText("")
+        self.Profile1_6.setIcon(icon2)
+        self.Profile1_6.setIconSize(QtCore.QSize(100, 100))
+        self.Profile1_6.setObjectName("Profile1_6")
+        self.Back = QtWidgets.QPushButton(self.page_9)
+        self.Back.setGeometry(QtCore.QRect(510, 590, 141, 50))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        font.setPointSize(11)
+        font.setUnderline(False)
+        self.Back.setFont(font)
+        self.Back.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.Back.setStyleSheet("QPushButton {\n"
+"    border-radius: 25px;\n"
+"    \n"
+"    color: rgb(255, 255, 255);\n"
+"    \n"
+"    background-color: rgb(122, 147, 183);\n"
+"\n"
+"    border: 1px solid white;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    \n"
+"    background-color: rgb(145, 176, 218);\n"
+"}")
+        self.Back.setIconSize(QtCore.QSize(60, 60))
+        self.Back.setObjectName("Back")
+        self.Ok = QtWidgets.QPushButton(self.page_9)
+        self.Ok.setGeometry(QtCore.QRect(680, 590, 141, 50))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        font.setPointSize(11)
+        font.setUnderline(False)
+        self.Ok.setFont(font)
+        self.Ok.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.Ok.setStyleSheet("QPushButton {\n"
+"    border-radius: 25px;\n"
+"    \n"
+"    color: rgb(255, 255, 255);\n"
+"    \n"
+"    background-color: rgb(122, 147, 183);\n"
+"\n"
+"    border: 1px solid white;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    \n"
+"    background-color: rgb(145, 176, 218);\n"
+"}")
+        self.Ok.setIconSize(QtCore.QSize(60, 60))
+        self.Ok.setObjectName("Ok")
+        self.Profile1_7 = QtWidgets.QPushButton(self.page_9)
+        self.Profile1_7.setGeometry(QtCore.QRect(710, 200, 111, 121))
+        self.Profile1_7.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        self.Profile1_7.setStyleSheet("QPushButton{\n"
+"    color: rgb(255, 255, 255);\n"
+"    border:none;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgba(236, 236, 236, 30);\n"
+"}")
+        self.Profile1_7.setText("")
+        self.Profile1_7.setIcon(icon2)
+        self.Profile1_7.setIconSize(QtCore.QSize(100, 100))
+        self.Profile1_7.setObjectName("Profile1_7")
+        self.stackedWidget.addWidget(self.page_9)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1023, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1024, 22))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -1079,6 +1411,11 @@ class Ui_MainWindow(object):
         self.keyboardBtn_5.setText(_translate("MainWindow", "Keyboard"))
         self.controllerBtn_5.setText(_translate("MainWindow", "Controller"))
         self.label_53.setText(_translate("MainWindow", "Controls Settings"))
+        self.label_60.setText(_translate("MainWindow", "Tutorial"))
+        self.keyboardBtn_6.setText(_translate("MainWindow", "Keyboard"))
+        self.controllerBtn_6.setText(_translate("MainWindow", "Controller"))
+        self.label_63.setText(_translate("MainWindow", "Controls Settings"))
+        self.BtnTutorial.setText(_translate("MainWindow", "Tutorial"))
         self.controllerBtn.setText(_translate("MainWindow", "Controller"))
         self.keyboardBtn.setText(_translate("MainWindow", "Keyboard"))
         self.controlsSettingsBtn_2.setText(_translate("MainWindow", "   Controls Settings"))
@@ -1087,6 +1424,14 @@ class Ui_MainWindow(object):
         self.label_17.setText(_translate("MainWindow", "Trackmania"))
         self.controlsSettingsBtn_3.setText(_translate("MainWindow", "Change Game"))
         self.tutorialBtn.setText(_translate("MainWindow", "Tutorial"))
+        self.lineEdit_3.setText(_translate("MainWindow", " Nickname of profile"))
+        self.lineEdit_3.setPlaceholderText(_translate("MainWindow", "Search for a game"))
+        self.label_55.setText(_translate("MainWindow", "Game Selection"))
+        self.label_57.setText(_translate("MainWindow", "Enter a nickname for this user"))
+        self.label_54.setText(_translate("MainWindow", "Create A Profile "))
+        self.label_58.setText(_translate("MainWindow", "Select an Icon"))
+        self.Back.setText(_translate("MainWindow", "Back"))
+        self.Ok.setText(_translate("MainWindow", "Ok"))
 
 
 if __name__ == "__main__":
