@@ -132,13 +132,15 @@ class GestureRecognizer:
                 cv.circle(img=image, center=(int(xmean), int(ymean)), radius=150, color=(195, 255, 62), thickness=15)
 
                 # Get the distance between the wrists (not used?)
-                wrist_distance = (int(math.sqrt((xy[0][0] - xy[1][0]) ** 2 * (xy[0][1] - xy[1][1]) ** 2)) - 150) // 2
+                #wrist_distance = (int(math.sqrt((xy[0][0] - xy[1][0]) ** 2 * (xy[0][1] - xy[1][1]) ** 2)) - 150) // 2
 
                 # Draw lines with OpenCV
                 cv.line(image, (int(xroot1), int(yroot1)), (int(xroot2), int(yroot2)), (195, 255, 62), 20)
 
                 # Turn Left if...
                 # If the right wrist is higher than the left and the difference is greater than 65
+                #if the values are not null
+
                 if xy[0][0] > xy[1][0] and xy[0][1] > xy[1][1] and xy[0][1] - xy[1][1] > 65:
                     print("Turn left.")
                     input.release_key('s')
@@ -183,10 +185,11 @@ class GestureRecognizer:
                     input.release_key('d')
                     input.press_key('w')
                     cv.putText(image, "No turn.", (50, 50), self.font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-                    if perp_yroot2>perp_yroot1:
-                        cv.line(image, (int(perp_xroot2), int(perp_yroot2)), (int(xmean), int(ymean)), (195, 255, 62), 20)
-                    else:
-                        cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
+                    if perp_yroot2 is not None and perp_xroot2 is not None and perp_xroot1 is not None and perp_yroot1 is not None:
+                        if perp_yroot2 > perp_yroot1:
+                            cv.line(image, (int(perp_xroot2), int(perp_yroot2)), (int(xmean), int(ymean)), (195, 255, 62), 20)
+                        else:
+                            cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
 
             # If one wrist is not visible, we brake
             if len(wrist_coords)==1:
