@@ -7,6 +7,7 @@ import cv2 as cv
 import math
 import input
 import pyautogui
+import json
 
 class GestureRecognizer:
     def __init__(self):
@@ -23,6 +24,61 @@ class GestureRecognizer:
 
         # Initialize previous index finger tip coordinates
         self.prev_index_finger_tip_coords = None
+
+    def get_landmarks(self, image):
+        thumb_tip_coords = []
+        index_finger_tip_coords = []
+        wrist_coords = []
+
+        with self.mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5,
+                                 min_tracking_confidence=0.5) as hands:
+            image.flags.writeable = False
+            image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+            results = hands.process(image)
+            image.flags.writeable = True
+            image = cv.cvtColor(image, cv.COLOR_RGB2BGR)
+
+            if results.multi_hand_landmarks:
+                for hand_landmarks in results.multi_hand_landmarks:
+                    self.mp_draw_utils.draw_landmarks(image, hand_landmarks, self.mp_hands.HAND_CONNECTIONS,
+                                                      self.mp_draw_styles.get_default_hand_landmarks_style(),
+                                                      self.mp_draw_styles.get_default_hand_connections_style())
+
+                    for point in [self.mp_hands.HandLandmark.THUMB_TIP, self.mp_hands.HandLandmark.INDEX_FINGER_TIP,
+                                  self.mp_hands.HandLandmark.WRIST]:
+                        normalized_landmark = hand_landmarks.landmark[point]
+                        pixel_coordinates_landmark = self.mp_draw_utils._normalized_to_pixel_coordinates(
+                            normalized_landmark.x, normalized_landmark.y, image.shape[1], image.shape[0])
+
+                        try:
+                            if point == self.mp_hands.HandLandmark.THUMB_TIP:
+                                thumb_tip_coords.append(list(pixel_coordinates_landmark))
+                            elif point == self.mp_hands.HandLandmark.INDEX_FINGER_TIP:
+                                index_finger_tip_coords.append(list(pixel_coordinates_landmark))
+                            elif point == self.mp_hands.HandLandmark.WRIST:
+                                wrist_coords.append(list(pixel_coordinates_landmark))
+                        except Exception as e:
+                            print(f"Error processing landmark {point}: {e}")
+
+        return thumb_tip_coords, index_finger_tip_coords, wrist_coords
+
+    def save_landmarks_to_file(self, landmarks, gesture_name):
+        print("Landmarks to save:", landmarks)
+
+        if landmarks is None:
+            print("Landmarks are None. Unable to save to file.")
+            return
+
+        filename = f"{gesture_name}_landmarks.json"
+
+        # Ensure landmarks is a list before saving
+        if isinstance(landmarks, list):
+            with open(filename, 'w') as json_file:
+                json.dump(landmarks, json_file)
+
+            print(f"Landmarks saved to {filename}")
+        else:
+            print("Landmarks should be a list. Unable to save to file.")
 
     def RecognizeGestures(self, image):
         with self.mp_hands.Hands(model_complexity = 0, min_detection_confidence = 0.5, min_tracking_confidence = 0.5) as hands:
@@ -69,12 +125,12 @@ class GestureRecognizer:
 
             # If hand landmarks exist
             if results.multi_hand_landmarks:
-                # Looping through hand landmarks
+                # Loop through hand landmarks
                 for hand_landmarks in results.multi_hand_landmarks:
                     # Draw the landmarks
                     self.mp_draw_utils.draw_landmarks(image, hand_landmarks, self.mp_hands.HAND_CONNECTIONS,
-                                                     self.mp_draw_styles.get_default_hand_landmarks_style(),
-                                                     self.mp_draw_styles.get_default_hand_connections_style())
+                                                      self.mp_draw_styles.get_default_hand_landmarks_style(),
+                                                      self.mp_draw_styles.get_default_hand_connections_style())
 
                     # Loop through the points in the landmarks
                     for point in [self.mp_hands.HandLandmark.THUMB_TIP, self.mp_hands.HandLandmark.INDEX_FINGER_TIP,
@@ -89,12 +145,16 @@ class GestureRecognizer:
                             # Try to add the pixel coordinates to the corresponding coords list
                             if point == self.mp_hands.HandLandmark.THUMB_TIP:
                                 thumb_tip_coords.append(list(pixelCoordinatesLandmark))
+                                print("Thumb Tip Coordinates:", list(pixelCoordinatesLandmark))
                             elif point == self.mp_hands.HandLandmark.INDEX_FINGER_TIP:
                                 index_finger_tip_coords.append(list(pixelCoordinatesLandmark))
+                                print("Index Finger Tip Coordinates:", list(pixelCoordinatesLandmark))
                             elif point == self.mp_hands.HandLandmark.WRIST:
                                 wrist_coords.append(list(pixelCoordinatesLandmark))
-                        except:
-                            continue
+                                print("Wrist Coordinates:", list(pixelCoordinatesLandmark))
+                        except Exception as e:
+                            print(f"Error processing landmark {point}: {e}")
+
 
                 # Check if only one hand
                 if len(results.multi_hand_landmarks) == 1:  # Check that only one hand is detected
@@ -140,7 +200,7 @@ class GestureRecognizer:
 
             # If the "L sign" is detected, trigger the corresponding action
             while cursor_mode:
-                print("L sign detected. Updating mouse input.")
+                #print("L sign detected. Updating mouse input.")
 
                 if index_finger_tip_coords:
                     index_finger_x, index_finger_y = index_finger_tip_coords[0]

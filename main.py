@@ -9,6 +9,7 @@ from PyQt5.QtCore import QTimer, QSize
 from PyQt5.QtGui import QPixmap
 import subprocess
 import cv2
+import json
 
 class VideoCaptureWidget(QtWidgets.QWidget):
     def __init__(self, label, parent=None):
@@ -18,6 +19,9 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         self.setup_ui()
         self.setup_camera()
         self.active = False
+
+        # Connect the update_frame method to the timer
+        self.timer.timeout.connect(self.update_frame)
 
     def setup_ui(self):
         """Initialize widgets."""
@@ -126,6 +130,8 @@ class CreateGestureWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Gesture Window")
         self.setGeometry(100, 100, 350, 200)
 
+        self.gesture_recognizer = GestureRecognizer()
+
         # Create Label for Camera
         self.webcamLabel = QtWidgets.QLabel(self)
         self.webcamLabel.setEnabled(True)
@@ -150,12 +156,24 @@ class CreateGestureWindow(QtWidgets.QMainWindow):
         # Variable to store countdown value
         self.countdown_value = 3
 
+        # Initialize a list to store landmarks
+        self.landmarks_list = []
+
+        # Connect the destroyed signal to stop the camera when the window is closed
+        self.destroyed.connect(self.stop_camera_on_gesture_window_close)
+
+        # Connect the update_frame method to the timer
+        self.webcam.timer.timeout.connect(self.update_frame)
+
     def start_recording(self):
         # Disable the record button during recording
         self.recordButton.setEnabled(False)
 
         # Start countdown
         self.start_countdown()
+
+        # Clear existing landmarks
+        self.landmarks_list.clear()
 
     def start_countdown(self):
         if self.countdown_value > 0:
@@ -175,15 +193,45 @@ class CreateGestureWindow(QtWidgets.QMainWindow):
         gesture_name, ok = QInputDialog.getText(self, 'Gesture Name', 'Enter the gesture name:')
 
         if ok and gesture_name:
+            print("Landmarks recorded:")
+            for landmarks in self.landmarks_list:
+                print(landmarks)
+
             print(f"Gesture recorded with name: {gesture_name}")
+
+            # Save landmarks to a file with the specified gesture name
+            filename = f"{gesture_name}.json"
+            with open(filename, 'w') as file:
+                json.dump(self.landmarks_list, file)
+
+            print(f"Landmarks saved to {filename}")
         else:
             print("Please enter a gesture name.")
 
-    def closeEvent(self, event):
-        """Stop the camera when the window is closed."""
-        if hasattr(self, 'webcam'):
-            self.webcam.stop_camera()
-        event.accept()
+    def stop_camera_on_gesture_window_close(self):
+        # Stop the camera feed when the CreateGestureWindow is closed
+        self.webcam.stop_camera()
+
+    def update_frame(self):
+        # Capture frame from the webcam and update QLabel
+        ret, frame = self.webcam.capture.read()
+        if ret:
+            # Recognize gestures and get landmarks
+            landmarks = self.gesture_recognizer.get_landmarks(frame)
+
+            # Convert landmarks to pixel coordinates
+            image_width, image_height = self.webcam.video_size.width(), self.webcam.video_size.height()
+            landmark_coordinates = self.gesture_recognizer.get_landmarks(frame)
+
+            # Append landmarks to the list
+            self.landmarks_list.append(landmark_coordinates)
+
+            # Convert the frame to Qt format and show in the QLabel
+            frame = self.webcam.convert_cv_qt(frame)
+            self.webcam.image_label.setPixmap(frame)
+
+            # Update the frame in VideoCaptureWidget
+            # self.webcam.update_frame()
 
 
 class MainWindow:
