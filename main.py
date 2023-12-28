@@ -50,6 +50,10 @@ class VideoCaptureWidget(QtWidgets.QWidget):
             # Show the frame in the QLabel
             self.image_label.setPixmap(frame)
 
+    def set_preview_label(self, label):
+        self.image_label = label
+        self.image_label.setFixedSize(self.video_size)
+
     def convert_cv_qt(self, cv_img):
         """Convert from an opencv image to QPixmap."""
         rgb_image = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
@@ -58,6 +62,13 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         convert_to_Qt_format = QtGui.QImage(rgb_image.data, w, h, bytes_per_line, QtGui.QImage.Format_RGB888)
         p = convert_to_Qt_format.scaled(self.video_size.width(), self.video_size.height(), Qt.KeepAspectRatio)
         return QPixmap.fromImage(p)
+
+    def print_camera_info(self):
+        """Print information about the camera."""
+        camera_info = self.capture.getBackendName()
+        actual_camera_name = self.capture.get(cv2.CAP_PROP_BACKEND)
+        print(f"Camera backend: {camera_info}")
+        print(f"Actual camera name: {actual_camera_name}")
 
     def closeEvent(self, event):
         """Release the camera when the application closes."""
@@ -195,6 +206,19 @@ class MainWindow:
     def showPage5(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_5)
         self.highlight_button(self.ui.cameraSettingsBtn)
+        self.ui.CameraPreview.clear()  # Clear any existing content
+        self.ui.CameraPreview.setPixmap(QtGui.QPixmap())  # Clear the pixmap if needed
+        self.ui.CameraPreview.setFixedSize(320, 240)  # Set the desired size
+
+        # Create VideoCaptureWidget instance
+        self.webcam = VideoCaptureWidget(self.ui.CameraPreview)
+        self.webcam.setup_camera()
+        self.webcam.set_preview_label(self.ui.CameraPreview)
+
+        self.webcam.print_camera_info()
+
+        # Populate the QComboBox with available cameras
+        self.populate_camera_combobox()
 
     def showPage6(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_6)
@@ -248,6 +272,38 @@ class MainWindow:
 
         # Use subprocess to launch Trackmania with the specified resolution
         subprocess.Popen([trackmania_path, f"-screen-width {resolution.split('x')[0]}", f"-screen-height {resolution.split('x')[1]}"])
+
+    def populate_camera_combobox(self):
+        # Get the list of available cameras
+        available_cameras = self.get_available_cameras()
+
+        # Set the items in the QComboBox
+        self.ui.CameraSelection.addItems(available_cameras)
+
+        # Set the default selection to the first camera in the list
+        if available_cameras:
+            self.ui.CameraSelection.setCurrentIndex(0)
+
+    def get_available_cameras(self):
+        cameras = []
+        for i in range(10):  # Assuming there are at most 10 cameras, adjust as needed
+            camera = cv2.VideoCapture(i)
+            if not camera.isOpened():
+                break
+
+            # Query additional camera properties
+            backend_name = camera.getBackendName()
+            backend_index = int(camera.get(cv2.CAP_PROP_BACKEND))
+            width = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
+            height = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+            # Format the camera information
+            camera_info = f"Camera {i} - {backend_name}, {backend_index}"
+
+            camera.release()
+            cameras.append(camera_info)
+
+        return cameras
  
 
 if __name__ == '__main__':
