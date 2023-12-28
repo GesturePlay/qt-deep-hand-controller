@@ -817,6 +817,30 @@ class Ui_MainWindow(object):
 "")
         self.pushButton.setText("")
         self.pushButton.setObjectName("pushButton")
+        self.CreateGestureBtn = QtWidgets.QPushButton(self.page_6)
+        self.CreateGestureBtn.setGeometry(QtCore.QRect(570, 130, 171, 50))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        font.setPointSize(11)
+        font.setUnderline(False)
+        self.CreateGestureBtn.setFont(font)
+        self.CreateGestureBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.CreateGestureBtn.setStyleSheet("QPushButton {\n"
+                                            "    border-radius: 25px;\n"
+                                            "      \n"
+                                            "      color: rgb(255, 255, 255);\n"
+                                            "      \n"
+                                            "      background-color: rgb(122, 147, 183);\n"
+                                            "\n"
+                                            "      border: 1px solid white;\n"
+                                            "}\n"
+                                            "\n"
+                                            "QPushButton:hover {\n"
+                                            "      \n"
+                                            "      background-color: rgb(145, 176, 218);\n"
+                                            "}")
+        self.CreateGestureBtn.setIconSize(QtCore.QSize(60, 60))
+        self.CreateGestureBtn.setObjectName("CreateGestureBtn")
         self.label_32.raise_()
         self.label_48.raise_()
         self.controllerBtn_4.raise_()
@@ -824,6 +848,7 @@ class Ui_MainWindow(object):
         self.label_50.raise_()
         self.label_49.raise_()
         self.pushButton.raise_()
+        self.CreateGestureBtn.raise_()
         self.stackedWidget_2.addWidget(self.page_6)
         self.page_7 = QtWidgets.QWidget()
         self.page_7.setObjectName("page_7")
@@ -1414,6 +1439,7 @@ class Ui_MainWindow(object):
         self.controllerBtn_4.setText(_translate("MainWindow", "Controller"))
         self.keyboardBtn_4.setText(_translate("MainWindow", "Keyboard"))
         self.label_50.setText(_translate("MainWindow", "Controls Settings"))
+        self.CreateGestureBtn.setText(_translate("MainWindow", "Create a Gesture"))
         self.keyboardBtn_5.setText(_translate("MainWindow", "Keyboard"))
         self.controllerBtn_5.setText(_translate("MainWindow", "Controller"))
         self.label_53.setText(_translate("MainWindow", "Controls Settings"))
