@@ -6,6 +6,7 @@ import mediapipe as mp
 import cv2 as cv
 import math
 import input
+import pyautogui
 
 class GestureRecognizer:
     def __init__(self):
@@ -19,6 +20,9 @@ class GestureRecognizer:
 
         # Set OpenCV font
         self.font = cv.FONT_HERSHEY_SIMPLEX
+
+        # Initialize previous index finger tip coordinates
+        self.prev_index_finger_tip_coords = None
 
     def RecognizeGestures(self, image):
         with self.mp_hands.Hands(model_complexity = 0, min_detection_confidence = 0.5, min_tracking_confidence = 0.5) as hands:
@@ -42,6 +46,7 @@ class GestureRecognizer:
             results = hands.process(image)
 
             # Get Image Dimensions
+            screen_width, screen_height = 1920, 1080
             imageHeight, imageWidth, _ = image.shape
 
             # Re-flag the image as writeable
@@ -53,35 +58,130 @@ class GestureRecognizer:
             # Create Empty Wrist Coords
             wrist_coords=[]
 
+            # Create Empty Thumb and Index Finger Tips Coordinates
+            thumb_tip_coords = []
+            index_finger_tip_coords = []
+
+            all_fingers_closed = False
+            cursor_mode = False
+            one_hand = False
+            two_hand = False
+
             # If hand landmarks exist
             if results.multi_hand_landmarks:
-
                 # Looping through hand landmarks
                 for hand_landmarks in results.multi_hand_landmarks:
-
                     # Draw the landmarks
-                    self.mp_draw_utils.draw_landmarks(image, hand_landmarks, self.mp_hands.HAND_CONNECTIONS, self.mp_draw_styles.get_default_hand_landmarks_style(), self.mp_draw_styles.get_default_hand_connections_style())
+                    self.mp_draw_utils.draw_landmarks(image, hand_landmarks, self.mp_hands.HAND_CONNECTIONS,
+                                                     self.mp_draw_styles.get_default_hand_landmarks_style(),
+                                                     self.mp_draw_styles.get_default_hand_connections_style())
 
                     # Loop through the points in the landmarks
-                    for point in self.mp_hands.HandLandmark:
+                    for point in [self.mp_hands.HandLandmark.THUMB_TIP, self.mp_hands.HandLandmark.INDEX_FINGER_TIP,
+                                  self.mp_hands.HandLandmark.WRIST]:
+                        # Get the Normalized Landmark
+                        normalizedLandmark = hand_landmarks.landmark[point]
+                        # Use the Normalized landmark to get pixel coords based on the image size
+                        pixelCoordinatesLandmark = self.mp_draw_utils._normalized_to_pixel_coordinates(
+                            normalizedLandmark.x, normalizedLandmark.y, imageWidth, imageHeight)
 
-                        # If the point's string name is WRIST...
-                        if str(point) == "HandLandmark.WRIST":
-
-                            #Get the Normalized Landmark
-                            normalizedLandmark = hand_landmarks.landmark[point]
-
-                            #Use the Normalized landmark to get pixel coords based on the image size
-                            pixelCoordinatesLandmark = self.mp_draw_utils._normalized_to_pixel_coordinates(normalizedLandmark.x, normalizedLandmark.y, imageWidth, imageHeight)
-
-                            try:
-                                # Try to add the pixel coordinates to the coords list
+                        try:
+                            # Try to add the pixel coordinates to the corresponding coords list
+                            if point == self.mp_hands.HandLandmark.THUMB_TIP:
+                                thumb_tip_coords.append(list(pixelCoordinatesLandmark))
+                            elif point == self.mp_hands.HandLandmark.INDEX_FINGER_TIP:
+                                index_finger_tip_coords.append(list(pixelCoordinatesLandmark))
+                            elif point == self.mp_hands.HandLandmark.WRIST:
                                 wrist_coords.append(list(pixelCoordinatesLandmark))
-                            except:
-                                continue
+                        except:
+                            continue
+
+                # Check if only one hand
+                if len(results.multi_hand_landmarks) == 1:  # Check that only one hand is detected
+                    one_hand = True
+
+                # Check if there are two hands
+                if len(results.multi_hand_landmarks) == 2: # Check that have 2 hands
+                    two_hand = True
+
+                # Check if all fingers are closed (thumb is above the rest of the fingers)
+                if thumb_tip_coords and index_finger_tip_coords and all(
+                        thumb_tip_coords[0][1] < finger_tip[1] for finger_tip in index_finger_tip_coords):
+                    all_fingers_closed = True
+
+
+                # Check if the hand is in an "L sign" position for cursor mode
+                if thumb_tip_coords and index_finger_tip_coords:
+                    thumb_tip_y = thumb_tip_coords[0][1]
+                    index_finger_tip_y = index_finger_tip_coords[0][1]
+
+                    # Check if the thumb tip is below all other fingers and the index tip is above all other fingers
+                    if thumb_tip_y > max(finger_tip[1] for finger_tip in index_finger_tip_coords) and \
+                       index_finger_tip_y < min(finger_tip[1] for finger_tip in thumb_tip_coords):
+                        cursor_mode = True
+
+                # Check if the thumb tip is close to the other fingertips (considered as a click)
+                if thumb_tip_coords and index_finger_tip_coords:
+                    thumb_tip_x, thumb_tip_y = thumb_tip_coords[0]
+                    index_finger_tip_x, index_finger_tip_y = index_finger_tip_coords[0]
+
+                    # Set a threshold for the distance (adjust as needed)
+                    click_distance_threshold = 20
+
+                    # Calculate the Euclidean distance between the thumb tip and index finger tip
+                    distance = math.sqrt(
+                        (thumb_tip_x - index_finger_tip_x) ** 2 + (thumb_tip_y - index_finger_tip_y) ** 2)
+
+                    # Check if the distance is below the threshold
+                    if distance < click_distance_threshold:
+                        print("Thumb closed. Registering click.")
+                        pyautogui.click()
+
+
+            # If the "L sign" is detected, trigger the corresponding action
+            while cursor_mode:
+                print("L sign detected. Updating mouse input.")
+
+                if index_finger_tip_coords:
+                    index_finger_x, index_finger_y = index_finger_tip_coords[0]
+
+                    # Scale the coordinates to match the screen size
+                    scaled_x = int(index_finger_x * screen_width / imageWidth)
+
+                    inverted_x = screen_width - scaled_x
+
+                    scaled_y = int(index_finger_y * screen_height / imageHeight)
+
+                    # Move the mouse cursor to the scaled position
+                    pyautogui.moveTo(inverted_x, scaled_y)
+
+                    # Check if the thumb is closed (considered as a click)
+                    if thumb_tip_coords:
+                        thumb_tip_x, thumb_tip_y = thumb_tip_coords[0]
+
+                        # Calculate the Euclidean distance between the thumb tip and index finger tip
+                        distance = math.sqrt((thumb_tip_x - index_finger_x) ** 2 + (thumb_tip_y - index_finger_y) ** 2)
+
+                        # Check if the distance is below the threshold
+                        if distance < click_distance_threshold:
+                            print("Thumb closed. Registering click.")
+                            pyautogui.click()
+
+                cursor_mode = False
+
+
+
+            # If all fingers are closed and one wrist is not visible, we brake
+            if all_fingers_closed and one_hand:
+                print("Fist closed. Braking.")
+                input.release_key('a')
+                input.release_key('d')
+                input.release_key('w')
+                input.press_key('s')
+                cv.putText(image, "Braking.", (50, 50), self.font, 1.0, (0, 255, 0), 2, cv.LINE_AA)
 
             # If we have two wrists on screen
-            if len(wrist_coords) == 2:
+            elif two_hand:
 
                 # Alias to keep the code clean
                 xy = wrist_coords
@@ -194,15 +294,6 @@ class GestureRecognizer:
                             cv.line(image, (int(perp_xroot2), int(perp_yroot2)), (int(xmean), int(ymean)), (195, 255, 62), 20)
                         else:
                             cv.line(image, (int(perp_xroot1), int(perp_yroot1)), (int(xmean), int(ymean)), (195, 255, 62), 20)
-
-            # If one wrist is not visible, we brake
-            if len(wrist_coords)==1:
-                print("Braking.")
-                input.release_key('a')
-                input.release_key('d')
-                input.release_key('w')
-                input.press_key('s')
-                cv.putText(image, "Braking.", (50, 50), self.font, 1.0, (0, 255, 0), 2, cv.LINE_AA)
 
             cv.flip(image, 1)
             return image
