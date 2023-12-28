@@ -4,12 +4,11 @@ from gestures import GestureRecognizer
 from PyQt5.QtCore import Qt
 from app import Ui_MainWindow
 from PyQt5 import QtGui, QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QLineEdit, QInputDialog
 from PyQt5.QtCore import QTimer, QSize
 from PyQt5.QtGui import QPixmap
 import subprocess
 import cv2
-
 
 class VideoCaptureWidget(QtWidgets.QWidget):
     def __init__(self, label, parent=None):
@@ -18,15 +17,16 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         self.image_label = label
         self.setup_ui()
         self.setup_camera()
+        self.active = False
 
     def setup_ui(self):
         """Initialize widgets."""
         self.image_label.setFixedSize(self.video_size)
 
         # Set the layout
-        # layout = QtWidgets.QVBoxLayout()
-        # layout.addWidget(self.image_label)
-        # self.setLayout(layout)
+        #layout = QtWidgets.QVBoxLayout()
+        #layout.addWidget(self.image_label)
+        #self.setLayout(layout)
 
     def setup_camera(self):
         """Set up the camera index."""
@@ -43,7 +43,7 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         """Capture frame from the webcam and update QLabel."""
         ret, frame = self.capture.read()
         if ret:
-            print("running")
+            #print("running")
             # Convert the frame to Qt format
             recognizer = GestureRecognizer()
             frame = recognizer.RecognizeGestures(frame)
@@ -71,10 +71,17 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         print(f"Camera backend: {camera_info}")
         print(f"Actual camera name: {actual_camera_name}")
 
+    def start_camera(self):
+        self.timer.start()
+        self.active = True
+
+    def stop_camera(self):
+        self.timer.stop()
+        self.active = False
+
     def closeEvent(self, event):
         """Release the camera when the application closes."""
         self.capture.release()
-
 
 class GameWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None, ui=None):
@@ -82,7 +89,6 @@ class GameWindow(QtWidgets.QMainWindow):
         self.ui = ui
         self.setWindowTitle("Game Window")
         self.setGeometry(100, 100, 1024, 768)
-
 
 class CameraWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None, ui=None):
@@ -113,6 +119,72 @@ class CameraWindow(QtWidgets.QMainWindow):
         self.show()
         event.accept()
 
+class CreateGestureWindow(QtWidgets.QMainWindow):
+    def __init__(self, parent=None, ui=None):
+        super(CreateGestureWindow, self).__init__(parent)
+        self.ui = ui
+        self.setWindowTitle("Gesture Window")
+        self.setGeometry(100, 100, 350, 200)
+
+        # Create Label for Camera
+        self.webcamLabel = QtWidgets.QLabel(self)
+        self.webcamLabel.setEnabled(True)
+        self.webcamLabel.setGeometry(QtCore.QRect(10, 10, self.width() - 20, self.height() - 70))
+        self.webcamLabel.setText("")
+        self.webcamLabel.setObjectName("webcamLabel")
+
+        # Create VideoCaptureWidget instance
+        self.webcam = VideoCaptureWidget(self.webcamLabel)
+
+        # Create Record Button
+        self.recordButton = QPushButton("Record", self)
+        self.recordButton.setGeometry(10, self.height() - 60, 100, 50)
+        self.recordButton.clicked.connect(self.start_recording)
+
+        # Create Countdown Label
+        self.countdownLabel = QLabel(self)
+        self.countdownLabel.setGeometry(120, self.height() - 60, 100, 50)
+        self.countdownLabel.setAlignment(Qt.AlignCenter)
+        self.countdownLabel.setStyleSheet("font-size: 18px;")
+
+        # Variable to store countdown value
+        self.countdown_value = 3
+
+    def start_recording(self):
+        # Disable the record button during recording
+        self.recordButton.setEnabled(False)
+
+        # Start countdown
+        self.start_countdown()
+
+    def start_countdown(self):
+        if self.countdown_value > 0:
+            self.countdownLabel.setText(str(self.countdown_value))
+            self.countdown_value -= 1
+            QtCore.QTimer.singleShot(1000, self.start_countdown)
+        else:
+            self.countdownLabel.clear()
+            # Start recording for 10 seconds
+            QtCore.QTimer.singleShot(10000, self.stop_recording)
+
+    def stop_recording(self):
+        # Enable the record button after recording
+        self.recordButton.setEnabled(True)
+
+        # Prompt the user to enter the gesture name using QMessageBox
+        gesture_name, ok = QInputDialog.getText(self, 'Gesture Name', 'Enter the gesture name:')
+
+        if ok and gesture_name:
+            print(f"Gesture recorded with name: {gesture_name}")
+        else:
+            print("Please enter a gesture name.")
+
+    def closeEvent(self, event):
+        """Stop the camera when the window is closed."""
+        if hasattr(self, 'webcam'):
+            self.webcam.stop_camera()
+        event.accept()
+
 
 class MainWindow:
     def __init__(self):
@@ -120,7 +192,8 @@ class MainWindow:
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
 
-        # self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
+        #self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
+
 
         # Connect button clicks to show pages and highlight buttons
         self.setup_button(self.ui.Profile1, self.showPage2)
@@ -140,8 +213,8 @@ class MainWindow:
         self.setup_button(self.ui.BtnTutorial, self.showPage10)
         self.setup_button(self.ui.AddProfileButton, self.showPage9)
         self.setup_button(self.ui.pushButton, self.showPage11)
-        self.setup_button(self.ui.pushButton_2, self.showPage6)
-        self.setup_button(self.ui.Back, self.showPage1)
+        self.setup_button(self.ui.pushButton_2,self.showPage6)
+        self.setup_button(self.ui.Back,self.showPage1)
 
         # Set initial page and highlight the corresponding button
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
@@ -192,19 +265,35 @@ class MainWindow:
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
         self.highlight_button(self.ui.logoutBtn)
 
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
+
     def showPage2(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_2)
         self.highlight_button(self.ui.Profile1)
         self.highlight_button(self.ui.controlsSettingsBtn_3)
         self.highlight_button(self.ui.gameSelectionBtn)  # Highlight gameSelectionBtn
 
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
+
     def showPage3(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
         self.highlight_button(self.ui.gameSelectionBtn)
 
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
+
     def showPage4(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4)
         self.highlight_button(self.ui.profileSettingsBtn)
+
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
 
     def showPage5(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_5)
@@ -223,26 +312,38 @@ class MainWindow:
         # Populate the QComboBox with available cameras
         self.populate_camera_combobox()
 
+        # Start the camera feed
+        self.webcam.start_camera()
+
     def showPage6(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_6)
         self.highlight_button(self.ui.controlsSettingsBtn)
         self.highlight_button(self.ui.keyboardBtn_4)
         self.ui.controllerBtn_4.setStyleSheet("color: rgb(96, 100, 106);\n"
-                                              "background-color: rgb(255, 255, 255);\n"
-                                              "border:none;")
+            "background-color: rgb(255, 255, 255);\n"
+            "border:none;")
         self.ui.controlsSettingsBtn.setStyleSheet("background-color: rgb(99, 122, 155);\n"
-                                                  "color: rgb(255, 255, 255);\n"
-                                                  "border: none;")
+                "color: rgb(255, 255, 255);\n"
+                "border: none;")
+        self.ui.CreateGestureBtn.clicked.connect(self.launch_create_gesture_window)
+
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
 
     def showPage7(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_7)
         self.highlight_button(self.ui.controllerBtn_5)
         self.ui.keyboardBtn_5.setStyleSheet("color: rgb(96, 100, 106);\n"
-                                            "background-color: rgb(255, 255, 255);\n"
-                                            "border:none;")
+            "background-color: rgb(255, 255, 255);\n"
+            "border:none;")
         self.ui.controlsSettingsBtn.setStyleSheet("background-color: rgb(99, 122, 155);\n"
-                                                  "color: rgb(255, 255, 255);\n"
-                                                  "border: none;")
+                "color: rgb(255, 255, 255);\n"
+                "border: none;")
+
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
 
     def showPage8(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_8)
@@ -250,21 +351,38 @@ class MainWindow:
         self.ui.launchGameBtn.clicked.connect(self.launch_trackmania)
         self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
 
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
+
     def showPage9(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_9)
+
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
 
     def showPage10(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_10)
 
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
+
     def showPage11(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_11)
 
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
     def launch_game_window(self):
         game_window = GameWindow(self.main_win, self.ui)
         game_window.show()
 
     def launch_camera_window(self):
         camera_window = CameraWindow(self.main_win, self.ui)
+        if hasattr(self, 'webcam'):
+            self.webcam.start_camera()
         camera_window.show()
 
     def launch_trackmania(self):
@@ -275,8 +393,22 @@ class MainWindow:
         resolution = "1600x900"  # Change this to your desired resolution
 
         # Use subprocess to launch Trackmania with the specified resolution
-        subprocess.Popen([trackmania_path, f"-screen-width {resolution.split('x')[0]}",
-                          f"-screen-height {resolution.split('x')[1]}"])
+        subprocess.Popen([trackmania_path, f"-screen-width {resolution.split('x')[0]}", f"-screen-height {resolution.split('x')[1]}"])
+
+    def launch_create_gesture_window(self):
+        create_gesture_window = CreateGestureWindow(self.main_win, self.ui)
+
+        # Connect the destroyed signal to stop the camera when the window is closed
+        create_gesture_window.destroyed.connect(self.stop_camera_on_gesture_window_close)
+
+        create_gesture_window.show()
+        if hasattr(self, 'webcam'):
+            self.webcam.start_camera()
+
+    def stop_camera_on_gesture_window_close(self):
+        # Stop the camera feed when the CreateGestureWindow is closed
+        if hasattr(self, 'webcam'):
+            self.webcam.stop_camera()
 
     def populate_camera_combobox(self):
         # Get the list of available cameras
