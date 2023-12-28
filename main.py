@@ -10,6 +10,7 @@ from PyQt5.QtGui import QPixmap
 import subprocess
 import cv2
 
+
 class VideoCaptureWidget(QtWidgets.QWidget):
     def __init__(self, label, parent=None):
         super(VideoCaptureWidget, self).__init__(parent)
@@ -23,9 +24,9 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         self.image_label.setFixedSize(self.video_size)
 
         # Set the layout
-        #layout = QtWidgets.QVBoxLayout()
-        #layout.addWidget(self.image_label)
-        #self.setLayout(layout)
+        # layout = QtWidgets.QVBoxLayout()
+        # layout.addWidget(self.image_label)
+        # self.setLayout(layout)
 
     def setup_camera(self):
         """Set up the camera index."""
@@ -74,12 +75,14 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         """Release the camera when the application closes."""
         self.capture.release()
 
+
 class GameWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None, ui=None):
         super(GameWindow, self).__init__(parent)
         self.ui = ui
         self.setWindowTitle("Game Window")
         self.setGeometry(100, 100, 1024, 768)
+
 
 class CameraWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None, ui=None):
@@ -110,14 +113,14 @@ class CameraWindow(QtWidgets.QMainWindow):
         self.show()
         event.accept()
 
+
 class MainWindow:
     def __init__(self):
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
 
-        #self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
-
+        # self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
 
         # Connect button clicks to show pages and highlight buttons
         self.setup_button(self.ui.Profile1, self.showPage2)
@@ -137,8 +140,8 @@ class MainWindow:
         self.setup_button(self.ui.BtnTutorial, self.showPage10)
         self.setup_button(self.ui.AddProfileButton, self.showPage9)
         self.setup_button(self.ui.pushButton, self.showPage11)
-        self.setup_button(self.ui.pushButton_2,self.showPage6)
-        self.setup_button(self.ui.Back,self.showPage1)
+        self.setup_button(self.ui.pushButton_2, self.showPage6)
+        self.setup_button(self.ui.Back, self.showPage1)
 
         # Set initial page and highlight the corresponding button
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
@@ -225,21 +228,21 @@ class MainWindow:
         self.highlight_button(self.ui.controlsSettingsBtn)
         self.highlight_button(self.ui.keyboardBtn_4)
         self.ui.controllerBtn_4.setStyleSheet("color: rgb(96, 100, 106);\n"
-            "background-color: rgb(255, 255, 255);\n"
-            "border:none;")
+                                              "background-color: rgb(255, 255, 255);\n"
+                                              "border:none;")
         self.ui.controlsSettingsBtn.setStyleSheet("background-color: rgb(99, 122, 155);\n"
-                "color: rgb(255, 255, 255);\n"
-                "border: none;")
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "border: none;")
 
     def showPage7(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_7)
         self.highlight_button(self.ui.controllerBtn_5)
         self.ui.keyboardBtn_5.setStyleSheet("color: rgb(96, 100, 106);\n"
-            "background-color: rgb(255, 255, 255);\n"
-            "border:none;")
+                                            "background-color: rgb(255, 255, 255);\n"
+                                            "border:none;")
         self.ui.controlsSettingsBtn.setStyleSheet("background-color: rgb(99, 122, 155);\n"
-                "color: rgb(255, 255, 255);\n"
-                "border: none;")
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "border: none;")
 
     def showPage8(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_8)
@@ -248,13 +251,14 @@ class MainWindow:
         self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
 
     def showPage9(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.page_9)    
-        
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_9)
+
     def showPage10(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_10)
-        
+
     def showPage11(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_11)
+
     def launch_game_window(self):
         game_window = GameWindow(self.main_win, self.ui)
         game_window.show()
@@ -271,7 +275,8 @@ class MainWindow:
         resolution = "1600x900"  # Change this to your desired resolution
 
         # Use subprocess to launch Trackmania with the specified resolution
-        subprocess.Popen([trackmania_path, f"-screen-width {resolution.split('x')[0]}", f"-screen-height {resolution.split('x')[1]}"])
+        subprocess.Popen([trackmania_path, f"-screen-width {resolution.split('x')[0]}",
+                          f"-screen-height {resolution.split('x')[1]}"])
 
     def populate_camera_combobox(self):
         # Get the list of available cameras
@@ -304,7 +309,7 @@ class MainWindow:
             cameras.append(camera_info)
 
         return cameras
- 
+
 
 if __name__ == '__main__':
     # Enable High DPI display with PyQt5
