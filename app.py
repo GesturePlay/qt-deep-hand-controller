@@ -144,12 +144,12 @@ class Ui_MainWindow(object):
         self.AddProfileButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.AddProfileButton.setAutoFillBackground(False)
         self.AddProfileButton.setStyleSheet("QPushButton {\n"
-"    background-color: rgba(255, 255, 255, 150);\n"
-"    border-radius: 50%;\n"
+"      background-color: rgba(255, 255, 255, 150);\n"
+"      border-radius: 50%;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgba(236, 236, 236, 30);\n"
+"      background-color: rgba(236, 236, 236, 30);\n"
 "}")
         self.AddProfileButton.setText("")
         icon1 = QtGui.QIcon()
@@ -400,12 +400,12 @@ class Ui_MainWindow(object):
         self.Profile1.setGeometry(QtCore.QRect(370, 390, 111, 121))
         self.Profile1.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.Profile1.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgba(236, 236, 236, 30);\n"
+"      background-color: rgba(236, 236, 236, 30);\n"
 "}")
         self.Profile1.setText("")
         icon2 = QtGui.QIcon()
@@ -442,12 +442,12 @@ class Ui_MainWindow(object):
         self.logoutBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.logoutBtn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.logoutBtn.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(153, 178, 208);\n"
+"      background-color: rgb(153, 178, 208);\n"
 "}")
         self.logoutBtn.setIcon(icon2)
         self.logoutBtn.setIconSize(QtCore.QSize(50, 55))
@@ -461,12 +461,12 @@ class Ui_MainWindow(object):
         self.cameraSettingsBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.cameraSettingsBtn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.cameraSettingsBtn.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(153, 178, 208);\n"
+"      background-color: rgb(153, 178, 208);\n"
 "}")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("Images/Icons/camera-setting-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -481,12 +481,12 @@ class Ui_MainWindow(object):
         self.controlsSettingsBtn.setFont(font)
         self.controlsSettingsBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.controlsSettingsBtn.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(153, 178, 208);\n"
+"      background-color: rgb(153, 178, 208);\n"
 "}")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap("Images/Icons/controllerSettingsIcon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -517,12 +517,12 @@ class Ui_MainWindow(object):
         self.profileSettingsBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.profileSettingsBtn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.profileSettingsBtn.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(153, 178, 208);\n"
+"      background-color: rgb(153, 178, 208);\n"
 "}")
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap("Images/Icons/account-settings-11-128.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -579,13 +579,13 @@ class Ui_MainWindow(object):
         self.trackmaniaBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.trackmaniaBtn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.trackmaniaBtn.setStyleSheet("QPushButton{\n"
-"    background-color: none;\n"
-"    border: none;\n"
+"      background-color: none;\n"
+"      border: none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    \n"
-"    background-color: rgba(255, 255, 255, 30);\n"
+"      \n"
+"      background-color: rgba(255, 255, 255, 30);\n"
 "}")
         self.trackmaniaBtn.setText("")
         icon7 = QtGui.QIcon()
@@ -640,25 +640,25 @@ class Ui_MainWindow(object):
         self.removeProfileBtn_3.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.removeProfileBtn_3.setStyleSheet("QPushButton {\n"
 "    border-radius: 25px;\n"
-"    \n"
-"    color: rgb(255, 255, 255);\n"
-"    background-color: rgb(212, 19, 19);\n"
+"      \n"
+"      color: rgb(255, 255, 255);\n"
+"      background-color: rgb(212, 19, 19);\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(255, 103, 65);\n"
+"      background-color: rgb(255, 103, 65);\n"
 "}")
         self.removeProfileBtn_3.setObjectName("removeProfileBtn_3")
         self.editProfileBtn_2 = QtWidgets.QPushButton(self.page_4)
         self.editProfileBtn_2.setGeometry(QtCore.QRect(290, 220, 21, 21))
         self.editProfileBtn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.editProfileBtn_2.setStyleSheet("QPushButton{\n"
-"    background-color: rgba(255, 255, 255, 0);\n"
+"      background-color: rgba(255, 255, 255, 0);\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    \n"
-"    background-color: rgb(160, 173, 191);\n"
+"      \n"
+"      background-color: rgb(160, 173, 191);\n"
 "}")
         self.editProfileBtn_2.setText("")
         icon8 = QtGui.QIcon()
@@ -682,22 +682,22 @@ class Ui_MainWindow(object):
         self.page_5 = QtWidgets.QWidget()
         self.page_5.setObjectName("page_5")
         self.removeProfileBtn_4 = QtWidgets.QPushButton(self.page_5)
-        self.removeProfileBtn_4.setGeometry(QtCore.QRect(330, 540, 131, 50))
+        self.removeProfileBtn_4.setGeometry(QtCore.QRect(340, 330, 131, 50))
         font = QtGui.QFont()
         font.setFamily("Eras Bold ITC")
         self.removeProfileBtn_4.setFont(font)
         self.removeProfileBtn_4.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.removeProfileBtn_4.setStyleSheet("QPushButton {\n"
 "    border-radius: 25px;\n"
-"    \n"
-"    color: rgb(255, 255, 255);\n"
-"    \n"
-"    background-color: rgb(122, 147, 183);\n"
+"      \n"
+"      color: rgb(255, 255, 255);\n"
+"      \n"
+"      background-color: rgb(122, 147, 183);\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    \n"
-"    background-color: rgb(145, 176, 218);\n"
+"      \n"
+"      background-color: rgb(145, 176, 218);\n"
 "}")
         self.removeProfileBtn_4.setObjectName("removeProfileBtn_4")
         self.label_25 = QtWidgets.QLabel(self.page_5)
@@ -716,15 +716,15 @@ class Ui_MainWindow(object):
         self.label_43.setFont(font)
         self.label_43.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_43.setObjectName("label_43")
-        self.CameraSelection = QtWidgets.QComboBox(self.page_5)
-        self.CameraSelection.setGeometry(QtCore.QRect(30, 200, 431, 31))
+        self.comboBox_2 = QtWidgets.QComboBox(self.page_5)
+        self.comboBox_2.setGeometry(QtCore.QRect(30, 200, 431, 31))
         font = QtGui.QFont()
         font.setFamily("Eras Demi ITC")
         font.setPointSize(12)
-        self.CameraSelection.setFont(font)
-        self.CameraSelection.setStyleSheet("background-color: rgb(144, 155, 172);\n"
+        self.comboBox_2.setFont(font)
+        self.comboBox_2.setStyleSheet("background-color: rgb(144, 155, 172);\n"
 "color: rgb(255, 255, 255);")
-        self.CameraSelection.setObjectName("CameraSelection")
+        self.comboBox_2.setObjectName("comboBox_2")
         self.label_46 = QtWidgets.QLabel(self.page_5)
         self.label_46.setGeometry(QtCore.QRect(30, 152, 251, 51))
         font = QtGui.QFont()
@@ -739,18 +739,12 @@ class Ui_MainWindow(object):
         self.label_47.setPixmap(QtGui.QPixmap("Images/Backdrops/HeaderBackGround.png"))
         self.label_47.setScaledContents(True)
         self.label_47.setObjectName("label_47")
-        self.CameraPreview = QtWidgets.QLabel(self.page_5)
-        self.CameraPreview.setGeometry(QtCore.QRect(110, 280, 251, 191))
-        self.CameraPreview.setText("")
-        self.CameraPreview.setScaledContents(True)
-        self.CameraPreview.setObjectName("CameraPreview")
         self.label_47.raise_()
         self.removeProfileBtn_4.raise_()
         self.label_25.raise_()
         self.label_43.raise_()
-        self.CameraSelection.raise_()
+        self.comboBox_2.raise_()
         self.label_46.raise_()
-        self.CameraPreview.raise_()
         self.stackedWidget_2.addWidget(self.page_5)
         self.page_6 = QtWidgets.QWidget()
         self.page_6.setObjectName("page_6")
@@ -804,10 +798,10 @@ class Ui_MainWindow(object):
         self.pushButton.setGeometry(QtCore.QRect(100, 190, 61, 31))
         self.pushButton.setStyleSheet("QPushButton {\n"
 "    border-radius: 25px;\n"
-"    \n"
-"    color: rgb(255, 255, 255);\n"
-"    \n"
-"    background-color: rgba(255, 255, 255, 50);\n"
+"      \n"
+"      color: rgb(255, 255, 255);\n"
+"      \n"
+"      background-color: rgba(255, 255, 255, 50);\n"
 "\n"
 "}\n"
 "\n"
@@ -817,6 +811,30 @@ class Ui_MainWindow(object):
 "")
         self.pushButton.setText("")
         self.pushButton.setObjectName("pushButton")
+        self.CreateGestureBtn = QtWidgets.QPushButton(self.page_6)
+        self.CreateGestureBtn.setGeometry(QtCore.QRect(570, 130, 171, 50))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        font.setPointSize(11)
+        font.setUnderline(False)
+        self.CreateGestureBtn.setFont(font)
+        self.CreateGestureBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.CreateGestureBtn.setStyleSheet("QPushButton {\n"
+"    border-radius: 25px;\n"
+"      \n"
+"      color: rgb(255, 255, 255);\n"
+"      \n"
+"      background-color: rgb(122, 147, 183);\n"
+"\n"
+"      border: 1px solid white;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"      \n"
+"      background-color: rgb(145, 176, 218);\n"
+"}")
+        self.CreateGestureBtn.setIconSize(QtCore.QSize(60, 60))
+        self.CreateGestureBtn.setObjectName("CreateGestureBtn")
         self.label_32.raise_()
         self.label_48.raise_()
         self.controllerBtn_4.raise_()
@@ -824,6 +842,7 @@ class Ui_MainWindow(object):
         self.label_50.raise_()
         self.label_49.raise_()
         self.pushButton.raise_()
+        self.CreateGestureBtn.raise_()
         self.stackedWidget_2.addWidget(self.page_6)
         self.page_7 = QtWidgets.QWidget()
         self.page_7.setObjectName("page_7")
@@ -872,12 +891,37 @@ class Ui_MainWindow(object):
         self.label_53.setFont(font)
         self.label_53.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_53.setObjectName("label_53")
+        self.CreateGestureBtn_2 = QtWidgets.QPushButton(self.page_7)
+        self.CreateGestureBtn_2.setGeometry(QtCore.QRect(570, 130, 171, 50))
+        font = QtGui.QFont()
+        font.setFamily("Eras Bold ITC")
+        font.setPointSize(11)
+        font.setUnderline(False)
+        self.CreateGestureBtn_2.setFont(font)
+        self.CreateGestureBtn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.CreateGestureBtn_2.setStyleSheet("QPushButton {\n"
+"    border-radius: 25px;\n"
+"      \n"
+"      color: rgb(255, 255, 255);\n"
+"      \n"
+"      background-color: rgb(122, 147, 183);\n"
+"\n"
+"      border: 1px solid white;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"      \n"
+"      background-color: rgb(145, 176, 218);\n"
+"}")
+        self.CreateGestureBtn_2.setIconSize(QtCore.QSize(60, 60))
+        self.CreateGestureBtn_2.setObjectName("CreateGestureBtn_2")
         self.label_35.raise_()
         self.controllerBtn_5.raise_()
         self.label_51.raise_()
         self.label_52.raise_()
         self.label_53.raise_()
         self.keyboardBtn_5.raise_()
+        self.CreateGestureBtn_2.raise_()
         self.stackedWidget_2.addWidget(self.page_7)
         self.page_10 = QtWidgets.QWidget()
         self.page_10.setObjectName("page_10")
@@ -967,7 +1011,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.setGeometry(QtCore.QRect(420, 610, 61, 31))
         self.pushButton_2.setStyleSheet("QPushButton {\n"
 "background: rgba(200, 54, 54, 0);\n"
-"    \n"
+"      \n"
 "\n"
 "\n"
 "}\n"
@@ -997,17 +1041,17 @@ class Ui_MainWindow(object):
         self.BtnTutorial.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnTutorial.setStyleSheet("QPushButton {\n"
 "    border-radius: 25px;\n"
-"    \n"
-"    color: rgb(255, 255, 255);\n"
-"    \n"
-"    background-color: rgb(122, 147, 183);\n"
+"      \n"
+"      color: rgb(255, 255, 255);\n"
+"      \n"
+"      background-color: rgb(122, 147, 183);\n"
 "\n"
-"    border: 1px solid white;\n"
+"      border: 1px solid white;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    \n"
-"    background-color: rgb(145, 176, 218);\n"
+"      \n"
+"      background-color: rgb(145, 176, 218);\n"
 "}")
         icon9 = QtGui.QIcon()
         icon9.addPixmap(QtGui.QPixmap("Images/Icons/gametutorial.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -1085,12 +1129,12 @@ class Ui_MainWindow(object):
         self.logoutBtn_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.logoutBtn_2.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.logoutBtn_2.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(153, 178, 208);\n"
+"      background-color: rgb(153, 178, 208);\n"
 "}")
         icon10 = QtGui.QIcon()
         icon10.addPixmap(QtGui.QPixmap("Images/Icons/Logouticon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -1111,15 +1155,15 @@ class Ui_MainWindow(object):
         self.launchGameBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.launchGameBtn.setStyleSheet("QPushButton {\n"
 "    border-radius: 25px;\n"
-"    \n"
-"    color: rgb(255, 255, 255);\n"
-"    \n"
-"    background-color: rgb(122, 147, 183);\n"
+"      \n"
+"      color: rgb(255, 255, 255);\n"
+"      \n"
+"      background-color: rgb(122, 147, 183);\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    \n"
-"    background-color: rgb(145, 176, 218);\n"
+"      \n"
+"      background-color: rgb(145, 176, 218);\n"
 "}")
         icon11 = QtGui.QIcon()
         icon11.addPixmap(QtGui.QPixmap("Images/Icons/playButton.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -1148,12 +1192,12 @@ class Ui_MainWindow(object):
         self.controlsSettingsBtn_3.setFont(font)
         self.controlsSettingsBtn_3.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.controlsSettingsBtn_3.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(153, 178, 208);\n"
+"      background-color: rgb(153, 178, 208);\n"
 "}")
         self.controlsSettingsBtn_3.setIconSize(QtCore.QSize(50, 50))
         self.controlsSettingsBtn_3.setObjectName("controlsSettingsBtn_3")
@@ -1167,17 +1211,17 @@ class Ui_MainWindow(object):
         self.tutorialBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.tutorialBtn.setStyleSheet("QPushButton {\n"
 "    border-radius: 25px;\n"
-"    \n"
-"    color: rgb(255, 255, 255);\n"
-"    \n"
-"    background-color: rgb(122, 147, 183);\n"
+"      \n"
+"      color: rgb(255, 255, 255);\n"
+"      \n"
+"      background-color: rgb(122, 147, 183);\n"
 "\n"
-"    border: 1px solid white;\n"
+"      border: 1px solid white;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    \n"
-"    background-color: rgb(145, 176, 218);\n"
+"      \n"
+"      background-color: rgb(145, 176, 218);\n"
 "}")
         self.tutorialBtn.setIcon(icon9)
         self.tutorialBtn.setIconSize(QtCore.QSize(60, 60))
@@ -1251,12 +1295,12 @@ class Ui_MainWindow(object):
         self.Profile1_2.setGeometry(QtCore.QRect(80, 200, 111, 121))
         self.Profile1_2.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.Profile1_2.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgba(236, 236, 236, 30);\n"
+"      background-color: rgba(236, 236, 236, 30);\n"
 "}")
         self.Profile1_2.setText("")
         self.Profile1_2.setIcon(icon2)
@@ -1266,12 +1310,12 @@ class Ui_MainWindow(object):
         self.Profile1_4.setGeometry(QtCore.QRect(230, 200, 111, 121))
         self.Profile1_4.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.Profile1_4.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgba(236, 236, 236, 30);\n"
+"      background-color: rgba(236, 236, 236, 30);\n"
 "}")
         self.Profile1_4.setText("")
         self.Profile1_4.setIcon(icon2)
@@ -1281,12 +1325,12 @@ class Ui_MainWindow(object):
         self.Profile1_5.setGeometry(QtCore.QRect(390, 200, 111, 121))
         self.Profile1_5.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.Profile1_5.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgba(236, 236, 236, 30);\n"
+"      background-color: rgba(236, 236, 236, 30);\n"
 "}")
         self.Profile1_5.setText("")
         self.Profile1_5.setIcon(icon2)
@@ -1296,12 +1340,12 @@ class Ui_MainWindow(object):
         self.Profile1_6.setGeometry(QtCore.QRect(550, 200, 111, 121))
         self.Profile1_6.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.Profile1_6.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgba(236, 236, 236, 30);\n"
+"      background-color: rgba(236, 236, 236, 30);\n"
 "}")
         self.Profile1_6.setText("")
         self.Profile1_6.setIcon(icon2)
@@ -1317,17 +1361,17 @@ class Ui_MainWindow(object):
         self.Back.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.Back.setStyleSheet("QPushButton {\n"
 "    border-radius: 25px;\n"
-"    \n"
-"    color: rgb(255, 255, 255);\n"
-"    \n"
-"    background-color: rgb(122, 147, 183);\n"
+"      \n"
+"      color: rgb(255, 255, 255);\n"
+"      \n"
+"      background-color: rgb(122, 147, 183);\n"
 "\n"
-"    border: 1px solid white;\n"
+"      border: 1px solid white;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    \n"
-"    background-color: rgb(145, 176, 218);\n"
+"      \n"
+"      background-color: rgb(145, 176, 218);\n"
 "}")
         self.Back.setIconSize(QtCore.QSize(60, 60))
         self.Back.setObjectName("Back")
@@ -1341,17 +1385,17 @@ class Ui_MainWindow(object):
         self.Ok.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.Ok.setStyleSheet("QPushButton {\n"
 "    border-radius: 25px;\n"
-"    \n"
-"    color: rgb(255, 255, 255);\n"
-"    \n"
-"    background-color: rgb(122, 147, 183);\n"
+"      \n"
+"      color: rgb(255, 255, 255);\n"
+"      \n"
+"      background-color: rgb(122, 147, 183);\n"
 "\n"
-"    border: 1px solid white;\n"
+"      border: 1px solid white;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    \n"
-"    background-color: rgb(145, 176, 218);\n"
+"      \n"
+"      background-color: rgb(145, 176, 218);\n"
 "}")
         self.Ok.setIconSize(QtCore.QSize(60, 60))
         self.Ok.setObjectName("Ok")
@@ -1359,12 +1403,12 @@ class Ui_MainWindow(object):
         self.Profile1_7.setGeometry(QtCore.QRect(710, 200, 111, 121))
         self.Profile1_7.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.Profile1_7.setStyleSheet("QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border:none;\n"
+"      color: rgb(255, 255, 255);\n"
+"      border:none;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgba(236, 236, 236, 30);\n"
+"      background-color: rgba(236, 236, 236, 30);\n"
 "}")
         self.Profile1_7.setText("")
         self.Profile1_7.setIcon(icon2)
@@ -1409,14 +1453,16 @@ class Ui_MainWindow(object):
         self.removeProfileBtn_4.setText(_translate("MainWindow", "Save Changes"))
         self.label_25.setText(_translate("MainWindow", "Webcam"))
         self.label_43.setText(_translate("MainWindow", "Camera Settings"))
-        self.CameraSelection.setPlaceholderText(_translate("MainWindow", "System Default"))
+        self.comboBox_2.setPlaceholderText(_translate("MainWindow", "System Default"))
         self.label_46.setText(_translate("MainWindow", "Capture Webcam"))
         self.controllerBtn_4.setText(_translate("MainWindow", "Controller"))
         self.keyboardBtn_4.setText(_translate("MainWindow", "Keyboard"))
         self.label_50.setText(_translate("MainWindow", "Controls Settings"))
+        self.CreateGestureBtn.setText(_translate("MainWindow", "Create a Gesture"))
         self.keyboardBtn_5.setText(_translate("MainWindow", "Keyboard"))
         self.controllerBtn_5.setText(_translate("MainWindow", "Controller"))
         self.label_53.setText(_translate("MainWindow", "Controls Settings"))
+        self.CreateGestureBtn_2.setText(_translate("MainWindow", "Create a Gesture"))
         self.label_60.setText(_translate("MainWindow", "Tutorial"))
         self.keyboardBtn_6.setText(_translate("MainWindow", "Keyboard"))
         self.controllerBtn_6.setText(_translate("MainWindow", "Controller"))
