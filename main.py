@@ -1,5 +1,4 @@
 import sys
-import PyQt5
 from gestures import GestureRecognizer
 from PyQt5.QtCore import Qt
 from app import Ui_MainWindow
@@ -11,6 +10,7 @@ import subprocess
 import cv2
 import json
 import os
+import numpy as np
 
 class VideoCaptureWidget(QtWidgets.QWidget):
     def __init__(self, label, parent=None):
@@ -221,19 +221,46 @@ class CreateGestureWindow(QtWidgets.QMainWindow):
 
             print(f"Gesture recorded with name: {gesture_name}")
 
-            # Specify the folder path
-            folder_path = "CreatedGestures"
+            # Calculate and store the distances between each finger and the wrist
+            distances = []
+            for landmarks in non_empty_landmarks:
+                thumb_wrist_distance = np.linalg.norm(np.array(landmarks[0]) - np.array(landmarks[5]))
+                index_wrist_distance = np.linalg.norm(np.array(landmarks[1]) - np.array(landmarks[5]))
+                middle_wrist_distance = np.linalg.norm(np.array(landmarks[2]) - np.array(landmarks[5]))
+                ring_wrist_distance = np.linalg.norm(np.array(landmarks[3]) - np.array(landmarks[5]))
+                pinky_wrist_distance = np.linalg.norm(np.array(landmarks[4]) - np.array(landmarks[5]))
 
-            # Create the folder if it doesn't exist
-            if not os.path.exists(folder_path):
-                os.makedirs(folder_path)
+                distances.append({
+                    "thumb_to_wrist": thumb_wrist_distance,
+                    "index_to_wrist": index_wrist_distance,
+                    "middle_to_wrist": middle_wrist_distance,
+                    "ring_to_wrist": ring_wrist_distance,
+                    "pinky_to_wrist": pinky_wrist_distance
+                })
 
-            # Save non-empty landmarks to a file with the specified gesture name in the folder
-            filename = os.path.join(folder_path, f"{gesture_name}.json")
-            with open(filename, 'w') as file:
-                json.dump(non_empty_landmarks, file)
+             # Calculate the average distances
+            if distances:
+                avg_distances = {
+                    "thumb_to_wrist": np.mean([d["thumb_to_wrist"] for d in distances]),
+                    "index_to_wrist": np.mean([d["index_to_wrist"] for d in distances]),
+                    "middle_to_wrist": np.mean([d["middle_to_wrist"] for d in distances]),
+                    "ring_to_wrist": np.mean([d["ring_to_wrist"] for d in distances]),
+                    "pinky_to_wrist": np.mean([d["pinky_to_wrist"] for d in distances]),
+                    }
 
-            print(f"Non-empty landmarks saved to {filename}")
+                # Specify the folder path for storing JSON files
+                folder_path = "CreatedGestures"
+
+                # Create the folder if it doesn't exist
+                if not os.path.exists(folder_path):
+                    os.makedirs(folder_path)
+
+                # Save distances to a separate JSON file
+                filename_distances = os.path.join(folder_path, f"{gesture_name}.json")
+                with open(filename_distances, 'w') as file:
+                    json.dump(avg_distances, file)
+
+                print(f"Distances saved to {filename_distances}")
 
             if hasattr(self, 'webcam'):
                 self.webcam.resume_camera()
@@ -467,15 +494,16 @@ class MainWindow:
         camera_window.show()
 
     def launch_trackmania(self):
-        # Specify the path to the Trackmania executable
-        trackmania_path = r"C:\Program Files (x86)\Steam\steamapps\common\Trackmania\Trackmania.exe"
+        # Get the current working directory
+        current_directory = os.getcwd()
+
+        # Specify the path to the Trackmania executable within the "FYP-RacingTutorial" folder
+        trackmania_path = os.path.join(current_directory, "FYP-RacingTutorial", "RacingForFyp.exe")
 
         # Specify the desired screen resolution
         resolution = "1600x900"  # Change this to your desired resolution
 
-        # Use subprocess to launch Trackmania with the specified resolution
         subprocess.Popen([trackmania_path, f"-screen-width {resolution.split('x')[0]}", f"-screen-height {resolution.split('x')[1]}"])
-
     def launch_create_gesture_window(self):
         create_gesture_window = CreateGestureWindow(self.main_win, self.ui)
 

@@ -27,7 +27,6 @@ class GestureRecognizer:
         # Initialize previous index finger tip coordinates
         self.prev_index_finger_tip_coords = None
 
-
     def get_landmarks(self, image):
         thumb_tip_coords = []
         index_finger_tip_coords = []
@@ -79,10 +78,37 @@ class GestureRecognizer:
         return (thumb_tip_coords, index_finger_tip_coords, middle_finger_tip_coords, ring_finger_tip_coords,
                 pinky_finger_tip_coords, wrist_coords)
 
+    def compare_gesture(self, current_distances, recorded_gesture_path, threshold=5):
+        """
+        Compare the current gesture with a recorded gesture.
+
+        Parameters:
+            current_distances (dict): Dictionary of distances for the current gesture.
+            recorded_gesture_path (str): Path to the JSON file containing the recorded gesture.
+            threshold (float): Threshold for distance matching.
+
+        Returns:
+            bool: True if the gestures match, False otherwise.
+        """
+        try:
+            with open(recorded_gesture_path, 'r') as file:
+                recorded_distances = json.load(file)
+
+            # Compare each distance
+            for finger, current_distance in current_distances.items():
+                recorded_distance = recorded_distances.get(finger, 0)  # Use 0 if the distance is not found
+                if abs(current_distance - recorded_distance) > threshold:
+                    return False  # If any distance is outside the threshold, consider the gestures as not matching
+
+            return True  # If all distances are within the threshold, consider the gestures as matching
+
+        except Exception as e:
+            print(f"Error comparing gestures: {e}")
+            return False
 
 
     def RecognizeGestures(self, image):
-        with self.mp_hands.Hands(model_complexity = 0, min_detection_confidence = 0.5, min_tracking_confidence = 0.5) as hands:
+        with (self.mp_hands.Hands(model_complexity = 0, min_detection_confidence = 0.5, min_tracking_confidence = 0.5) as hands):
 
 
             # Get opencv capture results
@@ -127,9 +153,9 @@ class GestureRecognizer:
             one_hand = False
             two_hand = False
 
-
             # If hand landmarks exist
             if results.multi_hand_landmarks:
+
                 # Loop through hand landmarks
                 for hand_landmarks in results.multi_hand_landmarks:
                     # Draw the landmarks
