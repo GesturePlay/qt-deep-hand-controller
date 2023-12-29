@@ -10,6 +10,7 @@ from PyQt5.QtGui import QPixmap
 import subprocess
 import cv2
 import json
+import os
 
 class VideoCaptureWidget(QtWidgets.QWidget):
     def __init__(self, label, parent=None):
@@ -82,6 +83,23 @@ class VideoCaptureWidget(QtWidgets.QWidget):
     def stop_camera(self):
         self.timer.stop()
         self.active = False
+
+        # Add a new method to pause the camera feed
+
+    def pause_camera(self):
+        self.timer.stop()
+        self.active = False
+        self.camera_paused = True
+
+        # Add a new method to resume the camera feed
+
+    def resume_camera(self):
+        if not self.camera_paused:
+            return
+
+        self.timer.start()
+        self.active = True
+        self.camera_paused = False
 
     def closeEvent(self, event):
         """Release the camera when the application closes."""
@@ -189,24 +207,41 @@ class CreateGestureWindow(QtWidgets.QMainWindow):
         # Enable the record button after recording
         self.recordButton.setEnabled(True)
 
+        # Stop the camera when recording is complete
+        self.webcam.pause_camera()
+
         # Prompt the user to enter the gesture name using QMessageBox
         gesture_name, ok = QInputDialog.getText(self, 'Gesture Name', 'Enter the gesture name:')
 
         if ok and gesture_name:
             print("Landmarks recorded:")
-            for landmarks in self.landmarks_list:
+            non_empty_landmarks = [landmarks for landmarks in self.landmarks_list if any(landmarks)]
+            for landmarks in non_empty_landmarks:
                 print(landmarks)
 
             print(f"Gesture recorded with name: {gesture_name}")
 
-            # Save landmarks to a file with the specified gesture name
-            filename = f"{gesture_name}.json"
-            with open(filename, 'w') as file:
-                json.dump(self.landmarks_list, file)
+            # Specify the folder path
+            folder_path = "CreatedGestures"
 
-            print(f"Landmarks saved to {filename}")
+            # Create the folder if it doesn't exist
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+
+            # Save non-empty landmarks to a file with the specified gesture name in the folder
+            filename = os.path.join(folder_path, f"{gesture_name}.json")
+            with open(filename, 'w') as file:
+                json.dump(non_empty_landmarks, file)
+
+            print(f"Non-empty landmarks saved to {filename}")
+
+            if hasattr(self, 'webcam'):
+                self.webcam.resume_camera()
         else:
             print("Please enter a gesture name.")
+
+            if hasattr(self, 'webcam'):
+                self.webcam.resume_camera()
 
     def stop_camera_on_gesture_window_close(self):
         # Stop the camera feed when the CreateGestureWindow is closed
@@ -232,8 +267,6 @@ class CreateGestureWindow(QtWidgets.QMainWindow):
 
             # Update the frame in VideoCaptureWidget
             # self.webcam.update_frame()
-
-
 class MainWindow:
     def __init__(self):
         self.main_win = QMainWindow()

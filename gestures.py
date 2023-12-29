@@ -8,6 +8,8 @@ import math
 import input
 import pyautogui
 import json
+import os
+import numpy as np
 
 class GestureRecognizer:
     def __init__(self):
@@ -25,9 +27,13 @@ class GestureRecognizer:
         # Initialize previous index finger tip coordinates
         self.prev_index_finger_tip_coords = None
 
+
     def get_landmarks(self, image):
         thumb_tip_coords = []
         index_finger_tip_coords = []
+        middle_finger_tip_coords = []
+        ring_finger_tip_coords = []
+        pinky_finger_tip_coords = []
         wrist_coords = []
 
         with self.mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5,
@@ -45,40 +51,35 @@ class GestureRecognizer:
                                                       self.mp_draw_styles.get_default_hand_connections_style())
 
                     for point in [self.mp_hands.HandLandmark.THUMB_TIP, self.mp_hands.HandLandmark.INDEX_FINGER_TIP,
-                                  self.mp_hands.HandLandmark.WRIST]:
+                                  self.mp_hands.HandLandmark.MIDDLE_FINGER_TIP,
+                                  self.mp_hands.HandLandmark.RING_FINGER_TIP,
+                                  self.mp_hands.HandLandmark.PINKY_TIP, self.mp_hands.HandLandmark.WRIST]:
                         normalized_landmark = hand_landmarks.landmark[point]
-                        pixel_coordinates_landmark = self.mp_draw_utils._normalized_to_pixel_coordinates(
-                            normalized_landmark.x, normalized_landmark.y, image.shape[1], image.shape[0])
 
-                        try:
-                            if point == self.mp_hands.HandLandmark.THUMB_TIP:
-                                thumb_tip_coords.append(list(pixel_coordinates_landmark))
-                            elif point == self.mp_hands.HandLandmark.INDEX_FINGER_TIP:
-                                index_finger_tip_coords.append(list(pixel_coordinates_landmark))
-                            elif point == self.mp_hands.HandLandmark.WRIST:
-                                wrist_coords.append(list(pixel_coordinates_landmark))
-                        except Exception as e:
-                            print(f"Error processing landmark {point}: {e}")
+                        if normalized_landmark is not None:
+                            pixel_coordinates_landmark = self.mp_draw_utils._normalized_to_pixel_coordinates(
+                                normalized_landmark.x, normalized_landmark.y, image.shape[1], image.shape[0])
 
-        return thumb_tip_coords, index_finger_tip_coords, wrist_coords
+                            try:
+                                if point == self.mp_hands.HandLandmark.THUMB_TIP:
+                                    thumb_tip_coords.append(list(pixel_coordinates_landmark))
+                                elif point == self.mp_hands.HandLandmark.INDEX_FINGER_TIP:
+                                    index_finger_tip_coords.append(list(pixel_coordinates_landmark))
+                                elif point == self.mp_hands.HandLandmark.MIDDLE_FINGER_TIP:
+                                    middle_finger_tip_coords.append(list(pixel_coordinates_landmark))
+                                elif point == self.mp_hands.HandLandmark.RING_FINGER_TIP:
+                                    ring_finger_tip_coords.append(list(pixel_coordinates_landmark))
+                                elif point == self.mp_hands.HandLandmark.PINKY_TIP:
+                                    pinky_finger_tip_coords.append(list(pixel_coordinates_landmark))
+                                elif point == self.mp_hands.HandLandmark.WRIST:
+                                    wrist_coords.append(list(pixel_coordinates_landmark))
+                            except Exception as e:
+                                print(f"Error processing landmark {point}: {e}")
 
-    def save_landmarks_to_file(self, landmarks, gesture_name):
-        print("Landmarks to save:", landmarks)
+        return (thumb_tip_coords, index_finger_tip_coords, middle_finger_tip_coords, ring_finger_tip_coords,
+                pinky_finger_tip_coords, wrist_coords)
 
-        if landmarks is None:
-            print("Landmarks are None. Unable to save to file.")
-            return
 
-        filename = f"{gesture_name}_landmarks.json"
-
-        # Ensure landmarks is a list before saving
-        if isinstance(landmarks, list):
-            with open(filename, 'w') as json_file:
-                json.dump(landmarks, json_file)
-
-            print(f"Landmarks saved to {filename}")
-        else:
-            print("Landmarks should be a list. Unable to save to file.")
 
     def RecognizeGestures(self, image):
         with self.mp_hands.Hands(model_complexity = 0, min_detection_confidence = 0.5, min_tracking_confidence = 0.5) as hands:
@@ -117,11 +118,15 @@ class GestureRecognizer:
             # Create Empty Thumb and Index Finger Tips Coordinates
             thumb_tip_coords = []
             index_finger_tip_coords = []
+            middle_finger_tip_coords = []
+            ring_finger_tip_coords = []
+            pinky_finger_tip_coords = []
 
             all_fingers_closed = False
             cursor_mode = False
             one_hand = False
             two_hand = False
+
 
             # If hand landmarks exist
             if results.multi_hand_landmarks:
@@ -134,27 +139,32 @@ class GestureRecognizer:
 
                     # Loop through the points in the landmarks
                     for point in [self.mp_hands.HandLandmark.THUMB_TIP, self.mp_hands.HandLandmark.INDEX_FINGER_TIP,
-                                  self.mp_hands.HandLandmark.WRIST]:
+                                  self.mp_hands.HandLandmark.MIDDLE_FINGER_TIP,
+                                  self.mp_hands.HandLandmark.RING_FINGER_TIP,
+                                  self.mp_hands.HandLandmark.PINKY_TIP, self.mp_hands.HandLandmark.WRIST]:
                         # Get the Normalized Landmark
                         normalizedLandmark = hand_landmarks.landmark[point]
-                        # Use the Normalized landmark to get pixel coords based on the image size
-                        pixelCoordinatesLandmark = self.mp_draw_utils._normalized_to_pixel_coordinates(
-                            normalizedLandmark.x, normalizedLandmark.y, imageWidth, imageHeight)
 
-                        try:
-                            # Try to add the pixel coordinates to the corresponding coords list
-                            if point == self.mp_hands.HandLandmark.THUMB_TIP:
-                                thumb_tip_coords.append(list(pixelCoordinatesLandmark))
-                                print("Thumb Tip Coordinates:", list(pixelCoordinatesLandmark))
-                            elif point == self.mp_hands.HandLandmark.INDEX_FINGER_TIP:
-                                index_finger_tip_coords.append(list(pixelCoordinatesLandmark))
-                                print("Index Finger Tip Coordinates:", list(pixelCoordinatesLandmark))
-                            elif point == self.mp_hands.HandLandmark.WRIST:
-                                wrist_coords.append(list(pixelCoordinatesLandmark))
-                                print("Wrist Coordinates:", list(pixelCoordinatesLandmark))
-                        except Exception as e:
-                            print(f"Error processing landmark {point}: {e}")
+                        if normalizedLandmark is not None:
+                            # Use the Normalized landmark to get pixel coords based on the image size
+                            pixelCoordinatesLandmark = self.mp_draw_utils._normalized_to_pixel_coordinates(
+                                normalizedLandmark.x, normalizedLandmark.y, imageWidth, imageHeight)
 
+                            try:
+                                if point == self.mp_hands.HandLandmark.THUMB_TIP:
+                                    thumb_tip_coords.append(list(pixelCoordinatesLandmark))
+                                elif point == self.mp_hands.HandLandmark.INDEX_FINGER_TIP:
+                                    index_finger_tip_coords.append(list(pixelCoordinatesLandmark))
+                                elif point == self.mp_hands.HandLandmark.MIDDLE_FINGER_TIP:
+                                    middle_finger_tip_coords.append(list(pixelCoordinatesLandmark))
+                                elif point == self.mp_hands.HandLandmark.RING_FINGER_TIP:
+                                    ring_finger_tip_coords.append(list(pixelCoordinatesLandmark))
+                                elif point == self.mp_hands.HandLandmark.PINKY_TIP:
+                                    pinky_finger_tip_coords.append(list(pixelCoordinatesLandmark))
+                                elif point == self.mp_hands.HandLandmark.WRIST:
+                                    wrist_coords.append(list(pixelCoordinatesLandmark))
+                            except Exception as e:
+                                print(f"Error processing landmark {point}: {e}")
 
                 # Check if only one hand
                 if len(results.multi_hand_landmarks) == 1:  # Check that only one hand is detected
