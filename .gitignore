@@ -1,0 +1,9 @@
+data/
+__pycache__/
+__pycache__/**
+__pycache__/gestures.cpython-311.py
+model_old.pth
+Trackmania*
+PyTorchSandbox/__pycache__/
+venv/
+PyTorchSandbox/venv/

@@ -495,15 +495,13 @@ class MainWindow:
 
     def launch_trackmania(self):
         # Get the current working directory
-        current_directory = os.getcwd()
-
-        # Specify the path to the Trackmania executable within the "FYP-RacingTutorial" folder
-        trackmania_path = os.path.join(current_directory, "FYP-RacingTutorial", "RacingForFyp.exe")
+        trackmania_path = r"C:\Program Files (x86)\Steam\steamapps\common\Trackmania\Trackmania.exe"
 
         # Specify the desired screen resolution
         resolution = "1600x900"  # Change this to your desired resolution
 
         subprocess.Popen([trackmania_path, f"-screen-width {resolution.split('x')[0]}", f"-screen-height {resolution.split('x')[1]}"])
+
     def launch_create_gesture_window(self):
         create_gesture_window = CreateGestureWindow(self.main_win, self.ui)
 
