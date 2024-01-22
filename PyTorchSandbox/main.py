@@ -38,8 +38,8 @@ class Labels(Enum):
     OPENAWAY = 6
     OPENFACING = 7
     OUTWARD = 8
-    THUMBSDOWN = 9
-    THUMBSUP = 10
+    THUMBSUP = 9
+    THUMBSDOWN = 10
 
 class CustomDataset(Dataset):
     def __init__(self):
@@ -61,8 +61,8 @@ class CustomDataset(Dataset):
                 "openaway": Labels.OPENAWAY,
                 "openfacing": Labels.OPENFACING,
                 "outward": Labels.OUTWARD,
+                "thumbsup": Labels.THUMBSUP,
                 "thumbsdown": Labels.THUMBSDOWN,
-                "thumbsupup": Labels.THUMBSUP
             }
 
             file_number = 0
@@ -144,12 +144,12 @@ class CustomDataset(Dataset):
 
 # Define model
 class NeuralNetwork(nn.Module):
-    def __init__(self):
+    def __init__(self, model):
         super().__init__()
-        self.linear_relu_stack = nn.Sequential(nn.Linear(63, 20), nn.ReLU(), nn.Linear(20, 20), nn.ReLU(), nn.Linear(20,11))
+        self.network = model
 
     def forward(self, x):
-        logits = self.linear_relu_stack(x)
+        logits = self.network(x)
         return logits
 
 def train(dataloader, model, loss_fn, optimizer):
@@ -188,12 +188,12 @@ def test(dataloader, model, loss_fn):
 
 dataset = CustomDataset()
 
-def TrainModel(batchSize, learningRate, numEpochs): #batchsize 50, 1e-3 for LR, numEpochs 800
+def TrainModel(architecture, batchSize, learningRate, numEpochs): #batchsize 50, 1e-3 for LR, numEpochs 800
     # Create data loaders.
     train_dataloader = DataLoader(dataset, batch_size=batchSize)
     test_dataloader = DataLoader(dataset, batch_size=batchSize)
 
-    model = NeuralNetwork().to(device)
+    model = NeuralNetwork(architecture).to(device)
     print(model)
 
     loss_fn = nn.CrossEntropyLoss()

@@ -4,6 +4,7 @@
         "input.py",
         "gestures.py",
         "app.ui",
-        "app.py"
+        "app.py",
+        "labels.py"
     ]
 }

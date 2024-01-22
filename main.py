@@ -11,10 +11,17 @@ import cv2
 import json
 import os
 import numpy as np
+from labels import Labels
+from input import InputSimulator
+from input import KeyMap
+
+keymap = KeyMap()
 
 class VideoCaptureWidget(QtWidgets.QWidget):
-    def __init__(self, label, parent=None):
+    def __init__(self, label, parent=None):        
         super(VideoCaptureWidget, self).__init__(parent)
+        self.input_simulator = InputSimulator()
+        self.hands_recognizer = GestureRecognizer()
         self.video_size = QSize(320, 240)
         self.image_label = label
         self.setup_ui()
@@ -22,7 +29,9 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         self.active = False
 
         # Connect the update_frame method to the timer
+        self.timer = QTimer()
         self.timer.timeout.connect(self.update_frame)
+        self.timer.start(30)  # Update every 30 ms
 
     def setup_ui(self):
         """Initialize widgets."""
@@ -39,21 +48,21 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.video_size.width())
         self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.video_size.height())
 
-        # Use QTimer to capture frames
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_frame)
-        self.timer.start(30)  # Update every 30 ms
-
     def update_frame(self):
         """Capture frame from the webcam and update QLabel."""
         ret, frame = self.capture.read()
         if ret:
-            #print("running")
-            # Convert the frame to Qt format
-            recognizer = GestureRecognizer()
-            frame = recognizer.RecognizeGestures(frame)
+            #recognize the gestures
+            lh_label, rh_label = self.hands_recognizer.recognize_gestures(frame)
+            #convert to key
+            rh_key = None if rh_label is None else keymap.label_key_mapping[rh_label]
+            lh_key = None if lh_label is None else keymap.label_key_mapping[lh_label]
+            #simulate input (press and release) for the keys
+            y = [x for x in [rh_key, lh_key] if x is not None]
+            self.input_simulator.simulate_input([x for x in [rh_key, lh_key] if x is not None])
+            # Convert and Show the frame in the QLabel
+            cv2.flip(frame, 1)
             frame = self.convert_cv_qt(frame)
-            # Show the frame in the QLabel
             self.image_label.setPixmap(frame)
 
     def set_preview_label(self, label):
@@ -141,168 +150,14 @@ class CameraWindow(QtWidgets.QMainWindow):
         self.show()
         event.accept()
 
-class CreateGestureWindow(QtWidgets.QMainWindow):
-    def __init__(self, parent=None, ui=None):
-        super(CreateGestureWindow, self).__init__(parent)
-        self.ui = ui
-        self.setWindowTitle("Gesture Window")
-        self.setGeometry(100, 100, 350, 200)
-
-        self.gesture_recognizer = GestureRecognizer()
-
-        # Create Label for Camera
-        self.webcamLabel = QtWidgets.QLabel(self)
-        self.webcamLabel.setEnabled(True)
-        self.webcamLabel.setGeometry(QtCore.QRect(10, 10, self.width() - 20, self.height() - 70))
-        self.webcamLabel.setText("")
-        self.webcamLabel.setObjectName("webcamLabel")
-
-        # Create VideoCaptureWidget instance
-        self.webcam = VideoCaptureWidget(self.webcamLabel)
-
-        # Create Record Button
-        self.recordButton = QPushButton("Record", self)
-        self.recordButton.setGeometry(10, self.height() - 60, 100, 50)
-        self.recordButton.clicked.connect(self.start_recording)
-
-        # Create Countdown Label
-        self.countdownLabel = QLabel(self)
-        self.countdownLabel.setGeometry(120, self.height() - 60, 100, 50)
-        self.countdownLabel.setAlignment(Qt.AlignCenter)
-        self.countdownLabel.setStyleSheet("font-size: 18px;")
-
-        # Variable to store countdown value
-        self.countdown_value = 3
-
-        # Initialize a list to store landmarks
-        self.landmarks_list = []
-
-        # Connect the destroyed signal to stop the camera when the window is closed
-        self.destroyed.connect(self.stop_camera_on_gesture_window_close)
-
-        # Connect the update_frame method to the timer
-        self.webcam.timer.timeout.connect(self.update_frame)
-
-    def start_recording(self):
-        # Disable the record button during recording
-        self.recordButton.setEnabled(False)
-
-        # Start countdown
-        self.start_countdown()
-
-        # Clear existing landmarks
-        self.landmarks_list.clear()
-
-    def start_countdown(self):
-        if self.countdown_value > 0:
-            self.countdownLabel.setText(str(self.countdown_value))
-            self.countdown_value -= 1
-            QtCore.QTimer.singleShot(1000, self.start_countdown)
-        else:
-            self.countdownLabel.clear()
-            # Start recording for 10 seconds
-            QtCore.QTimer.singleShot(10000, self.stop_recording)
-
-    def stop_recording(self):
-        # Enable the record button after recording
-        self.recordButton.setEnabled(True)
-
-        # Stop the camera when recording is complete
-        self.webcam.pause_camera()
-
-        # Prompt the user to enter the gesture name using QMessageBox
-        gesture_name, ok = QInputDialog.getText(self, 'Gesture Name', 'Enter the gesture name:')
-
-        if ok and gesture_name:
-            print("Landmarks recorded:")
-            non_empty_landmarks = [landmarks for landmarks in self.landmarks_list if any(landmarks)]
-            for landmarks in non_empty_landmarks:
-                print(landmarks)
-
-            print(f"Gesture recorded with name: {gesture_name}")
-
-            # Calculate and store the distances between each finger and the wrist
-            distances = []
-            for landmarks in non_empty_landmarks:
-                thumb_wrist_distance = np.linalg.norm(np.array(landmarks[0]) - np.array(landmarks[5]))
-                index_wrist_distance = np.linalg.norm(np.array(landmarks[1]) - np.array(landmarks[5]))
-                middle_wrist_distance = np.linalg.norm(np.array(landmarks[2]) - np.array(landmarks[5]))
-                ring_wrist_distance = np.linalg.norm(np.array(landmarks[3]) - np.array(landmarks[5]))
-                pinky_wrist_distance = np.linalg.norm(np.array(landmarks[4]) - np.array(landmarks[5]))
-
-                distances.append({
-                    "thumb_to_wrist": thumb_wrist_distance,
-                    "index_to_wrist": index_wrist_distance,
-                    "middle_to_wrist": middle_wrist_distance,
-                    "ring_to_wrist": ring_wrist_distance,
-                    "pinky_to_wrist": pinky_wrist_distance
-                })
-
-             # Calculate the average distances
-            if distances:
-                avg_distances = {
-                    "thumb_to_wrist": np.mean([d["thumb_to_wrist"] for d in distances]),
-                    "index_to_wrist": np.mean([d["index_to_wrist"] for d in distances]),
-                    "middle_to_wrist": np.mean([d["middle_to_wrist"] for d in distances]),
-                    "ring_to_wrist": np.mean([d["ring_to_wrist"] for d in distances]),
-                    "pinky_to_wrist": np.mean([d["pinky_to_wrist"] for d in distances]),
-                    }
-
-                # Specify the folder path for storing JSON files
-                folder_path = "CreatedGestures"
-
-                # Create the folder if it doesn't exist
-                if not os.path.exists(folder_path):
-                    os.makedirs(folder_path)
-
-                # Save distances to a separate JSON file
-                filename_distances = os.path.join(folder_path, f"{gesture_name}.json")
-                with open(filename_distances, 'w') as file:
-                    json.dump(avg_distances, file)
-
-                print(f"Distances saved to {filename_distances}")
-
-            if hasattr(self, 'webcam'):
-                self.webcam.resume_camera()
-        else:
-            print("Please enter a gesture name.")
-
-            if hasattr(self, 'webcam'):
-                self.webcam.resume_camera()
-
-    def stop_camera_on_gesture_window_close(self):
-        # Stop the camera feed when the CreateGestureWindow is closed
-        self.webcam.stop_camera()
-
-    def update_frame(self):
-        # Capture frame from the webcam and update QLabel
-        ret, frame = self.webcam.capture.read()
-        if ret:
-            # Recognize gestures and get landmarks
-            landmarks = self.gesture_recognizer.get_landmarks(frame)
-
-            # Convert landmarks to pixel coordinates
-            image_width, image_height = self.webcam.video_size.width(), self.webcam.video_size.height()
-            landmark_coordinates = self.gesture_recognizer.get_landmarks(frame)
-
-            # Append landmarks to the list
-            self.landmarks_list.append(landmark_coordinates)
-
-            # Convert the frame to Qt format and show in the QLabel
-            frame = self.webcam.convert_cv_qt(frame)
-            self.webcam.image_label.setPixmap(frame)
-
-            # Update the frame in VideoCaptureWidget
-            # self.webcam.update_frame()
-class MainWindow:
+class MainWindow:    
     def __init__(self):
+
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
 
         #self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
-
-
         # Connect button clicks to show pages and highlight buttons
         self.setup_button(self.ui.Profile1, self.showPage2)
         self.setup_button(self.ui.gameSelectionBtn, self.showPage3)
@@ -502,21 +357,6 @@ class MainWindow:
 
         subprocess.Popen([trackmania_path, f"-screen-width {resolution.split('x')[0]}", f"-screen-height {resolution.split('x')[1]}"])
 
-    def launch_create_gesture_window(self):
-        create_gesture_window = CreateGestureWindow(self.main_win, self.ui)
-
-        # Connect the destroyed signal to stop the camera when the window is closed
-        create_gesture_window.destroyed.connect(self.stop_camera_on_gesture_window_close)
-
-        create_gesture_window.show()
-        if hasattr(self, 'webcam'):
-            self.webcam.start_camera()
-
-    def stop_camera_on_gesture_window_close(self):
-        # Stop the camera feed when the CreateGestureWindow is closed
-        if hasattr(self, 'webcam'):
-            self.webcam.stop_camera()
-
     def populate_camera_combobox(self):
         # Get the list of available cameras
         available_cameras = self.get_available_cameras()
@@ -549,13 +389,11 @@ class MainWindow:
 
         return cameras
 
-
 if __name__ == '__main__':
     # Enable High DPI display with PyQt5
     QtWidgets.QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     QtWidgets.QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv)
     main_win = MainWindow()
-
     main_win.show()
     sys.exit(app.exec_())
