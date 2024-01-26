@@ -188,7 +188,7 @@ def test(dataloader, model, loss_fn):
 
 dataset = CustomDataset()
 
-def TrainModel(architecture, batchSize, learningRate, numEpochs): #batchsize 50, 1e-3 for LR, numEpochs 800
+def TrainModel(architecture, batchSize, learningRate, numEpochs, optimizer_type='SGD'): #batchsize 50, 1e-3 for LR, numEpochs 800
     # Create data loaders.
     train_dataloader = DataLoader(dataset, batch_size=batchSize)
     test_dataloader = DataLoader(dataset, batch_size=batchSize)
@@ -197,7 +197,11 @@ def TrainModel(architecture, batchSize, learningRate, numEpochs): #batchsize 50,
     print(model)
 
     loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=learningRate)
+
+    if optimizer_type == 'SGD':
+        optimizer = torch.optim.SGD(model.parameters(), lr=learningRate)
+    elif optimizer_type == 'Adam':
+        optimizer = torch.optim.Adam(model.parameters(), lr=learningRate)
 
     test(test_dataloader, model, loss_fn)
     for t in range(numEpochs):

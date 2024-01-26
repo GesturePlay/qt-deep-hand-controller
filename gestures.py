@@ -19,7 +19,7 @@ from labels import Labels
 class NeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()
-        self.network = nn.Sequential(nn.Linear(63, 30), nn.ELU(), nn.Linear(30, 11))
+        self.network = nn.Sequential(nn.Linear(63, 45), nn.ELU(), nn.Linear(45, 11))
 
 
     def forward(self, x):
@@ -66,10 +66,11 @@ class NeuralNetwork(nn.Module):
 
                 coordList.extend([x, y, z])
 
-        #mediapipe hands are correct if you swap them?
-        left_hand_tensor = torch.tensor(right_hand_coordList) if len(right_hand_coordList) == 63 else None
-        right_hand_tensor = torch.tensor(left_hand_coordList) if len(left_hand_coordList) == 63 else None
+        right_hand_tensor = torch.tensor(right_hand_coordList) if len(right_hand_coordList) == 63 else None
+        left_hand_tensor = torch.tensor(left_hand_coordList) if len(left_hand_coordList) == 63 else None
 
+        #for some odd reason we have to swap the hands here perhaps because the image is not flipped yet
+        right_hand_tensor, left_hand_tensor = left_hand_tensor, right_hand_tensor
 
         # To improve performance, flag the image as unwriteable to reduce overhead
         image.flags.writeable = False
@@ -89,7 +90,7 @@ class GestureRecognizer:
         project_dir = os.path.dirname(os.path.abspath(__file__))
 
         # Construct the path to the model file
-        self.model_path = os.path.join(project_dir, '89_.3.pth')
+        self.model_path = os.path.join(project_dir, 'adam-slow.pth')
 
         try:
             self.model.load_state_dict(torch.load(self.model_path))
@@ -111,16 +112,16 @@ class GestureRecognizer:
         self.font = cv.FONT_HERSHEY_SIMPLEX
 
         self.label_confidence_map = {
-            Labels.CLICK: 0.8,
-            Labels.CURSOR:0.8,
-            Labels.FIST: 0.8,
-            Labels.FLAT: 0.8,
+            Labels.CLICK: 0.7,
+            Labels.CURSOR:0.6,
+            Labels.FIST: 0.7,
+            Labels.FLAT: 0.95,
             Labels.GUN: 0.8,
             Labels.INWARD: 0.8,
-            Labels.OPENAWAY: 0.8,
+            Labels.OPENAWAY: 0.9,
             Labels.OPENFACING: 0.8,
-            Labels.OUTWARD: 0.8,
-            Labels.THUMBSUP: 0.8,
+            Labels.OUTWARD: 0.7,
+            Labels.THUMBSUP: 0.9,
             Labels.THUMBSDOWN: 0.8
         }
 
@@ -211,83 +212,37 @@ class GestureRecognizer:
                     confirmed_label_RH = predicted_label_RH
                     print("RH: ", predicted_label_RH, " Confidence: ", confidence_RH)
 
+            if Labels.CURSOR in [predicted_label_LH, predicted_label_RH]:
+
+                for hand_landmarks, handedness in zip(results.multi_hand_landmarks, results.multi_handedness):
+                    hand_type = handedness.classification[0].label
+                    index_finger = hand_landmarks.landmark[self.mp_hands.HandLandmark.INDEX_FINGER_TIP]
+                    print(index_finger.x, index_finger.y)
+                    screen_width, screen_height = pyautogui.size()
+
+                    scaled_x = int(index_finger.x * screen_width)
+                    inverted_x = screen_width - scaled_x
+                    scaled_y = int(index_finger.y * screen_height)
+
+                    #because hand recognition is backwards we have to check for right hand for lh labels and vice versa
+                    if Labels.CURSOR == predicted_label_LH and hand_type == 'Right':
+                        pyautogui.moveTo(inverted_x, scaled_y)
+                    elif Labels.CURSOR == predicted_label_RH and hand_type == 'Left':
+                        pyautogui.moveTo(inverted_x, scaled_y)
+
+                #return no gestures
+                return None, None
+
+            if Labels.CLICK in [predicted_label_LH, predicted_label_RH]:
+                print("before click")
+                pyautogui.click()
+                return None, None
 
             return confirmed_label_LH, confirmed_label_RH
 
-            ###############tHROW INPUT AND STORE AS A TUPLE
-            ### SEARCH DICTIONARY FOR KEYS THAT ARENT THE TUPLE AND RELEASE THEM
-
-
-
-#            if predicted_label == Labels.CURSOR:
-#                if index_finger_tip_coords:
-#                    index_finger_x, index_finger_y = index_finger_tip_coords[0]
-
-#                    # Scale the coordinates to match the screen size
-#                    scaled_x = int(index_finger_x * screen_width / imageWidth)
-
-#                    inverted_x = screen_width - scaled_x
-
-#                    scaled_y = int(index_finger_y * screen_height / imageHeight)
-
-#                    # Move the mouse cursor to the scaled position
-#                    pyautogui.moveTo(inverted_x, scaled_y)
-
-#            elif predicted_label == Labels.CLICK:
-#                    pyautogui.click()
-
-#            elif predicted_label == Labels.FIST:
-#                input.release_key('s')
-#                input.release_key('a')
-#                input.release_key('d')
-#                input.press_key('w')
-#                cv.putText(image, "No turn.", (50, 50), self.font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-
-#            elif predicted_label == Labels.FLAT:
-
-#            elif predicted_label == Labels.GUN:
-
-#            elif predicted_label == Labels.INWARD:
-#                print("Turn left.")
-#                input.release_key('s')
-#                input.release_key('d')
-#                input.press_key('a')
-#                cv.putText(image, "Turn left", (50, 50), self.font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-
-#            elif predicted_label == Labels.OPENAWAY:
-
-#            elif predicted_label == Labels.OPENFACING:
-#                print("Reversing.")
-#                input.release_key('a')
-#                input.release_key('d')
-#                input.release_key('w')
-#                input.press_key('s')
-#                cv.putText(image, "Reversing.", (50, 50), self.font, 1.0, (0, 255, 0), 2, cv.LINE_AA)
-
-#            elif predicted_label == Labels.OUTWARD:
-#                print("Turn right.")
-#                input.release_key('s')
-#                input.release_key('a')
-#                input.press_key('d')
-#                cv.putText(image, "Turn right", (50, 50), self.font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
-
-#            elif predicted_label == Labels.THUMBSDOWN:
-#                print("Reversing Left.")
-#                input.release_key('d')
-#                input.release_key('w')
-#                input.press_key('s')
-#                input.press_key('a')
-#                cv.putText(image, "Reversing Left.", (50, 50), self.font, 1.0, (0, 255, 0), 2, cv.LINE_AA)
-
-#            elif predicted_label == Labels.THUMBSUP:
-#                print("Reversing Right.")
-#                input.release_key('a')
-#                input.release_key('w')
-#                input.press_key('s')
-#                input.press_key('d')
-#                cv.putText(image, "Reversing Right.", (50, 50), self.font, 1.0, (0, 255, 0), 2, cv.LINE_AA)
-    #
+        #Model end
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        #cv.putText(image, "Turn left", (50, 50), self.font, 0.8, (0, 255, 0), 2, cv.LINE_AA)
 
     def __del__(self):
         """
