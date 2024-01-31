@@ -19,7 +19,8 @@ from labels import Labels
 class NeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()
-        self.network = nn.Sequential(nn.Linear(63, 45), nn.ELU(), nn.Linear(45, 11))
+
+        self.network = nn.Sequential(nn.Linear(63, 100), nn.ELU(), nn.Linear(100, 11)) #1000adam-finished
 
 
     def forward(self, x):
@@ -90,7 +91,7 @@ class GestureRecognizer:
         project_dir = os.path.dirname(os.path.abspath(__file__))
 
         # Construct the path to the model file
-        self.model_path = os.path.join(project_dir, 'adam-slow.pth')
+        self.model_path = os.path.join(project_dir, '1000adam-finished.pth')                       #path to model
 
         try:
             self.model.load_state_dict(torch.load(self.model_path))
@@ -112,17 +113,17 @@ class GestureRecognizer:
         self.font = cv.FONT_HERSHEY_SIMPLEX
 
         self.label_confidence_map = {
-            Labels.CLICK: 0.7,
+            Labels.CLICK: 0.6,
             Labels.CURSOR:0.6,
-            Labels.FIST: 0.7,
-            Labels.FLAT: 0.95,
-            Labels.GUN: 0.8,
-            Labels.INWARD: 0.8,
-            Labels.OPENAWAY: 0.9,
-            Labels.OPENFACING: 0.8,
-            Labels.OUTWARD: 0.7,
-            Labels.THUMBSUP: 0.9,
-            Labels.THUMBSDOWN: 0.8
+            Labels.FIST: 0.6,
+            Labels.FLAT: 0.5,
+            Labels.GUN: 0.5,
+            Labels.INWARD: 0.6,
+            Labels.OPENAWAY: 0.7,
+            Labels.OPENFACING: 0.7,
+            Labels.OUTWARD: 0.6,
+            Labels.THUMBSUP: 0.6,
+            Labels.THUMBSDOWN: 0.6
         }
 
     def update_gesture_buffer(self, hand, new_gesture):
@@ -184,10 +185,10 @@ class GestureRecognizer:
                 probabilities_LH = F.softmax(predictions_LH, dim=0)
                 confidence_LH = probabilities_LH[predicted_index_LH].item()  # Assuming batch size is 1
 
-                if confidence_LH > self.label_confidence_map[predicted_label_LH]: #append gesture to buffer when confident
-                    self.update_gesture_buffer("LH", predicted_label_LH)
-                else:
-                    self.update_gesture_buffer("LH", None) #if not confident add none gesture to buffer
+                #if confidence_LH > self.label_confidence_map[predicted_label_LH]: #append gesture to buffer when confident
+                self.update_gesture_buffer("LH", predicted_label_LH)
+                #else:
+                    #self.update_gesture_buffer("LH", None) #if not confident add none gesture to buffer
 
                 if self.is_consecutive_match("LH"):
                     confirmed_label_LH = predicted_label_LH
@@ -203,10 +204,10 @@ class GestureRecognizer:
                 probabilities_RH = F.softmax(predictions_RH, dim=0)
                 confidence_RH = probabilities_RH[predicted_index_RH].item()  # Assuming batch size is 1
 
-                if confidence_RH > self.label_confidence_map[predicted_label_RH]: #append gesture to buffer when confident
-                    self.update_gesture_buffer("RH", predicted_label_RH)
-                else:
-                    self.update_gesture_buffer("RH", None) #if not confident add none gesture to buffer
+                #if confidence_RH > self.label_confidence_map[predicted_label_RH]: #append gesture to buffer when confident
+                self.update_gesture_buffer("RH", predicted_label_RH)
+                #else:
+                    #self.update_gesture_buffer("RH", None) #if not confident add none gesture to buffer
 
                 if self.is_consecutive_match("RH"):
                     confirmed_label_RH = predicted_label_RH
@@ -217,7 +218,6 @@ class GestureRecognizer:
                 for hand_landmarks, handedness in zip(results.multi_hand_landmarks, results.multi_handedness):
                     hand_type = handedness.classification[0].label
                     index_finger = hand_landmarks.landmark[self.mp_hands.HandLandmark.INDEX_FINGER_TIP]
-                    print(index_finger.x, index_finger.y)
                     screen_width, screen_height = pyautogui.size()
 
                     scaled_x = int(index_finger.x * screen_width)
@@ -234,7 +234,6 @@ class GestureRecognizer:
                 return None, None
 
             if Labels.CLICK in [predicted_label_LH, predicted_label_RH]:
-                print("before click")
                 pyautogui.click()
                 return None, None
 

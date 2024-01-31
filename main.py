@@ -14,8 +14,16 @@ import numpy as np
 from labels import Labels
 from input import InputSimulator
 from input import KeyMap
+from profile import UserProfile
 
-keymap = KeyMap()
+
+userProfiles = UserProfile.deserialize_user_profiles()
+
+if userProfiles == []:
+    userProfiles.append(UserProfile()) #append a default user if there are no users
+
+#need to set the active user here with a function when the user selects their profile at the main window
+activeUserProfile = userProfiles[0] #need to store the current user in this global, defaults to default new user
 
 class VideoCaptureWidget(QtWidgets.QWidget):
     def __init__(self, label, parent=None):        
@@ -55,8 +63,8 @@ class VideoCaptureWidget(QtWidgets.QWidget):
             #recognize the gestures
             lh_label, rh_label = self.hands_recognizer.recognize_gestures(frame)
             #convert to key
-            rh_key = None if rh_label is None else keymap.label_key_mapping[rh_label]
-            lh_key = None if lh_label is None else keymap.label_key_mapping[lh_label]
+            rh_key = None if rh_label is None else activeUserProfile.keymap.label_key_mapping[rh_label]
+            lh_key = None if lh_label is None else activeUserProfile.keymap.label_key_mapping[lh_label]
             #simulate input (press and release) for the keys
             y = [x for x in [rh_key, lh_key] if x is not None]
             self.input_simulator.simulate_input([x for x in [rh_key, lh_key] if x is not None])
@@ -396,4 +404,6 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     main_win = MainWindow()
     main_win.show()
-    sys.exit(app.exec_())
+    result = app.exec_()
+    UserProfile.serialize_user_profiles(userProfiles) # save user profiles
+    sys.exit(result)

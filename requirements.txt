@@ -1,2 +1,6 @@
 opencv-python
 mediapipe
+torch
+pyautogui
+PyQt5
+numpy

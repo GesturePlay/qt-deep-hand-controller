@@ -1,0 +1,18 @@
+91_.3 main.TrainModel(nn.Sequential(nn.Linear(63, 40), nn.ELU(), nn.Linear(40, 20), nn.ELU(), nn.Linear(20, 11)), 40, 1e-3, 500)
+92_.2 main.TrainModel(nn.Sequential(nn.Linear(63, 40), nn.ELU(), nn.Linear(40, 20), nn.ELU(), nn.Linear(20, 11)), 40, 1e-3, 500)
+89_.3 main.TrainModel(nn.Sequential(nn.Linear(63, 30), nn.ELU(), nn.Linear(30, 11)), 16, 1e-3, 600)
+15elu.pth main.TrainModel(nn.Sequential(nn.Linear(63, 15), nn.ELU(), nn.Linear(15, 11)), 16, 1e-3, 600) 
+best.pth main.TrainModel(nn.Sequential(nn.Linear(63, 15), nn.ELU(), nn.Linear(15, 11)), 32, 3e-3, 600)
+slow.pth main.TrainModel(nn.Sequential(nn.Linear(63, 45), nn.ELU(), nn.Linear(45, 11)), 16, 5e-4, 1000)
+adam-slow.pth main.TrainModel(nn.Sequential( nn.Linear(63, 45), nn.ELU(), nn.Linear(45, 11)), 16, 5e-4, 1000, 'Adam')
+new-10elu.pth main.TrainModel(nn.Sequential(nn.Linear(63, 10), nn.ELU(), nn.Linear(10, 11)), 40, 1e-3, 600)  81.5
+model.pth main.TrainModel(nn.Sequential(nn.Linear(63, 15), nn.GELU(), nn.Dropout(p=.1), nn.Linear(15, 11)), 16, 3e-3, 600) 83
+model2.pth main.TrainModel(nn.Sequential(nn.Linear(63, 20), nn.ELU(), nn.Linear(20, 11)), 16, 8e-4, 600) 84.6
+250leaky250leaky.pth main.TrainModel(nn.Sequential(nn.Linear(63, 250), nn.LeakyReLU(), nn.LeakyReLU(250, 250), nn.Linear(250, 11)), 16, 3e-3, 700)
+250prelu250prelu.pth main.TrainModel(nn.Sequential(nn.Linear(63, 250), nn.PReLU(), nn.Linear(250, 250), nn.PReLU(), nn.Linear(250, 11)), 16, 3e-3, 700)
+500prelu.pth main.TrainModel(nn.Sequential(nn.Linear(63, 500), nn.PReLU(), nn.Linear(500, 11)), 16, 3e-3, 700) 86
+500prelu2.pth main.TrainModel(nn.Sequential(nn.Linear(63, 500), nn.PReLU(), nn.Linear(500, 11)), 16, 3e-3, 700) 79.3
+500prelu3.pth main.TrainModel(nn.Sequential(nn.Linear(63, 500), nn.PReLU(), nn.Linear(500, 11)), 60, 3e-3, 700) 86
+400epoch.pth main.TrainModel(nn.Sequential(nn.Linear(63, 500), nn.PReLU(), nn.Linear(500, 11)), 1000, 3e-2, 400) 83
+1000adam.pth main.TrainModel(nn.Sequential(nn.Linear(63, 100), nn.ELU(), nn.Linear(100, 11)), 1000, 6e-3, 500, 'Adam') 94 (ended early)
+1000adam-finished.pth main.TrainModel(nn.Sequential(nn.Linear(63, 100), nn.ELU(), nn.Linear(100, 11)), 1000, 5e-3, 300, 'Adam') 94 
