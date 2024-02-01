@@ -4,3 +4,4 @@ torch
 pyautogui
 PyQt5
 numpy
+pyuic5 -x app.ui -o app.py

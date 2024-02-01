@@ -1454,7 +1454,7 @@ QPushButton:hover {
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="page_3">
        <widget class="QLabel" name="label_38">
@@ -1792,8 +1792,8 @@ QPushButton:hover {
        <widget class="QPushButton" name="removeProfileBtn_4">
         <property name="geometry">
          <rect>
-          <x>340</x>
-          <y>330</y>
+          <x>330</x>
+          <y>520</y>
           <width>131</width>
           <height>50</height>
          </rect>
@@ -1975,28 +1975,6 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
        </widget>
-       <widget class="QLabel" name="label_49">
-        <property name="geometry">
-         <rect>
-          <x>60</x>
-          <y>161</y>
-          <width>361</width>
-          <height>561</height>
-         </rect>
-        </property>
-        <property name="whatsThis">
-         <string/>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap>Images/Icons/Keyboard controls.png</pixmap>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-       </widget>
        <widget class="QPushButton" name="controllerBtn_4">
         <property name="geometry">
          <rect>
@@ -2071,71 +2049,381 @@ border:none;</string>
          <string>Controls Settings</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QLabel" name="Key_A">
         <property name="geometry">
          <rect>
-          <x>100</x>
-          <y>190</y>
-          <width>61</width>
-          <height>31</height>
+          <x>-40</x>
+          <y>220</y>
+          <width>300</width>
+          <height>220</height>
          </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton {
-    border-radius: 25px;
-      
-      color: rgb(255, 255, 255);
-      
-      background-color: rgba(255, 255, 255, 50);
-
-}
-
-
-
-
-</string>
         </property>
         <property name="text">
          <string/>
         </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/A.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
        </widget>
-       <widget class="QPushButton" name="CreateGestureBtn">
+       <widget class="QLabel" name="Key_D">
         <property name="geometry">
          <rect>
-          <x>570</x>
-          <y>130</y>
-          <width>171</width>
-          <height>50</height>
+          <x>-40</x>
+          <y>440</y>
+          <width>300</width>
+          <height>220</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/D.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="Key_S">
+        <property name="geometry">
+         <rect>
+          <x>-40</x>
+          <y>330</y>
+          <width>300</width>
+          <height>220</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/S.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="Key_W">
+        <property name="geometry">
+         <rect>
+          <x>-40</x>
+          <y>110</y>
+          <width>300</width>
+          <height>220</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/W.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="imgLabel1">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>140</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Click.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="imgLabel2">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>250</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Cursor.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="imgLabel3">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>360</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Fist.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="imgLabel4">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>480</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Flat.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="Key_G">
+        <property name="geometry">
+         <rect>
+          <x>-40</x>
+          <y>550</y>
+          <width>300</width>
+          <height>220</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/G.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="imgLabel5">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>580</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Gun.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="Key_I">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>110</y>
+          <width>300</width>
+          <height>220</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/I.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="Key_O">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>220</y>
+          <width>300</width>
+          <height>220</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/O.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="Key_P">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>330</y>
+          <width>300</width>
+          <height>220</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/P.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="Key_U">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>440</y>
+          <width>300</width>
+          <height>220</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/U.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="imgLabel6">
+        <property name="geometry">
+         <rect>
+          <x>490</x>
+          <y>140</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Inward.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="imgLabel7">
+        <property name="geometry">
+         <rect>
+          <x>490</x>
+          <y>240</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/FacingAway.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="imgLabel8">
+        <property name="geometry">
+         <rect>
+          <x>490</x>
+          <y>360</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/FacingTowards.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="imgLabel9">
+        <property name="geometry">
+         <rect>
+          <x>490</x>
+          <y>470</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Outwards.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="saveChanges">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>620</y>
+          <width>231</width>
+          <height>71</height>
          </rect>
         </property>
         <property name="font">
          <font>
           <family>Eras Bold ITC</family>
-          <pointsize>11</pointsize>
-          <underline>false</underline>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton {
-    border-radius: 25px;
-      
+         <string notr="true">QPushButton{
       color: rgb(255, 255, 255);
-      
-      background-color: rgb(122, 147, 183);
-
       border: 1px solid white;
 }
 
 QPushButton:hover {
-      
-      background-color: rgb(145, 176, 218);
+      background-color: rgb(153, 178, 208);
 }</string>
         </property>
         <property name="text">
-         <string>Create a Gesture</string>
+         <string>Save Changes</string>
         </property>
         <property name="iconSize">
          <size>
@@ -2144,14 +2432,6 @@ QPushButton:hover {
          </size>
         </property>
        </widget>
-       <zorder>label_32</zorder>
-       <zorder>label_48</zorder>
-       <zorder>controllerBtn_4</zorder>
-       <zorder>keyboardBtn_4</zorder>
-       <zorder>label_50</zorder>
-       <zorder>label_49</zorder>
-       <zorder>pushButton</zorder>
-       <zorder>CreateGestureBtn</zorder>
       </widget>
       <widget class="QWidget" name="page_7">
        <widget class="QPushButton" name="keyboardBtn_5">
@@ -2282,58 +2562,12 @@ border:none;</string>
          <string>Controls Settings</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="CreateGestureBtn_2">
-        <property name="geometry">
-         <rect>
-          <x>570</x>
-          <y>130</y>
-          <width>171</width>
-          <height>50</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Eras Bold ITC</family>
-          <pointsize>11</pointsize>
-          <underline>false</underline>
-         </font>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton {
-    border-radius: 25px;
-      
-      color: rgb(255, 255, 255);
-      
-      background-color: rgb(122, 147, 183);
-
-      border: 1px solid white;
-}
-
-QPushButton:hover {
-      
-      background-color: rgb(145, 176, 218);
-}</string>
-        </property>
-        <property name="text">
-         <string>Create a Gesture</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
-        </property>
-       </widget>
        <zorder>label_35</zorder>
        <zorder>controllerBtn_5</zorder>
        <zorder>label_51</zorder>
        <zorder>label_52</zorder>
        <zorder>label_53</zorder>
        <zorder>keyboardBtn_5</zorder>
-       <zorder>CreateGestureBtn_2</zorder>
       </widget>
       <widget class="QWidget" name="page_10">
        <widget class="QLabel" name="label_33">

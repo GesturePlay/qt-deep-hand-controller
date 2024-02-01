@@ -3,9 +3,10 @@ from gestures import GestureRecognizer
 from PyQt5.QtCore import Qt
 from app import Ui_MainWindow
 from PyQt5 import QtGui, QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QLineEdit, QInputDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QLineEdit, QInputDialog, QComboBox, QVBoxLayout, QWidget, QFormLayout, QDialog, QGridLayout
+
 from PyQt5.QtCore import QTimer, QSize
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QImage, QStandardItemModel, QStandardItem 
 import subprocess
 import cv2
 import json
@@ -14,16 +15,16 @@ import numpy as np
 from labels import Labels
 from input import InputSimulator
 from input import KeyMap
-from profile import UserProfile
+#from profile import UserProfile
 
 
-userProfiles = UserProfile.deserialize_user_profiles()
+#userProfiles = UserProfile.deserialize_user_profiles()
 
-if userProfiles == []:
-    userProfiles.append(UserProfile()) #append a default user if there are no users
+#if userProfiles == []:
+    #userProfiles.append(UserProfile()) #append a default user if there are no users
 
 #need to set the active user here with a function when the user selects their profile at the main window
-activeUserProfile = userProfiles[0] #need to store the current user in this global, defaults to default new user
+#activeUserProfile = userProfiles[0] #need to store the current user in this global, defaults to default new user
 
 class VideoCaptureWidget(QtWidgets.QWidget):
     def __init__(self, label, parent=None):        
@@ -40,6 +41,7 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(30)  # Update every 30 ms
+
 
     def setup_ui(self):
         """Initialize widgets."""
@@ -63,8 +65,8 @@ class VideoCaptureWidget(QtWidgets.QWidget):
             #recognize the gestures
             lh_label, rh_label = self.hands_recognizer.recognize_gestures(frame)
             #convert to key
-            rh_key = None if rh_label is None else activeUserProfile.keymap.label_key_mapping[rh_label]
-            lh_key = None if lh_label is None else activeUserProfile.keymap.label_key_mapping[lh_label]
+            rh_key = None if rh_label is None else keymap.label_key_mapping[rh_label]
+            lh_key = None if lh_label is None else keymap.label_key_mapping[lh_label]
             #simulate input (press and release) for the keys
             y = [x for x in [rh_key, lh_key] if x is not None]
             self.input_simulator.simulate_input([x for x in [rh_key, lh_key] if x is not None])
@@ -158,12 +160,53 @@ class CameraWindow(QtWidgets.QMainWindow):
         self.show()
         event.accept()
 
+class ImageSelectionDialog(QDialog):
+    def __init__(self, parent=None):
+        super(ImageSelectionDialog, self).__init__(parent)
+        self.setWindowTitle("Choose Gesture")
+        self.setGeometry(800, 500, 200, 150)
+
+        # Create a layout for the dialog
+        layout = QVBoxLayout()
+
+        # Create a combo box to display a group of images
+        self.comboBox = QComboBox()
+        self.populate_combo_box()
+        layout.addWidget(self.comboBox)
+
+        # Create a button to confirm the selection
+        confirm_button = QPushButton("Select")
+        confirm_button.clicked.connect(self.accept)
+        layout.addWidget(confirm_button)
+
+        self.setLayout(layout)
+
+    def populate_combo_box(self):
+        # Assuming you have a list of image paths
+        image_paths = ["Images/Icons/FacingAway.png", "Images/Icons/FacingTowards.png", "Images/Icons/Fist.png", "Images/Icons/Gun.png", "Images/Icons/Flat.png", "Images/Icons/Outwards.png", "Images/Icons/Inward.png", "Images/Icons/Cursor.png", "Images/Icons/Click.png", "Images/Icons/ThumbsUp.png", "Images/Icons/ThumbsDown.png"]
+        
+        for path in image_paths:
+            # Use QStandardItem for each item in the combo box
+            item = QStandardItem(path.split("/")[-1])  # Display only the filename
+            item.setData(path, Qt.UserRole)  # Store the full path as user data
+            self.comboBox.model().appendRow(item)
+
+    def selected_image_path(self):
+        # Get the selected item from the combo box
+        index = self.comboBox.currentIndex()
+        item = self.comboBox.model().item(index)
+
+        if item is not None:
+            # Return the path of the selected image
+            return item.data(Qt.UserRole)
+        return None
+ 
 class MainWindow:    
     def __init__(self):
-
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
+        #layout = QFormLayout(self.main_win.centralWidget())
 
         #self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
         # Connect button clicks to show pages and highlight buttons
@@ -180,13 +223,11 @@ class MainWindow:
         self.setup_button(self.ui.trackmaniaBtn, self.showPage8)
         self.setup_button(self.ui.controlsSettingsBtn_3, self.showPage2)
         self.setup_button(self.ui.logoutBtn_2, self.showPage1)
-        self.setup_button(self.ui.pushButton, self.showPage11)
         self.setup_button(self.ui.BtnTutorial, self.showPage10)
         self.setup_button(self.ui.AddProfileButton, self.showPage9)
-        self.setup_button(self.ui.pushButton, self.showPage11)
         self.setup_button(self.ui.pushButton_2,self.showPage6)
         self.setup_button(self.ui.Back,self.showPage1)
-
+        
         # Set initial page and highlight the corresponding button
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
         self.highlight_button(self.ui.logoutBtn)
@@ -296,8 +337,11 @@ class MainWindow:
         self.ui.controlsSettingsBtn.setStyleSheet("background-color: rgb(99, 122, 155);\n"
                 "color: rgb(255, 255, 255);\n"
                 "border: none;")
-        self.ui.CreateGestureBtn.clicked.connect(self.launch_create_gesture_window)
-
+          
+        for i in range(1, 10):
+            img_label = getattr(self.ui, f"imgLabel{i}")
+            img_label.mousePressEvent = lambda event, idx=i: self.image_clicked(idx)
+            
         # stop camera feed
         if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
             self.webcam.stop_camera()
@@ -396,6 +440,20 @@ class MainWindow:
             cameras.append(camera_info)
 
         return cameras
+    
+    def image_clicked(self, idx):
+        # Show the image selection dialog with self.main_win as the parent
+        dialog = ImageSelectionDialog(self.main_win)
+        result = dialog.exec_()
+
+        if result == QDialog.Accepted:
+            # Get the selected image path from the dialog
+            selected_image_path = dialog.selected_image_path()
+
+            if selected_image_path is not None:
+                # Load and set the new image in the corresponding label
+                img_label = getattr(self.ui, f"imgLabel{idx}")
+                img_label.setPixmap(QPixmap(selected_image_path))
 
 if __name__ == '__main__':
     # Enable High DPI display with PyQt5
@@ -405,5 +463,9 @@ if __name__ == '__main__':
     main_win = MainWindow()
     main_win.show()
     result = app.exec_()
-    UserProfile.serialize_user_profiles(userProfiles) # save user profiles
+    #UserProfile.serialize_user_profiles(userProfiles) # save user profiles
     sys.exit(result)
+
+
+
+
