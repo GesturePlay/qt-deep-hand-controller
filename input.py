@@ -24,8 +24,25 @@ class KeyMap:
     def change_mapping(self, label, new_key):
         if label in self.label_key_mapping:
             self.label_key_mapping[label] = new_key
+            self.save_to_file()  # Save changes immediately when a mapping is changed
+            print("Mapping changed successfully.")
         else:
             print(f"Label {label} not found in mapping.")
+
+    def save_to_file(self):
+        # Convert the label_key_mapping dictionary to JSON string
+        keymap_json = json.dumps({label.value: key for label, key in self.label_key_mapping.items()})
+
+        # Write the JSON string to the file
+        try:
+            with open("gesture_mappings.json", "w") as f:
+                f.write(keymap_json)
+            print("Changes saved to file.")
+        except Exception as e:
+            print(f"Error saving changes to file: {e}")
+
+
+
     def serialize(self):
         # Convert self.label_key_mapping to a JSON string
 
@@ -40,8 +57,10 @@ class KeyMap:
         return keymap
 
 class InputSimulator:
-    def __init__(self):
+    def __init__(self, keymap):
+        self.keymap = keymap
         self.pressed_keys = []
+
     def simulate_input(self, keys):
         for x in self.pressed_keys:
             if x not in keys:
@@ -50,6 +69,7 @@ class InputSimulator:
             print(x)
             press_key(x)
         self.pressed_keys = keys
+
 
 #press_key('a')  # Press the 'a' key
 def press_key(key):

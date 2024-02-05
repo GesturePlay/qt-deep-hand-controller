@@ -1454,7 +1454,7 @@ QPushButton:hover {
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_3">
        <widget class="QLabel" name="label_38">
@@ -1792,8 +1792,8 @@ QPushButton:hover {
        <widget class="QPushButton" name="removeProfileBtn_4">
         <property name="geometry">
          <rect>
-          <x>330</x>
-          <y>520</y>
+          <x>320</x>
+          <y>580</y>
           <width>131</width>
           <height>50</height>
          </rect>
@@ -1868,7 +1868,7 @@ QPushButton:hover {
          <string>Camera Settings</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="comboBox_2">
+       <widget class="QComboBox" name="CameraSelection">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1932,12 +1932,26 @@ color: rgb(255, 255, 255);</string>
          <bool>true</bool>
         </property>
        </widget>
+       <widget class="QLabel" name="CameraPreview">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>300</y>
+          <width>241</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
        <zorder>label_47</zorder>
        <zorder>removeProfileBtn_4</zorder>
        <zorder>label_25</zorder>
        <zorder>label_43</zorder>
-       <zorder>comboBox_2</zorder>
+       <zorder>CameraSelection</zorder>
        <zorder>label_46</zorder>
+       <zorder>CameraPreview</zorder>
       </widget>
       <widget class="QWidget" name="page_6">
        <widget class="QLabel" name="label_32">

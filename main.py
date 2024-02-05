@@ -3,10 +3,10 @@ from gestures import GestureRecognizer
 from PyQt5.QtCore import Qt
 from app import Ui_MainWindow
 from PyQt5 import QtGui, QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QLineEdit, QInputDialog, QComboBox, QVBoxLayout, QWidget, QFormLayout, QDialog, QGridLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QLineEdit, QInputDialog, QComboBox, QVBoxLayout, QWidget, QFormLayout, QDialog, QGridLayout, QMessageBox
 
 from PyQt5.QtCore import QTimer, QSize
-from PyQt5.QtGui import QPixmap, QImage, QStandardItemModel, QStandardItem 
+from PyQt5.QtGui import QPixmap, QImage, QStandardItemModel, QStandardItem
 import subprocess
 import cv2
 import json
@@ -26,10 +26,12 @@ from input import KeyMap
 #need to set the active user here with a function when the user selects their profile at the main window
 #activeUserProfile = userProfiles[0] #need to store the current user in this global, defaults to default new user
 
+keymap = KeyMap()
+
 class VideoCaptureWidget(QtWidgets.QWidget):
-    def __init__(self, label, parent=None):        
+    def __init__(self, label, parent=None):
         super(VideoCaptureWidget, self).__init__(parent)
-        self.input_simulator = InputSimulator()
+        self.input_simulator = InputSimulator(keymap)
         self.hands_recognizer = GestureRecognizer()
         self.video_size = QSize(320, 240)
         self.image_label = label
@@ -184,7 +186,7 @@ class ImageSelectionDialog(QDialog):
     def populate_combo_box(self):
         # Assuming you have a list of image paths
         image_paths = ["Images/Icons/FacingAway.png", "Images/Icons/FacingTowards.png", "Images/Icons/Fist.png", "Images/Icons/Gun.png", "Images/Icons/Flat.png", "Images/Icons/Outwards.png", "Images/Icons/Inward.png", "Images/Icons/Cursor.png", "Images/Icons/Click.png", "Images/Icons/ThumbsUp.png", "Images/Icons/ThumbsDown.png"]
-        
+
         for path in image_paths:
             # Use QStandardItem for each item in the combo box
             item = QStandardItem(path.split("/")[-1])  # Display only the filename
@@ -197,15 +199,21 @@ class ImageSelectionDialog(QDialog):
         item = self.comboBox.model().item(index)
 
         if item is not None:
+            # Print the index of the selected gesture
+            print("Index of selected gesture:", index)
+
             # Return the path of the selected image
             return item.data(Qt.UserRole)
         return None
- 
-class MainWindow:    
+
+class MainWindow:
     def __init__(self):
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
+        self.keymap = KeyMap()
+        self.input_simulator = InputSimulator(self.keymap)  # Pass keymap instance here
+
         #layout = QFormLayout(self.main_win.centralWidget())
 
         #self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
@@ -227,10 +235,23 @@ class MainWindow:
         self.setup_button(self.ui.AddProfileButton, self.showPage9)
         self.setup_button(self.ui.pushButton_2,self.showPage6)
         self.setup_button(self.ui.Back,self.showPage1)
-        
+
         # Set initial page and highlight the corresponding button
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
         self.highlight_button(self.ui.logoutBtn)
+
+
+        """self.label_key_mapping = {
+            self.ui.imgLabel1: "W",
+            self.ui.imgLabel2: "A",
+            self.ui.imgLabel3: "S",
+            self.ui.imgLabel4: "D",
+            self.ui.imgLabel5: "G",
+            self.ui.imgLabel6: "I",
+            self.ui.imgLabel7: "O",
+            self.ui.imgLabel8: "P",
+            self.ui.imgLabel9: "U"
+        }"""
 
     def setup_button(self, button, callback):
         button.clicked.connect(callback)
@@ -331,20 +352,35 @@ class MainWindow:
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_6)
         self.highlight_button(self.ui.controlsSettingsBtn)
         self.highlight_button(self.ui.keyboardBtn_4)
+        self.ui.saveChanges.clicked.connect(self.save_changes_page6)
+
         self.ui.controllerBtn_4.setStyleSheet("color: rgb(96, 100, 106);\n"
             "background-color: rgb(255, 255, 255);\n"
             "border:none;")
         self.ui.controlsSettingsBtn.setStyleSheet("background-color: rgb(99, 122, 155);\n"
                 "color: rgb(255, 255, 255);\n"
                 "border: none;")
-          
+
         for i in range(1, 10):
             img_label = getattr(self.ui, f"imgLabel{i}")
             img_label.mousePressEvent = lambda event, idx=i: self.image_clicked(idx)
-            
+
         # stop camera feed
         if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
             self.webcam.stop_camera()
+
+    def save_changes_page6(self):
+        # Convert the label_key_mapping dictionary to JSON string
+        keymap_json = keymap.serialize()
+
+        # Write the JSON string to the file
+        with open("gesture_mappings.json", "w") as f:
+            f.write(keymap_json)
+
+        keymap.save_to_file()
+
+        # Optionally, you can notify the user that changes have been saved.
+        QMessageBox.information(self.main_win,"Changes Saved", "Key mappings have been saved successfully.")
 
     def showPage7(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_7)
@@ -440,7 +476,7 @@ class MainWindow:
             cameras.append(camera_info)
 
         return cameras
-    
+
     def image_clicked(self, idx):
         # Show the image selection dialog with self.main_win as the parent
         dialog = ImageSelectionDialog(self.main_win)
@@ -455,6 +491,7 @@ class MainWindow:
                 img_label = getattr(self.ui, f"imgLabel{idx}")
                 img_label.setPixmap(QPixmap(selected_image_path))
 
+
 if __name__ == '__main__':
     # Enable High DPI display with PyQt5
     QtWidgets.QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
@@ -465,7 +502,6 @@ if __name__ == '__main__':
     result = app.exec_()
     #UserProfile.serialize_user_profiles(userProfiles) # save user profiles
     sys.exit(result)
-
 
 
 
