@@ -28,15 +28,15 @@ LabelToStringMap = {
 }
 
 LabelToImgPath = {
-    Labels.CLICK : "./img/Click.png",
-    Labels.CURSOR : "./img/Cursor.png",
-    Labels.FIST : "./img/Fist.png",
-    Labels.FLAT : "./img/Flat.png",
-    Labels.GUN : "./img/Gun.png",
-    Labels.INWARD : "./img/Inward.png",
-    Labels.OPENAWAY : "./img/OpenAway.png",
-    Labels.OPENFACING : "./img/OpenFacing.png",
-    Labels.OUTWARD : "./img/Outward.png",
-    Labels.THUMBSUP : "./img/ThumbsUp.png",
-    Labels.THUMBSDOWN : "./img/ThumbsDown.png"
+    Labels.CLICK : "./Icons/Click.png",
+    Labels.CURSOR : "./Icons/Cursor.png",
+    Labels.FIST : "./Icons/Fist.png",
+    Labels.FLAT : "./Icons/Flat.png",
+    Labels.GUN : "./Icons/Gun.png",
+    Labels.INWARD : "./Icons/Inward.png",
+    Labels.OPENAWAY : "./Icons/OpenAway.png",
+    Labels.OPENFACING : "./Icons/OpenFacing.png",
+    Labels.OUTWARD : "./Icons/Outward.png",
+    Labels.THUMBSUP : "./Icons/ThumbsUp.png",
+    Labels.THUMBSDOWN : "./Icons/ThumbsDown.png"
 }
