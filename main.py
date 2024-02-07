@@ -2,7 +2,7 @@ import sys
 
 import labels
 from gestures import GestureRecognizer
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSettings
 from app import Ui_MainWindow
 from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QLineEdit, QInputDialog, QComboBox, QVBoxLayout, QWidget, QFormLayout, QDialog, QGridLayout, QMessageBox
@@ -28,12 +28,11 @@ if userProfiles == []:
 #need to set the active user here with a function when the user selects their profile at the main window
 activeUserProfile = userProfiles[0] #need to store the current user in this global, defaults to default new user
 
-keymap = KeyMap()
 
 class VideoCaptureWidget(QtWidgets.QWidget):
     def __init__(self, label, parent=None):
         super(VideoCaptureWidget, self).__init__(parent)
-        self.input_simulator = InputSimulator(keymap)
+        self.input_simulator = InputSimulator(activeUserProfile.keymap)
         self.hands_recognizer = GestureRecognizer()
         self.video_size = QSize(320, 240)
         self.image_label = label
@@ -69,8 +68,8 @@ class VideoCaptureWidget(QtWidgets.QWidget):
             #recognize the gestures
             lh_label, rh_label = self.hands_recognizer.recognize_gestures(frame)
             #convert to key
-            rh_key = None if rh_label is None else keymap.label_key_mapping[rh_label]
-            lh_key = None if lh_label is None else keymap.label_key_mapping[lh_label]
+            rh_key = None if rh_label is None else activeUserProfile.keymap.label_key_mapping[rh_label]
+            lh_key = None if lh_label is None else activeUserProfile.keymap.label_key_mapping[lh_label]
             #simulate input (press and release) for the keys
             y = [x for x in [rh_key, lh_key] if x is not None]
             self.input_simulator.simulate_input([x for x in [rh_key, lh_key] if x is not None])
@@ -220,6 +219,7 @@ class ImageSelectionDialog(QDialog):
 
 class MainWindow:
     def __init__(self):
+        self.settings = QSettings("YourCompany", "YourApp")
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
@@ -364,7 +364,6 @@ class MainWindow:
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_6)
         self.highlight_button(self.ui.controlsSettingsBtn)
         self.highlight_button(self.ui.keyboardBtn_4)
-        #self.ui.saveChanges.clicked.connect(self.save_changes_page6)
 
         self.ui.controllerBtn_4.setStyleSheet("color: rgb(96, 100, 106);\n"
             "background-color: rgb(255, 255, 255);\n"
@@ -375,6 +374,10 @@ class MainWindow:
 
         for i in range(1, 10):
             img_label = getattr(self.ui, f"imgLabel{i}")
+            # Load saved image path from settings
+            saved_image_path = self.settings.value(f"image_path_{i}", "")
+            if saved_image_path:
+                img_label.setPixmap(QPixmap(saved_image_path))
             img_label.mousePressEvent = lambda event, idx=i: self.image_clicked(idx)
 
         # stop camera feed
@@ -491,6 +494,7 @@ class MainWindow:
                 # Load and set the new image in the corresponding label
                 img_label = getattr(self.ui, f"imgLabel{idx}")
                 img_label.setPixmap(QPixmap(selected_image_path))
+                self.settings.setValue(f"image_path_{idx}", selected_image_path)
 
                 # Get the corresponding key for the label
                 selected_key = self.label_key_mapping.get(img_label)
@@ -500,6 +504,19 @@ class MainWindow:
                 print("Selected key:", selected_key)
 
                 activeUserProfile.keymap.change_mapping(selected_image_label, selected_key)
+
+                # Loop through other imgLabels and print if their pixmap paths match
+                for i in range(1, 10):
+                    if i != idx:  # Skip the current label
+                        other_img_label = getattr(self.ui, f"imgLabel{i}")
+                        # Get the image path of the other label from the settings
+                        other_image_path = self.settings.value(f"image_path_{i}", "")
+                        if other_img_label.pixmap().toImage() == img_label.pixmap().toImage():
+                            print(f"Image label {i} has the same image path")
+                            other_img_label.setPixmap(QPixmap("Images/Icons/unassigned.png"))  # Set to unassigned.png
+                            # Save the change to the setting
+                            self.settings.setValue(f"image_path_{i}", "Images/Icons/unassigned.png")
+
 
 if __name__ == '__main__':
     # Enable High DPI display with PyQt5
