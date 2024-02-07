@@ -23,8 +23,16 @@ class KeyMap:
     #keymapping.change_mapping(Labels.CLICK, "d")
     def change_mapping(self, label, new_key):
         if label in self.label_key_mapping:
+            # Check if the new key is already assigned to another gesture
+            for existing_label, existing_key in self.label_key_mapping.items():
+                if existing_key == new_key:
+                    # Update the mapping for the gesture that currently uses the new key
+                    self.label_key_mapping[existing_label] = None
+                    break
+
             self.label_key_mapping[label] = new_key
             print("Mapping changed successfully.")
+            print("Updated label_key_mapping:", self.label_key_mapping)
         else:
             print(f"Label {label} not found in mapping.")
 

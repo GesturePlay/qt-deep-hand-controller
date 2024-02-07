@@ -512,7 +512,6 @@ class MainWindow:
 
                 self.keymap.change_mapping(selected_image_label, selected_key)
 
-
 if __name__ == '__main__':
     # Enable High DPI display with PyQt5
     QtWidgets.QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
