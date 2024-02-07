@@ -236,17 +236,10 @@ class MainWindow:
         self.setup_button(self.ui.cameraSettingsBtn, self.showPage5)
         self.setup_button(self.ui.controlsSettingsBtn, self.showPage6)
         self.setup_button(self.ui.keyboardBtn_4, self.showPage6)
-        self.setup_button(self.ui.controllerBtn_4, self.showPage7)
-        self.setup_button(self.ui.keyboardBtn_5, self.showPage6)
-        self.setup_button(self.ui.controllerBtn_5, self.showPage7)
         self.setup_button(self.ui.logoutBtn, self.showPage1)
         self.setup_button(self.ui.trackmaniaBtn, self.showPage8)
         self.setup_button(self.ui.controlsSettingsBtn_3, self.showPage2)
         self.setup_button(self.ui.logoutBtn_2, self.showPage1)
-        self.setup_button(self.ui.BtnTutorial, self.showPage10)
-        self.setup_button(self.ui.AddProfileButton, self.showPage9)
-        self.setup_button(self.ui.pushButton_2,self.showPage6)
-        self.setup_button(self.ui.Back,self.showPage1)
 
         # Set initial page and highlight the corresponding button
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
@@ -382,20 +375,6 @@ class MainWindow:
             self.webcam.stop_camera()
 
 
-    def showPage7(self):
-        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_7)
-        self.highlight_button(self.ui.controllerBtn_5)
-        self.ui.keyboardBtn_5.setStyleSheet("color: rgb(96, 100, 106);\n"
-            "background-color: rgb(255, 255, 255);\n"
-            "border:none;")
-        self.ui.controlsSettingsBtn.setStyleSheet("background-color: rgb(99, 122, 155);\n"
-                "color: rgb(255, 255, 255);\n"
-                "border: none;")
-
-        # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
-            self.webcam.stop_camera()
-
     def showPage8(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_8)
         self.highlight_button(self.ui.trackmaniaBtn)
@@ -406,26 +385,6 @@ class MainWindow:
         if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
             self.webcam.stop_camera()
 
-    def showPage9(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.page_9)
-
-        # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
-            self.webcam.stop_camera()
-
-    def showPage10(self):
-        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_10)
-
-        # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
-            self.webcam.stop_camera()
-
-    def showPage11(self):
-        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_11)
-
-        # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
-            self.webcam.stop_camera()
     def launch_game_window(self):
         game_window = GameWindow(self.main_win, self.ui)
         game_window.show()
