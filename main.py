@@ -1,4 +1,6 @@
 import sys
+
+import labels
 from gestures import GestureRecognizer
 from PyQt5.QtCore import Qt
 from app import Ui_MainWindow
@@ -15,16 +17,16 @@ import numpy as np
 from labels import Labels
 from input import InputSimulator
 from input import KeyMap
-#from profile import UserProfile
+from profile import UserProfile
 
 
-#userProfiles = UserProfile.deserialize_user_profiles()
+userProfiles = UserProfile.deserialize_user_profiles()
 
-#if userProfiles == []:
-    #userProfiles.append(UserProfile()) #append a default user if there are no users
+if userProfiles == []:
+    userProfiles.append(UserProfile()) #append a default user if there are no users
 
 #need to set the active user here with a function when the user selects their profile at the main window
-#activeUserProfile = userProfiles[0] #need to store the current user in this global, defaults to default new user
+activeUserProfile = userProfiles[0] #need to store the current user in this global, defaults to default new user
 
 keymap = KeyMap()
 
@@ -206,6 +208,16 @@ class ImageSelectionDialog(QDialog):
             return item.data(Qt.UserRole)
         return None
 
+    def selected_image_label(self):
+        # Get the selected item from the combo box
+        index = self.comboBox.currentIndex()
+        item = self.comboBox.model().item(index)
+
+        if item is not None:
+            # Return the path of the selected image
+            return Labels(index)
+        return None
+
 class MainWindow:
     def __init__(self):
         self.main_win = QMainWindow()
@@ -241,17 +253,17 @@ class MainWindow:
         self.highlight_button(self.ui.logoutBtn)
 
 
-        """self.label_key_mapping = {
-            self.ui.imgLabel1: "W",
-            self.ui.imgLabel2: "A",
-            self.ui.imgLabel3: "S",
-            self.ui.imgLabel4: "D",
-            self.ui.imgLabel5: "G",
-            self.ui.imgLabel6: "I",
-            self.ui.imgLabel7: "O",
-            self.ui.imgLabel8: "P",
-            self.ui.imgLabel9: "U"
-        }"""
+        self.label_key_mapping = {
+            self.ui.imgLabel1: "w",
+            self.ui.imgLabel2: "a",
+            self.ui.imgLabel3: "s",
+            self.ui.imgLabel4: "d",
+            self.ui.imgLabel5: "g",
+            self.ui.imgLabel6: "i",
+            self.ui.imgLabel7: "o",
+            self.ui.imgLabel8: "p",
+            self.ui.imgLabel9: "u"
+        }
 
     def setup_button(self, button, callback):
         button.clicked.connect(callback)
@@ -352,7 +364,7 @@ class MainWindow:
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_6)
         self.highlight_button(self.ui.controlsSettingsBtn)
         self.highlight_button(self.ui.keyboardBtn_4)
-        self.ui.saveChanges.clicked.connect(self.save_changes_page6)
+        #self.ui.saveChanges.clicked.connect(self.save_changes_page6)
 
         self.ui.controllerBtn_4.setStyleSheet("color: rgb(96, 100, 106);\n"
             "background-color: rgb(255, 255, 255);\n"
@@ -485,11 +497,20 @@ class MainWindow:
         if result == QDialog.Accepted:
             # Get the selected image path from the dialog
             selected_image_path = dialog.selected_image_path()
+            selected_image_label = dialog.selected_image_label()
 
             if selected_image_path is not None:
                 # Load and set the new image in the corresponding label
                 img_label = getattr(self.ui, f"imgLabel{idx}")
                 img_label.setPixmap(QPixmap(selected_image_path))
+
+                # Get the corresponding key for the label
+                selected_key = self.label_key_mapping.get(img_label)
+
+                print("Selected label:", selected_image_label)
+                print("Selected key:", selected_key)
+
+                self.keymap.change_mapping(selected_image_label, selected_key)
 
 
 if __name__ == '__main__':
@@ -500,8 +521,5 @@ if __name__ == '__main__':
     main_win = MainWindow()
     main_win.show()
     result = app.exec_()
-    #UserProfile.serialize_user_profiles(userProfiles) # save user profiles
+    UserProfile.serialize_user_profiles(userProfiles) # save user profiles
     sys.exit(result)
-
-
-

@@ -40,3 +40,16 @@ LabelToImgPath = {
     Labels.THUMBSUP : "./Icons/ThumbsUp.png",
     Labels.THUMBSDOWN : "./Icons/ThumbsDown.png"
 }
+
+# Dictionary mapping image labels to keys
+LabelImgToKey = {
+    "imgLabel1": "w",
+    "imgLabel2": "a",
+    "imgLabel3": "s",
+    "imgLabel4": "d",
+    "imgLabel5": "g",
+    "imgLabel6": "i",
+    "imgLabel7": "o",
+    "imgLabel8": "p",
+    "imgLabel9": "u"
+}
