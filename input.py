@@ -3,6 +3,7 @@ import json
 from labels import Labels
 
 class KeyMap:
+
     def __init__(self):
         self.label_key_mapping = {
             Labels.CLICK: "w",
@@ -36,10 +37,9 @@ class KeyMap:
             self.label_key_mapping[label] = new_key
             print("Mapping changed successfully.")
             print("Updated label_key_mapping:", self.label_key_mapping)
+
         else:
             print(f"Label {label} not found in mapping.")
-
-
 
     def serialize(self):
         # Convert self.label_key_mapping to a JSON string
@@ -49,9 +49,10 @@ class KeyMap:
 
     @staticmethod
     def deserialize(keymap_str):
-        # Convert JSON string back to a dictionary
         keymap = KeyMap()
-        keymap.label_key_mapping = {Labels(int(k)) : v for k,v in json.loads(keymap_str).items()} #convert ints to labels from storage
+        if keymap_str:  # Check if the string is not empty or None
+            keymap.label_key_mapping = {Labels(int(k)): v for k, v in
+                                        json.loads(keymap_str).items()}  # Convert ints to labels from storage
         return keymap
 
 class InputSimulator:
@@ -68,10 +69,10 @@ class InputSimulator:
             press_key(x)
         self.pressed_keys = keys
 
-
 #press_key('a')  # Press the 'a' key
 def press_key(key):
     pyautogui.keyDown(key)
 #release_key('a') # Release the 'a' key
 def release_key(key):
     pyautogui.keyUp(key)
+

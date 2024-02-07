@@ -381,18 +381,6 @@ class MainWindow:
         if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
             self.webcam.stop_camera()
 
-    def save_changes_page6(self):
-        # Convert the label_key_mapping dictionary to JSON string
-        keymap_json = keymap.serialize()
-
-        # Write the JSON string to the file
-        with open("gesture_mappings.json", "w") as f:
-            f.write(keymap_json)
-
-        keymap.save_to_file()
-
-        # Optionally, you can notify the user that changes have been saved.
-        QMessageBox.information(self.main_win,"Changes Saved", "Key mappings have been saved successfully.")
 
     def showPage7(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_7)
@@ -511,7 +499,7 @@ class MainWindow:
                 print("Selected label:", selected_image_label)
                 print("Selected key:", selected_key)
 
-                self.keymap.change_mapping(selected_image_label, selected_key)
+                activeUserProfile.keymap.change_mapping(selected_image_label, selected_key)
 
 if __name__ == '__main__':
     # Enable High DPI display with PyQt5
@@ -521,5 +509,5 @@ if __name__ == '__main__':
     main_win = MainWindow()
     main_win.show()
     result = app.exec_()
-    UserProfile.serialize_user_profiles(userProfiles) # save user profiles
+    UserProfile.serialize_user_profiles(userProfiles)
     sys.exit(result)

@@ -9,6 +9,7 @@ class UserProfile:
         self.keymap = keyMap #contains a dictionary self.label_key_mapping with dictionary-keys of gesture Labels and values of keycodes
         self.gamelist = gameList #a list of executables
 
+
     #Example Usage: serialized_user = user.serialize()
     def serialize(self):
         # Convert the UserProfile object into a JSON string
