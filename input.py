@@ -28,6 +28,9 @@ class KeyMap:
                 if existing_key == new_key:
                     # Update the mapping for the gesture that currently uses the new key
                     self.label_key_mapping[existing_label] = None
+
+                if existing_label == label:
+                    self.label_key_mapping[existing_label] = new_key
                     break
 
             self.label_key_mapping[label] = new_key

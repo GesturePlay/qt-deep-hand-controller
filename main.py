@@ -187,7 +187,7 @@ class ImageSelectionDialog(QDialog):
 
     def populate_combo_box(self):
         # Assuming you have a list of image paths
-        image_paths = ["Images/Icons/FacingAway.png", "Images/Icons/FacingTowards.png", "Images/Icons/Fist.png", "Images/Icons/Gun.png", "Images/Icons/Flat.png", "Images/Icons/Outwards.png", "Images/Icons/Inward.png", "Images/Icons/Cursor.png", "Images/Icons/Click.png", "Images/Icons/ThumbsUp.png", "Images/Icons/ThumbsDown.png"]
+        image_paths = ["Images/Icons/click.png", "Images/Icons/cursor.png", "Images/Icons/Fist.png", "Images/Icons/Flat.png", "Images/Icons/Gun.png", "Images/Icons/Inward.png", "Images/Icons/FacingAway.png", "Images/Icons/FacingTowards.png", "Images/Icons/Outward.png", "Images/Icons/ThumbsUp.png", "Images/Icons/ThumbsDown.png"]
 
         for path in image_paths:
             # Use QStandardItem for each item in the combo box
@@ -507,6 +507,7 @@ class MainWindow:
                 # Get the corresponding key for the label
                 selected_key = self.label_key_mapping.get(img_label)
 
+                print(selected_image_path)
                 print("Selected label:", selected_image_label)
                 print("Selected key:", selected_key)
 
