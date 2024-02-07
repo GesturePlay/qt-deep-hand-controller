@@ -20,7 +20,7 @@ class NeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.network = nn.Sequential(nn.Linear(63, 100), nn.ELU(), nn.Linear(100, 11)) #1000adam-finished
+        self.network = nn.Sequential(nn.Linear(63, 300), nn.LeakyReLU(), nn.Linear(300, 11)) #model architecture
 
 
     def forward(self, x):
@@ -91,7 +91,7 @@ class GestureRecognizer:
         project_dir = os.path.dirname(os.path.abspath(__file__))
 
         # Construct the path to the model file
-        self.model_path = os.path.join(project_dir, '1000adam-finished.pth')                       #path to model
+        self.model_path = os.path.join(project_dir, 'best89.pth')                       #path to model
 
         try:
             self.model.load_state_dict(torch.load(self.model_path))
