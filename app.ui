@@ -80,7 +80,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page_1">
      <widget class="QLabel" name="label_2">
@@ -239,149 +239,6 @@
        <enum>Qt::Horizontal</enum>
       </property>
      </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="geometry">
-       <rect>
-        <x>380</x>
-        <y>510</y>
-        <width>111</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="Text">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="ButtonText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="PlaceholderText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="128">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="Text">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="ButtonText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="PlaceholderText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="128">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="Text">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="ButtonText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-         <colorrole role="PlaceholderText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="128">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="font">
-       <font>
-        <family>Eras Demi ITC</family>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(255, 255, 255);</string>
-      </property>
-      <property name="text">
-       <string>Profile1</string>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_7">
       <property name="geometry">
        <rect>
@@ -519,7 +376,7 @@
        <string notr="true">color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
-       <string>Who's playing today?</string>
+       <string>Ready to Start?</string>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -821,10 +678,10 @@ color: rgb(255, 255, 255);</string>
      <widget class="QPushButton" name="Profile1">
       <property name="geometry">
        <rect>
-        <x>370</x>
-        <y>390</y>
-        <width>111</width>
-        <height>121</height>
+        <x>420</x>
+        <y>440</y>
+        <width>211</width>
+        <height>71</height>
        </rect>
       </property>
       <property name="cursor">
@@ -845,12 +702,12 @@ QPushButton:hover {
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>Images/1x/Profile1.png</normaloff>Images/1x/Profile1.png</iconset>
+        <normaloff>Images/Icons/MainStartButton.png</normaloff>Images/Icons/MainStartButton.png</iconset>
       </property>
       <property name="iconSize">
        <size>
-        <width>100</width>
-        <height>100</height>
+        <width>300</width>
+        <height>150</height>
        </size>
       </property>
      </widget>
@@ -876,7 +733,6 @@ QPushButton:hover {
      <zorder>label_9</zorder>
      <zorder>label_2</zorder>
      <zorder>line</zorder>
-     <zorder>label_6</zorder>
      <zorder>label_7</zorder>
      <zorder>label_8</zorder>
      <zorder>label_3</zorder>
@@ -932,7 +788,7 @@ QPushButton:hover {
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>213</y>
+        <y>150</y>
         <width>231</width>
         <height>71</height>
        </rect>
@@ -1049,51 +905,6 @@ border:none;</string>
        <size>
         <width>80</width>
         <height>80</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="profileSettingsBtn">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>142</y>
-        <width>231</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Eras Bold ITC</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton{
-      color: rgb(255, 255, 255);
-      border:none;
-}
-
-QPushButton:hover {
-      background-color: rgb(153, 178, 208);
-}</string>
-      </property>
-      <property name="text">
-       <string> Profile Settings</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>Images/Icons/account-settings-11-128.png</normaloff>Images/Icons/account-settings-11-128.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>50</width>
-        <height>55</height>
        </size>
       </property>
      </widget>
@@ -1242,7 +1053,7 @@ QPushButton:hover {
 }
 
 QPushButton:hover {
-      
+
       background-color: rgba(255, 255, 255, 30);
 }</string>
         </property>
@@ -1383,7 +1194,7 @@ color: rgb(255, 255, 255);</string>
 }
 
 QPushButton:hover {
-      
+
       background-color: rgb(160, 173, 191);
 }</string>
         </property>
@@ -1447,14 +1258,14 @@ QPushButton:hover {
         <property name="styleSheet">
          <string notr="true">QPushButton {
     border-radius: 25px;
-      
+
       color: rgb(255, 255, 255);
-      
+
       background-color: rgb(122, 147, 183);
 }
 
 QPushButton:hover {
-      
+
       background-color: rgb(145, 176, 218);
 }</string>
         </property>
@@ -1609,74 +1420,6 @@ color: rgb(255, 255, 255);</string>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_48">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>118</y>
-          <width>151</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(255, 255, 255);</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="controllerBtn_4">
-        <property name="geometry">
-         <rect>
-          <x>115</x>
-          <y>120</y>
-          <width>75</width>
-          <height>24</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Eras Bold ITC</family>
-         </font>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(96, 100, 106);
-background-color: rgb(255, 255, 255);
-border:none;</string>
-        </property>
-        <property name="text">
-         <string>Controller</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="keyboardBtn_4">
-        <property name="geometry">
-         <rect>
-          <x>41</x>
-          <y>120</y>
-          <width>75</width>
-          <height>24</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Eras Bold ITC</family>
-         </font>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(122, 147, 183);
-border:none;</string>
-        </property>
-        <property name="text">
-         <string>Keyboard</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_50">
@@ -2043,47 +1786,6 @@ border:none;</string>
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="saveChanges">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>620</y>
-          <width>231</width>
-          <height>71</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Eras Bold ITC</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-      color: rgb(255, 255, 255);
-      border: 1px solid white;
-}
-
-QPushButton:hover {
-      background-color: rgb(153, 178, 208);
-}</string>
-        </property>
-        <property name="text">
-         <string>Save Changes</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
-        </property>
-       </widget>
       </widget>
      </widget>
      <zorder>label</zorder>
@@ -2091,7 +1793,6 @@ QPushButton:hover {
      <zorder>cameraSettingsBtn</zorder>
      <zorder>controlsSettingsBtn</zorder>
      <zorder>gameSelectionBtn</zorder>
-     <zorder>profileSettingsBtn</zorder>
      <zorder>stackedWidget_2</zorder>
     </widget>
     <widget class="QWidget" name="page_8">
@@ -2323,14 +2024,14 @@ QPushButton:hover {
       <property name="styleSheet">
        <string notr="true">QPushButton {
     border-radius: 25px;
-      
+
       color: rgb(255, 255, 255);
-      
+
       background-color: rgb(122, 147, 183);
 }
 
 QPushButton:hover {
-      
+
       background-color: rgb(145, 176, 218);
 }</string>
       </property>

@@ -232,10 +232,8 @@ class MainWindow:
         # Connect button clicks to show pages and highlight buttons
         self.setup_button(self.ui.Profile1, self.showPage2)
         self.setup_button(self.ui.gameSelectionBtn, self.showPage3)
-        self.setup_button(self.ui.profileSettingsBtn, self.showPage4)
         self.setup_button(self.ui.cameraSettingsBtn, self.showPage5)
         self.setup_button(self.ui.controlsSettingsBtn, self.showPage6)
-        self.setup_button(self.ui.keyboardBtn_4, self.showPage6)
         self.setup_button(self.ui.logoutBtn, self.showPage1)
         self.setup_button(self.ui.trackmaniaBtn, self.showPage8)
         self.setup_button(self.ui.controlsSettingsBtn_3, self.showPage2)
@@ -273,7 +271,7 @@ class MainWindow:
 
     def highlight_button(self, button):
         # Reset styles for all buttons
-        for btn in [self.ui.Profile1, self.ui.gameSelectionBtn, self.ui.profileSettingsBtn,
+        for btn in [self.ui.Profile1, self.ui.gameSelectionBtn,
                     self.ui.cameraSettingsBtn, self.ui.controlsSettingsBtn,
                     self.ui.logoutBtn, self.ui.trackmaniaBtn, self.ui.controlsSettingsBtn_3,
                     self.ui.logoutBtn_2]:
@@ -327,7 +325,6 @@ class MainWindow:
 
     def showPage4(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4)
-        self.highlight_button(self.ui.profileSettingsBtn)
 
         # stop camera feed
         if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
@@ -356,14 +353,6 @@ class MainWindow:
     def showPage6(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_6)
         self.highlight_button(self.ui.controlsSettingsBtn)
-        self.highlight_button(self.ui.keyboardBtn_4)
-
-        self.ui.controllerBtn_4.setStyleSheet("color: rgb(96, 100, 106);\n"
-            "background-color: rgb(255, 255, 255);\n"
-            "border:none;")
-        self.ui.controlsSettingsBtn.setStyleSheet("background-color: rgb(99, 122, 155);\n"
-                "color: rgb(255, 255, 255);\n"
-                "border: none;")
 
         for i in range(1, 10):
             img_label = getattr(self.ui, f"imgLabel{i}")
