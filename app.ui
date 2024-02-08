@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>768</height>
+    <width>1022</width>
+    <height>779</height>
    </rect>
   </property>
   <property name="palette">
@@ -717,7 +717,7 @@ QPushButton:hover {
         <x>-2</x>
         <y>-5</y>
         <width>1031</width>
-        <height>731</height>
+        <height>751</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -745,7 +745,7 @@ QPushButton:hover {
         <x>10</x>
         <y>660</y>
         <width>191</width>
-        <height>51</height>
+        <height>81</height>
        </rect>
       </property>
       <property name="font">
@@ -771,11 +771,11 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Change Profile</string>
+       <string>Main Screen</string>
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>Images/1x/Profile1.png</normaloff>Images/1x/Profile1.png</iconset>
+        <normaloff>Images/Icons/Logouticon.png</normaloff>Images/Icons/Logouticon.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -914,7 +914,7 @@ border:none;</string>
         <x>0</x>
         <y>0</y>
         <width>231</width>
-        <height>731</height>
+        <height>751</height>
        </rect>
       </property>
       <property name="text">
@@ -945,7 +945,7 @@ border:none;</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>801</width>
+          <width>841</width>
           <height>111</height>
          </rect>
         </property>
@@ -1974,7 +1974,7 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Change Profile</string>
+       <string>Main Screen</string>
       </property>
       <property name="icon">
        <iconset>
@@ -2148,7 +2148,7 @@ QPushButton:hover {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1022</width>
      <height>22</height>
     </rect>
    </property>
