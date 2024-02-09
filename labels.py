@@ -12,6 +12,7 @@ class Labels(Enum):
     OUTWARD = 8
     THUMBSUP = 9
     THUMBSDOWN = 10
+
     
 LabelToStringMap = {
     Labels.THUMBSUP : "Thumbs Up",
