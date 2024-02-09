@@ -88,13 +88,6 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         p = convert_to_Qt_format.scaled(self.video_size.width(), self.video_size.height(), Qt.KeepAspectRatio)
         return QPixmap.fromImage(p)
 
-    def print_camera_info(self):
-        """Print information about the camera."""
-        camera_info = self.capture.getBackendName()
-        actual_camera_name = self.capture.get(cv2.CAP_PROP_BACKEND)
-        print(f"Camera backend: {camera_info}")
-        print(f"Actual camera name: {actual_camera_name}")
-
     def start_camera(self):
         self.timer.start()
         self.active = True
@@ -241,23 +234,21 @@ class MainWindow:
 
         #self.webcam = VideoCaptureWidget(self.ui.webcamLabel)
         # Connect button clicks to show pages and highlight buttons
-        self.setup_button(self.ui.Profile1, self.showPage2)
-        self.setup_button(self.ui.gameSelectionBtn, self.showPage3)
-        self.setup_button(self.ui.cameraSettingsBtn, self.showPage5)
-        self.setup_button(self.ui.controlsSettingsBtn, self.showPage6)
-        self.setup_button(self.ui.logoutBtn, self.showPage1)
-        self.setup_button(self.ui.lightSpeedBtn, self.showPage8)
-        self.setup_button(self.ui.tankGameBtn, self.showPage9)
-        self.setup_button(self.ui.controlsSettingsBtn_3, self.showPage2)
-        self.setup_button(self.ui.controlsSettingsBtn_4, self.showPage2)
-        self.setup_button(self.ui.logoutBtn_2, self.showPage1)
-        self.setup_button(self.ui.logoutBtn_3, self.showPage1)
-        self.setup_button(self.ui.logoutBtn_4, self.showPage1)
+        self.setup_button(self.ui.startBtn, self.show_menu_page)
+        self.setup_button(self.ui.gameSelectionBtn, self.show_game_selection_page)
+        self.setup_button(self.ui.cameraSettingsBtn, self.show_camera_settings_page)
+        self.setup_button(self.ui.controlsSettingsBtn, self.show_controls_settings_page)
+        self.setup_button(self.ui.logoutBtn, self.show_main_page)
+        self.setup_button(self.ui.lightSpeedBtn, self.show_lightspeed_page)
+        self.setup_button(self.ui.tankGameBtn, self.show_tankgame_page)
+        self.setup_button(self.ui.controlsSettingsBtn_3, self.show_menu_page)
+        self.setup_button(self.ui.controlsSettingsBtn_4, self.show_menu_page)
+        self.setup_button(self.ui.logoutBtn_2, self.show_main_page)
+        self.setup_button(self.ui.logoutBtn_3, self.show_main_page)
+        self.setup_button(self.ui.logoutBtn_4, self.show_main_page)
 
         # Set initial page and highlight the corresponding button
-        self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
-        self.highlight_button(self.ui.logoutBtn)
-
+        self.ui.stackedWidget.setCurrentWidget(self.ui.main_page)
 
         self.label_key_mapping = {
             self.ui.imgLabel1: "w",
@@ -286,7 +277,7 @@ class MainWindow:
 
     def highlight_button(self, button):
         # Reset styles for all buttons
-        for btn in [self.ui.Profile1, self.ui.gameSelectionBtn,
+        for btn in [self.ui.startBtn, self.ui.gameSelectionBtn,
                     self.ui.cameraSettingsBtn, self.ui.controlsSettingsBtn,
                     self.ui.logoutBtn, self.ui.lightSpeedBtn, self.ui.controlsSettingsBtn_3,
                     self.ui.logoutBtn_2]:
@@ -312,34 +303,31 @@ class MainWindow:
     def show(self):
         self.main_win.show()
 
-    def showPage1(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
-        self.highlight_button(self.ui.logoutBtn)
+    def show_main_page(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.main_page)
 
         # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.camera_page:
             self.webcam.stop_camera()
 
-    def showPage2(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.page_2)
-        self.highlight_button(self.ui.Profile1)
-        self.highlight_button(self.ui.controlsSettingsBtn_3)
-        self.highlight_button(self.ui.gameSelectionBtn)  # Highlight gameSelectionBtn
-
-        # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
-            self.webcam.stop_camera()
-
-    def showPage3(self):
-        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
+    def show_menu_page(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.menu_page)
         self.highlight_button(self.ui.gameSelectionBtn)
 
         # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.camera_page:
             self.webcam.stop_camera()
 
-    def showPage5(self):
-        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_5)
+    def show_game_selection_page(self):
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.game_selection_page)
+        self.highlight_button(self.ui.gameSelectionBtn)
+
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.camera_page:
+            self.webcam.stop_camera()
+
+    def show_camera_settings_page(self):
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.camera_page)
         self.highlight_button(self.ui.cameraSettingsBtn)
         self.ui.CameraPreview.clear()  # Clear any existing content
         self.ui.CameraPreview.setPixmap(QtGui.QPixmap())  # Clear the pixmap if needed
@@ -350,16 +338,14 @@ class MainWindow:
         self.webcam.setup_camera()
         self.webcam.set_preview_label(self.ui.CameraPreview)
 
-        self.webcam.print_camera_info()
-
         # Populate the QComboBox with available cameras
         self.populate_camera_combobox()
 
         # Start the camera feed
         self.webcam.start_camera()
 
-    def showPage6(self):
-        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_6)
+    def show_controls_settings_page(self):
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.controls_settings_page)
         self.highlight_button(self.ui.controlsSettingsBtn)
 
         for i in range(1, 10):
@@ -371,11 +357,11 @@ class MainWindow:
             img_label.mousePressEvent = lambda event, idx=i: self.image_clicked(idx)
 
         # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.camera_page:
             self.webcam.stop_camera()
 
-    def showPage8(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.page_8)
+    def show_lightspeed_page(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.lightspeed_game_page)
         self.highlight_button(self.ui.lightSpeedBtn)
 
         lightspeed_path = r"GameFile/LightSpeed/build/fyp_platformer.exe"
@@ -384,25 +370,21 @@ class MainWindow:
         self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
 
         # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.camera_page:
             self.webcam.stop_camera()
 
-    def showPage9(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.page_9)
+    def show_tankgame_page(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.tank_game_page)
         self.highlight_button(self.ui.tankGameBtn)
 
         tankGame_path = r"GameFile/LightSpeed/build/fyp_platformer.exe" #Change the path once the game is built
 
-        self.ui.launchGameBtn.clicked.connect(lambda: self.launch_game(tankGame_path))
-        self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
+        self.ui.launchGameBtn_2.clicked.connect(lambda: self.launch_game(tankGame_path))
+        self.ui.launchGameBtn_2.clicked.connect(self.launch_camera_window)
 
         # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.camera_page:
             self.webcam.stop_camera()
-
-    def launch_game_window(self):
-        game_window = GameWindow(self.main_win, self.ui)
-        game_window.show()
 
     def launch_camera_window(self):
         camera_window = CameraWindow(self.main_win, self.ui)
@@ -411,10 +393,8 @@ class MainWindow:
         camera_window.show()
 
     def launch_game(self, path):
-        # Get the current working directory
         # Specify the desired screen resolution
         resolution = "1600x900"  # Change this to your desired resolution
-
         subprocess.Popen([path, f"-screen-width {resolution.split('x')[0]}", f"-screen-height {resolution.split('x')[1]}"])
 
     def populate_camera_combobox(self):
@@ -448,8 +428,6 @@ class MainWindow:
 
         # Print the selected camera index
         print("Selected camera index:", selected_camera_index)
-
-
 
     def get_available_cameras(self):
         cameras = []
@@ -508,7 +486,6 @@ class MainWindow:
                             other_img_label.setPixmap(QPixmap("Images/Icons/unassigned.png"))  # Set to unassigned.png
                             # Save the change to the setting
                             self.settings.setValue(f"image_path_{i}", "Images/Icons/unassigned.png")
-
 
 if __name__ == '__main__':
     # Enable High DPI display with PyQt5
