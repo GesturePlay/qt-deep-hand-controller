@@ -17,7 +17,7 @@ import numpy as np
 from labels import Labels
 from input import InputSimulator
 from input import KeyMap
-from profile1 import UserProfile
+from profile_1 import UserProfile
 
 
 userProfiles = UserProfile.deserialize_user_profiles()
@@ -186,13 +186,17 @@ class ImageSelectionDialog(QDialog):
 
     def populate_combo_box(self):
         # Assuming you have a list of image paths
-        image_paths = ["Images/Icons/Fist.png", "Images/Icons/Flat.png", "Images/Icons/Gun.png", "Images/Icons/Inward.png", "Images/Icons/FacingAway.png", "Images/Icons/FacingTowards.png", "Images/Icons/Outward.png", "Images/Icons/ThumbsUp.png", "Images/Icons/ThumbsDown.png"]
+        image_paths = ["Images/Icons/click.png", "Images/Icons/cursor.png", "Images/Icons/Fist.png",
+                       "Images/Icons/Flat.png", "Images/Icons/Gun.png", "Images/Icons/Inward.png",
+                       "Images/Icons/FacingAway.png", "Images/Icons/FacingTowards.png", "Images/Icons/Outward.png",
+                       "Images/Icons/ThumbsUp.png", "Images/Icons/ThumbsDown.png"]
 
         for path in image_paths:
-            # Use QStandardItem for each item in the combo box
-            item = QStandardItem(path.split("/")[-1])  # Display only the filename
-            item.setData(path, Qt.UserRole)  # Store the full path as user data
-            self.comboBox.model().appendRow(item)
+            if path not in ["Images/Icons/click.png", "Images/Icons/cursor.png"]:  # Exclude click.png and cursor.png
+                # Use QStandardItem for each item in the combo box
+                item = QStandardItem(path.split("/")[-1])  # Display only the filename
+                item.setData(path, Qt.UserRole)  # Store the full path as user data
+                self.comboBox.model().appendRow(item)
 
     def selected_image_path(self):
         # Get the selected item from the combo box
@@ -213,8 +217,18 @@ class ImageSelectionDialog(QDialog):
         item = self.comboBox.model().item(index)
 
         if item is not None:
-            # Return the path of the selected image
-            return Labels(index)
+            # Retrieve the full path of the selected image
+            selected_image_path = item.data(Qt.UserRole)
+
+            # Get the index of the selected image path in the image_paths list
+            image_paths = ["Images/Icons/click.png", "Images/Icons/cursor.png", "Images/Icons/Fist.png",
+                           "Images/Icons/Flat.png", "Images/Icons/Gun.png", "Images/Icons/Inward.png",
+                           "Images/Icons/FacingAway.png", "Images/Icons/FacingTowards.png", "Images/Icons/Outward.png",
+                           "Images/Icons/ThumbsUp.png", "Images/Icons/ThumbsDown.png"]
+            selected_index = image_paths.index(selected_image_path)
+
+            # Return the label corresponding to the index
+            return Labels(selected_index)
         return None
 
 class MainWindow:
