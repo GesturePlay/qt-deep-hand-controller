@@ -1,8 +1,8 @@
 from enum import Enum
 
 class Labels(Enum):
-    CLICK = 0
-    CURSOR = 1
+    THUMBSUP = 0
+    THUMBSDOWN = 1
     FIST = 2
     FLAT = 3
     GUN = 4
@@ -10,12 +10,12 @@ class Labels(Enum):
     OPENAWAY = 6
     OPENFACING = 7
     OUTWARD = 8
-    THUMBSUP = 9
-    THUMBSDOWN = 10
-
+    CLICK = 9
+    CURSOR = 10
+    
 LabelToStringMap = {
-    Labels.CLICK : "Click",
-    Labels.CURSOR : "Cursor",
+    Labels.THUMBSUP : "Thumbs Up",
+    Labels.THUMBSDOWN : "Thumbs Down",
     Labels.FIST : "Fist",
     Labels.FLAT : "Flat",
     Labels.GUN : "Gun",
@@ -23,13 +23,13 @@ LabelToStringMap = {
     Labels.OPENAWAY : "Open Away",
     Labels.OPENFACING : "Open Facing",
     Labels.OUTWARD : "Outward",
-    Labels.THUMBSUP : "Thumbs Up",
-    Labels.THUMBSDOWN : "Thumbs Down"
+    Labels.CLICK : "Click",
+    Labels.CURSOR : "Cursor",
 }
 
 LabelToImgPath = {
-    Labels.CLICK : "./Icons/Click.png",
-    Labels.CURSOR : "./Icons/Cursor.png",
+    Labels.THUMBSUP : "./Icons/ThumbsUp.png",
+    Labels.THUMBSDOWN : "./Icons/ThumbsDown.png",
     Labels.FIST : "./Icons/Fist.png",
     Labels.FLAT : "./Icons/Flat.png",
     Labels.GUN : "./Icons/Gun.png",
@@ -37,8 +37,8 @@ LabelToImgPath = {
     Labels.OPENAWAY : "./Icons/OpenAway.png",
     Labels.OPENFACING : "./Icons/OpenFacing.png",
     Labels.OUTWARD : "./Icons/Outward.png",
-    Labels.THUMBSUP : "./Icons/ThumbsUp.png",
-    Labels.THUMBSDOWN : "./Icons/ThumbsDown.png"
+    Labels.CLICK : "./Icons/Click.png",
+    Labels.CURSOR : "./Icons/Cursor.png",
 }
 
 # Dictionary mapping image labels to keys

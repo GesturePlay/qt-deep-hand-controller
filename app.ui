@@ -1515,8 +1515,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="Key_A">
         <property name="geometry">
          <rect>
-          <x>-40</x>
-          <y>220</y>
+          <x>-70</x>
+          <y>170</y>
           <width>300</width>
           <height>220</height>
          </rect>
@@ -1534,8 +1534,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="Key_D">
         <property name="geometry">
          <rect>
-          <x>-40</x>
-          <y>440</y>
+          <x>-70</x>
+          <y>390</y>
           <width>300</width>
           <height>220</height>
          </rect>
@@ -1553,8 +1553,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="Key_S">
         <property name="geometry">
          <rect>
-          <x>-40</x>
-          <y>330</y>
+          <x>-70</x>
+          <y>280</y>
           <width>300</width>
           <height>220</height>
          </rect>
@@ -1572,8 +1572,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="Key_W">
         <property name="geometry">
          <rect>
-          <x>-40</x>
-          <y>110</y>
+          <x>-70</x>
+          <y>60</y>
           <width>300</width>
           <height>220</height>
          </rect>
@@ -1591,8 +1591,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="imgLabel1">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>140</y>
+          <x>100</x>
+          <y>90</y>
           <width>200</width>
           <height>150</height>
          </rect>
@@ -1601,7 +1601,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>Images/Icons/Click.PNG</pixmap>
+         <pixmap>Images/Icons/ThumbsUp.PNG</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -1610,8 +1610,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="imgLabel2">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>250</y>
+          <x>100</x>
+          <y>200</y>
           <width>200</width>
           <height>150</height>
          </rect>
@@ -1620,7 +1620,7 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>Images/Icons/Cursor.PNG</pixmap>
+         <pixmap>Images/Icons/ThumbsDown.PNG</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -1629,8 +1629,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="imgLabel3">
         <property name="geometry">
          <rect>
-          <x>140</x>
-          <y>360</y>
+          <x>110</x>
+          <y>310</y>
           <width>200</width>
           <height>150</height>
          </rect>
@@ -1648,8 +1648,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="imgLabel4">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>480</y>
+          <x>100</x>
+          <y>420</y>
           <width>200</width>
           <height>150</height>
          </rect>
@@ -1667,8 +1667,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="Key_G">
         <property name="geometry">
          <rect>
-          <x>-40</x>
-          <y>550</y>
+          <x>-70</x>
+          <y>500</y>
           <width>300</width>
           <height>220</height>
          </rect>
@@ -1686,8 +1686,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="imgLabel5">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>580</y>
+          <x>100</x>
+          <y>530</y>
           <width>200</width>
           <height>150</height>
          </rect>
@@ -1705,8 +1705,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="Key_I">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>110</y>
+          <x>230</x>
+          <y>60</y>
           <width>300</width>
           <height>220</height>
          </rect>
@@ -1724,8 +1724,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="Key_O">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>220</y>
+          <x>230</x>
+          <y>170</y>
           <width>300</width>
           <height>220</height>
          </rect>
@@ -1743,8 +1743,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="Key_P">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>330</y>
+          <x>230</x>
+          <y>280</y>
           <width>300</width>
           <height>220</height>
          </rect>
@@ -1762,8 +1762,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="Key_U">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>440</y>
+          <x>230</x>
+          <y>390</y>
           <width>300</width>
           <height>220</height>
          </rect>
@@ -1781,8 +1781,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="imgLabel6">
         <property name="geometry">
          <rect>
-          <x>490</x>
-          <y>140</y>
+          <x>400</x>
+          <y>100</y>
           <width>200</width>
           <height>150</height>
          </rect>
@@ -1800,8 +1800,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="imgLabel7">
         <property name="geometry">
          <rect>
-          <x>490</x>
-          <y>240</y>
+          <x>400</x>
+          <y>200</y>
           <width>200</width>
           <height>150</height>
          </rect>
@@ -1819,8 +1819,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="imgLabel8">
         <property name="geometry">
          <rect>
-          <x>490</x>
-          <y>360</y>
+          <x>400</x>
+          <y>320</y>
           <width>200</width>
           <height>150</height>
          </rect>
@@ -1838,8 +1838,8 @@ color: rgb(255, 255, 255);</string>
        <widget class="QLabel" name="imgLabel9">
         <property name="geometry">
          <rect>
-          <x>490</x>
-          <y>470</y>
+          <x>400</x>
+          <y>420</y>
           <width>200</width>
           <height>150</height>
          </rect>
@@ -1848,12 +1848,112 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>Images/Icons/Outwards.PNG</pixmap>
+         <pixmap>Images/Icons/Outward.PNG</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
         </property>
        </widget>
+       <widget class="QLabel" name="label_36">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>560</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Click.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_37">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>560</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/LMB.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_49">
+        <property name="geometry">
+         <rect>
+          <x>490</x>
+          <y>545</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/MoveMouse.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_51">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>550</y>
+          <width>200</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>Images/Icons/Cursor.PNG</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <zorder>Key_I</zorder>
+       <zorder>label_32</zorder>
+       <zorder>label_50</zorder>
+       <zorder>Key_A</zorder>
+       <zorder>Key_D</zorder>
+       <zorder>Key_S</zorder>
+       <zorder>Key_W</zorder>
+       <zorder>imgLabel1</zorder>
+       <zorder>imgLabel2</zorder>
+       <zorder>imgLabel3</zorder>
+       <zorder>imgLabel4</zorder>
+       <zorder>Key_G</zorder>
+       <zorder>imgLabel5</zorder>
+       <zorder>Key_O</zorder>
+       <zorder>Key_P</zorder>
+       <zorder>Key_U</zorder>
+       <zorder>imgLabel6</zorder>
+       <zorder>imgLabel7</zorder>
+       <zorder>imgLabel8</zorder>
+       <zorder>imgLabel9</zorder>
+       <zorder>label_36</zorder>
+       <zorder>label_37</zorder>
+       <zorder>label_49</zorder>
+       <zorder>label_51</zorder>
       </widget>
      </widget>
      <zorder>label</zorder>

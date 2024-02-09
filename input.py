@@ -6,8 +6,8 @@ class KeyMap:
 
     def __init__(self):
         self.label_key_mapping = {
-            Labels.CLICK: "w",
-            Labels.CURSOR: "a",
+            Labels.THUMBSUP: "w",
+            Labels.THUMBSDOWN: "a",
             Labels.FIST: "s",
             Labels.FLAT: "d",
             Labels.GUN: "g",
@@ -15,8 +15,8 @@ class KeyMap:
             Labels.OPENAWAY: "o",
             Labels.OPENFACING: "p",
             Labels.OUTWARD: "u",
-            Labels.THUMBSUP: "t",
-            Labels.THUMBSDOWN: "z",
+            Labels.CLICK: "t",
+            Labels.CURSOR: "z",
         }
 
     # NOTE THIS FUNCTION IS RETARDED

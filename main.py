@@ -17,7 +17,7 @@ import numpy as np
 from labels import Labels
 from input import InputSimulator
 from input import KeyMap
-from profile import UserProfile
+from profile1 import UserProfile
 
 
 userProfiles = UserProfile.deserialize_user_profiles()
@@ -186,7 +186,7 @@ class ImageSelectionDialog(QDialog):
 
     def populate_combo_box(self):
         # Assuming you have a list of image paths
-        image_paths = ["Images/Icons/click.png", "Images/Icons/cursor.png", "Images/Icons/Fist.png", "Images/Icons/Flat.png", "Images/Icons/Gun.png", "Images/Icons/Inward.png", "Images/Icons/FacingAway.png", "Images/Icons/FacingTowards.png", "Images/Icons/Outward.png", "Images/Icons/ThumbsUp.png", "Images/Icons/ThumbsDown.png"]
+        image_paths = ["Images/Icons/Fist.png", "Images/Icons/Flat.png", "Images/Icons/Gun.png", "Images/Icons/Inward.png", "Images/Icons/FacingAway.png", "Images/Icons/FacingTowards.png", "Images/Icons/Outward.png", "Images/Icons/ThumbsUp.png", "Images/Icons/ThumbsDown.png"]
 
         for path in image_paths:
             # Use QStandardItem for each item in the combo box
