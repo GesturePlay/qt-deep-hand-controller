@@ -55,9 +55,9 @@ class VideoCaptureWidget(QtWidgets.QWidget):
         #layout.addWidget(self.image_label)
         #self.setLayout(layout)
 
-    def setup_camera(self):
-        """Set up the camera index."""
-        self.capture = cv2.VideoCapture(0)  # Index 0 for the default camera
+    def setup_camera(self, camera_index=0):
+        """Set up the camera with the specified index."""
+        self.capture = cv2.VideoCapture(camera_index)
         self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.video_size.width())
         self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.video_size.height())
 
@@ -403,9 +403,32 @@ class MainWindow:
         # Set the items in the QComboBox
         self.ui.CameraSelection.addItems(available_cameras)
 
+        # Connect the currentIndexChanged signal to the slot method
+        self.ui.CameraSelection.currentIndexChanged.connect(self.camera_selection_changed)
+
         # Set the default selection to the first camera in the list
         if available_cameras:
             self.ui.CameraSelection.setCurrentIndex(0)
+
+    def camera_selection_changed(self, index):
+        # Stop the current camera feed
+        if hasattr(self, 'webcam'):
+            self.webcam.stop_camera()
+            self.webcam.close()  # Close the existing camera instance
+
+        # Create a new VideoCaptureWidget instance with the selected camera index
+        self.webcam = VideoCaptureWidget(self.ui.CameraPreview)
+        selected_camera_index = self.ui.CameraSelection.currentIndex()
+        self.webcam.setup_camera(camera_index=selected_camera_index)
+        self.webcam.set_preview_label(self.ui.CameraPreview)
+
+        # Start the camera feed
+        self.webcam.start_camera()
+
+        # Print the selected camera index
+        print("Selected camera index:", selected_camera_index)
+
+
 
     def get_available_cameras(self):
         cameras = []
