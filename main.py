@@ -5,9 +5,9 @@ from gestures import GestureRecognizer
 from PyQt5.QtCore import Qt, QSettings
 from app import Ui_MainWindow
 from PyQt5 import QtGui, QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QLineEdit, QInputDialog, QComboBox, QVBoxLayout, QWidget, QFormLayout, QDialog, QGridLayout, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QInputDialog, QComboBox, QVBoxLayout, QWidget, QFormLayout, QDialog, QGridLayout, QMessageBox
 
-from PyQt5.QtCore import QTimer, QSize
+from PyQt5.QtCore import QTimer, QSize, QUrl
 from PyQt5.QtGui import QPixmap, QImage, QStandardItemModel, QStandardItem
 import subprocess
 import cv2
@@ -235,9 +235,13 @@ class MainWindow:
         self.setup_button(self.ui.cameraSettingsBtn, self.showPage5)
         self.setup_button(self.ui.controlsSettingsBtn, self.showPage6)
         self.setup_button(self.ui.logoutBtn, self.showPage1)
-        self.setup_button(self.ui.trackmaniaBtn, self.showPage8)
+        self.setup_button(self.ui.lightSpeedBtn, self.showPage8)
+        self.setup_button(self.ui.tankGameBtn, self.showPage9)
         self.setup_button(self.ui.controlsSettingsBtn_3, self.showPage2)
+        self.setup_button(self.ui.controlsSettingsBtn_4, self.showPage2)
         self.setup_button(self.ui.logoutBtn_2, self.showPage1)
+        self.setup_button(self.ui.logoutBtn_3, self.showPage1)
+        self.setup_button(self.ui.logoutBtn_4, self.showPage1)
 
         # Set initial page and highlight the corresponding button
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
@@ -273,7 +277,7 @@ class MainWindow:
         # Reset styles for all buttons
         for btn in [self.ui.Profile1, self.ui.gameSelectionBtn,
                     self.ui.cameraSettingsBtn, self.ui.controlsSettingsBtn,
-                    self.ui.logoutBtn, self.ui.trackmaniaBtn, self.ui.controlsSettingsBtn_3,
+                    self.ui.logoutBtn, self.ui.lightSpeedBtn, self.ui.controlsSettingsBtn_3,
                     self.ui.logoutBtn_2]:
             btn.setStyleSheet("""
                 QPushButton {
@@ -366,12 +370,17 @@ class MainWindow:
         if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
             self.webcam.stop_camera()
 
-
     def showPage8(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_8)
-        self.highlight_button(self.ui.trackmaniaBtn)
-        self.ui.launchGameBtn.clicked.connect(self.launch_trackmania)
-        self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
+        self.highlight_button(self.ui.lightSpeedBtn)
+
+        # stop camera feed
+        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
+            self.webcam.stop_camera()
+
+    def showPage9(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_9)
+        self.highlight_button(self.ui.tankGameBtn)
 
         # stop camera feed
         if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
