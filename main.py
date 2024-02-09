@@ -5,19 +5,16 @@ from gestures import GestureRecognizer
 from PyQt5.QtCore import Qt, QSettings
 from app import Ui_MainWindow
 from PyQt5 import QtGui, QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QInputDialog, QComboBox, QVBoxLayout, QWidget, QFormLayout, QDialog, QGridLayout, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QComboBox, QVBoxLayout,QDialog
 
-from PyQt5.QtCore import QTimer, QSize, QUrl
-from PyQt5.QtGui import QPixmap, QImage, QStandardItemModel, QStandardItem
+from PyQt5.QtCore import QTimer, QSize
+from PyQt5.QtGui import QPixmap, QStandardItem
 import subprocess
 import cv2
-import json
-import os
-import numpy as np
 from labels import Labels
 from input import InputSimulator
 from input import KeyMap
-from profile_1 import UserProfile
+from profile import UserProfile
 
 
 userProfiles = UserProfile.deserialize_user_profiles()
@@ -341,13 +338,6 @@ class MainWindow:
         if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
             self.webcam.stop_camera()
 
-    def showPage4(self):
-        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4)
-
-        # stop camera feed
-        if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
-            self.webcam.stop_camera()
-
     def showPage5(self):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_5)
         self.highlight_button(self.ui.cameraSettingsBtn)
@@ -388,6 +378,11 @@ class MainWindow:
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_8)
         self.highlight_button(self.ui.lightSpeedBtn)
 
+        lightspeed_path = r"GameFile/LightSpeed/build/fyp_platformer.exe"
+
+        self.ui.launchGameBtn.clicked.connect(lambda: self.launch_game(lightspeed_path))
+        self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
+
         # stop camera feed
         if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
             self.webcam.stop_camera()
@@ -395,6 +390,11 @@ class MainWindow:
     def showPage9(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_9)
         self.highlight_button(self.ui.tankGameBtn)
+
+        tankGame_path = r"GameFile/LightSpeed/build/fyp_platformer.exe" #Change the path once the game is built
+
+        self.ui.launchGameBtn.clicked.connect(lambda: self.launch_game(tankGame_path))
+        self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
 
         # stop camera feed
         if hasattr(self, 'webcam') and not self.ui.stackedWidget_2.currentWidget() == self.ui.page_5:
@@ -410,14 +410,12 @@ class MainWindow:
             self.webcam.start_camera()
         camera_window.show()
 
-    def launch_trackmania(self):
+    def launch_game(self, path):
         # Get the current working directory
-        trackmania_path = r"C:\Program Files (x86)\Steam\steamapps\common\Trackmania\Trackmania.exe"
-
         # Specify the desired screen resolution
         resolution = "1600x900"  # Change this to your desired resolution
 
-        subprocess.Popen([trackmania_path, f"-screen-width {resolution.split('x')[0]}", f"-screen-height {resolution.split('x')[1]}"])
+        subprocess.Popen([path, f"-screen-width {resolution.split('x')[0]}", f"-screen-height {resolution.split('x')[1]}"])
 
     def populate_camera_combobox(self):
         # Get the list of available cameras
