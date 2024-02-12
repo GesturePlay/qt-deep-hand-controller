@@ -1,8 +1,8 @@
 from enum import Enum
 
 class Labels(Enum):
-    THUMBSUP = 0
-    THUMBSDOWN = 1
+    CLICK = 0
+    CURSOR = 1
     FIST = 2
     FLAT = 3
     GUN = 4
@@ -10,8 +10,9 @@ class Labels(Enum):
     OPENAWAY = 6
     OPENFACING = 7
     OUTWARD = 8
-    CLICK = 9
-    CURSOR = 10
+    THUMBSUP = 9
+    THUMBSDOWN = 10
+
     
 LabelToStringMap = {
     Labels.THUMBSUP : "Thumbs Up",
