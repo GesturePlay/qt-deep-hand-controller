@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, patch
 import torch
-from your_module import NeuralNetwork, GestureRecognizer  # Adjust the import path as necessary
+from gestures import NeuralNetwork, GestureRecognizer  # Adjust the import path as necessary
 
 class TestGestureRecognitionSystem(unittest.TestCase):
 
