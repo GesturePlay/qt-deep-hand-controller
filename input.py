@@ -27,17 +27,13 @@ class KeyMap:
             # Check if the new key is already assigned to another gesture
             for existing_label, existing_key in self.label_key_mapping.items():
                 if existing_key == new_key:
-                    # Update the mapping for the gesture that currently uses the new key
+                    # If the new key is assigned to another gesture, remove its mapping
                     self.label_key_mapping[existing_label] = None
 
-                if existing_label == label:
-                    self.label_key_mapping[existing_label] = new_key
-                    break
-
+            # Update the mapping for the selected label with the new key
             self.label_key_mapping[label] = new_key
             print("Mapping changed successfully.")
             print("Updated label_key_mapping:", self.label_key_mapping)
-
         else:
             print(f"Label {label} not found in mapping.")
 
