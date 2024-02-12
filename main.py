@@ -388,9 +388,14 @@ class MainWindow:
 
     def launch_camera_window(self):
         camera_window = CameraWindow(self.main_win, self.ui)
-        if hasattr(self, 'webcam'):
-            self.webcam.start_camera()
+        # Get the selected camera index from the UI
+        selected_camera_index = self.ui.CameraSelection.currentIndex()
+
+        # Start the camera feed with the selected camera index
+        camera_window.webcam.setup_camera(camera_index=selected_camera_index)
+
         camera_window.show()
+
 
     def launch_game(self, path):
         # Specify the desired screen resolution

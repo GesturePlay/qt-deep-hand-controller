@@ -512,25 +512,8 @@ class Ui_MainWindow(object):
         self.stackedWidget_2.addWidget(self.page_4)
         self.camera_page = QtWidgets.QWidget()
         self.camera_page.setObjectName("page_5")
-        self.removeProfileBtn_4 = QtWidgets.QPushButton(self.camera_page)
-        self.removeProfileBtn_4.setGeometry(QtCore.QRect(320, 580, 131, 50))
         font = QtGui.QFont()
         font.setFamily("Eras Bold ITC")
-        self.removeProfileBtn_4.setFont(font)
-        self.removeProfileBtn_4.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.removeProfileBtn_4.setStyleSheet("QPushButton {\n"
-"    border-radius: 25px;\n"
-"\n"
-"      color: rgb(255, 255, 255);\n"
-"\n"
-"      background-color: rgb(122, 147, 183);\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"\n"
-"      background-color: rgb(145, 176, 218);\n"
-"}")
-        self.removeProfileBtn_4.setObjectName("removeProfileBtn_4")
         self.label_25 = QtWidgets.QLabel(self.camera_page)
         self.label_25.setGeometry(QtCore.QRect(30, 130, 251, 51))
         font = QtGui.QFont()
@@ -574,7 +557,6 @@ class Ui_MainWindow(object):
         self.CameraPreview.setGeometry(QtCore.QRect(160, 300, 241, 161))
         self.CameraPreview.setObjectName("CameraPreview")
         self.label_47.raise_()
-        self.removeProfileBtn_4.raise_()
         self.label_25.raise_()
         self.label_43.raise_()
         self.CameraSelection.raise_()
@@ -1256,7 +1238,6 @@ class Ui_MainWindow(object):
         self.label_48.setText(_translate("MainWindow", "Tank Game"))
         self.label_42.setText(_translate("MainWindow", "Profile Settings"))
         self.label_44.setText(_translate("MainWindow", "Profile1"))
-        self.removeProfileBtn_4.setText(_translate("MainWindow", "Save Changes"))
         self.label_25.setText(_translate("MainWindow", "Webcam"))
         self.label_43.setText(_translate("MainWindow", "Camera Settings"))
         self.CameraSelection.setPlaceholderText(_translate("MainWindow", "System Default"))
