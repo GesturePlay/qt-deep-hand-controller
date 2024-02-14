@@ -377,7 +377,7 @@ class MainWindow:
         self.ui.stackedWidget.setCurrentWidget(self.ui.tank_game_page)
         self.highlight_button(self.ui.tankGameBtn)
 
-        tankGame_path = r"GameFile/LightSpeed/build/fyp_platformer.exe" #Change the path once the game is built
+        tankGame_path = r"GameFile/TankArcade/build/Arcade Tank Game.exe" #Change the path once the game is built
 
         self.ui.launchGameBtn_2.clicked.connect(lambda: self.launch_game(tankGame_path))
         self.ui.launchGameBtn_2.clicked.connect(self.launch_camera_window)
