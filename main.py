@@ -364,7 +364,7 @@ class MainWindow:
         self.ui.stackedWidget.setCurrentWidget(self.ui.lightspeed_game_page)
         self.highlight_button(self.ui.lightSpeedBtn)
 
-        lightspeed_path = r"GameFile/LightSpeed/build/fyp_platformer.exe"
+        lightspeed_path = r"GameFile/LightSpeed/build/Lightspeed.exe"
 
         self.ui.launchGameBtn.clicked.connect(lambda: self.launch_game(lightspeed_path))
         self.ui.launchGameBtn.clicked.connect(self.launch_camera_window)
